@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/pageNavigationState.dart';
 
-class BottomNavigationBarWidget extends StatefulWidget {
+class BottomNavigationBarWidget extends ConsumerStatefulWidget {
   const BottomNavigationBarWidget({super.key});
 
   @override
-  State<BottomNavigationBarWidget> createState() =>
+  ConsumerState<BottomNavigationBarWidget> createState() =>
       _BottomNavigationBarWidgetState();
 }
 
-class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
-  int selectedIndex = 0;
-
+class _BottomNavigationBarWidgetState
+    extends ConsumerState<BottomNavigationBarWidget> {
   void _onItemTapped(int index) {
-    selectedIndex = index;
-    setState(() {});
+    print(index);
+    setState(() {
+      ref.read(pageNavigatorProvider.notifier).changeNavigationPage(index);
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: selectedIndex,
+      currentIndex: ref.watch(pageNavigatorProvider.notifier).getState(),
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.black,
       selectedFontSize: 10,
@@ -39,7 +42,8 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         ),
         BottomNavigationBarItem(
             icon: Icon(Icons.notifications_outlined), label: "Notifications"),
-        BottomNavigationBarItem(icon: Icon(Icons.person_2_outlined), label: "Profile"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_2_outlined), label: "Profile"),
       ],
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
-import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/BottomNavigationBarWidget.dart';
+import 'package:leave_tracker_application/src/presentation/widgets/BottomNavigationBarWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/CreateRequest.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/ListOfRequest.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -125,19 +125,7 @@ class HomePage extends ConsumerWidget {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(),
-      floatingActionButton: FloatingActionButton(
-        shape: StadiumBorder(),
-        onPressed: () => "",
-        tooltip: 'Increment',
-        child: Icon(
-          Icons.add,
-          size: 40,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.cyan,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
 }
