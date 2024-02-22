@@ -14,7 +14,7 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,7 +28,7 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
             child: Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 10),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.09,
+                height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: containerColor,
@@ -50,7 +50,7 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Created By Me...",
                             style: TextStyle(
                                 fontSize: 20,
@@ -58,13 +58,13 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
                                 color: Colors.grey),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: const EdgeInsets.only(left: 10),
                             decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(20)),
                             height: 25,
                             width: 30,
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "21",
                               style: TextStyle(color: Colors.white),
@@ -72,7 +72,7 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
                           ),
                         ],
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward,
                       )
                     ],

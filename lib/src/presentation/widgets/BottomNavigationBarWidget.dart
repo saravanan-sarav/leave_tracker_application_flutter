@@ -26,7 +26,7 @@ class _BottomNavigationBarWidgetState
       selectedItemColor: Colors.blue,
       unselectedItemColor: Colors.black,
       selectedFontSize: 10,
-      elevation: 10.0,
+      elevation: 0,
       onTap: _onItemTapped,
       items: const [
         BottomNavigationBarItem(
