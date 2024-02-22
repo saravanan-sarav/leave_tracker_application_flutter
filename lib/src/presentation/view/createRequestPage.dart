@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/dropdownItem.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/dateChecker.dart';
+import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/AppbarWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DateTimePickerWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DropDownWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/TextFieldWidget.dart';
@@ -29,15 +30,14 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         builder: (BuildContext context) {
           return const SizedBox(height: 350, child: DatePickerWidget());
         });
-    fromDateChanged = !fromDateChanged;
-    print(ref.watch(fromDateProvider));
+    fromDateChanged == false ? fromDateChanged = true : null;
   }
 
   void openToDatePicker() {
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
-          return const SizedBox(height: 350, child: ToDatePickerWidget());
+          return const SizedBox(height: 310, child: ToDatePickerWidget());
         });
     toDateChanged == false ? toDateChanged = true : null;
   }
@@ -49,23 +49,10 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     return Scaffold(
       body: Stack(
         children: [
+          MainAppBarWidget(),
+          AppBarWidget(),
           Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Colors.blue.shade900,
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 70),
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadiusDirectional.only(
-                  topStart: Radius.circular(20), topEnd: Radius.circular(20)),
-              color: Colors.lightBlue.shade300,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 110),
+            margin: EdgeInsets.only(top: 145),
             height: double.infinity,
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -108,12 +95,16 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20.0, left: 10),
-                            child: Text(
-                              fromDateChanged == false
-                                  ? targetDateFormat.format(fromDate)
-                                  : "",
-                              style: TextStyle(fontSize: 20),
-                            ),
+                            child: fromDateChanged == true
+                                ? Text(
+                                    targetDateFormat.format(fromDate),
+                                    style: TextStyle(fontSize: 20),
+                                  )
+                                : Text(
+                                    "From Date",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 15),
+                                  ),
                           ),
                         ),
                       ),
@@ -136,12 +127,16 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20.0, left: 10),
-                            child: Text(
-                              toDateChanged == false
-                                  ? targetDateFormat.format(toDate)
-                                  : "",
-                              style: TextStyle(fontSize: 20),
-                            ),
+                            child: toDateChanged == true
+                                ? Text(
+                                    targetDateFormat.format(toDate),
+                                    style: TextStyle(fontSize: 20),
+                                  )
+                                : Text(
+                                    "To Date",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 15),
+                                  ),
                           ),
                         ),
                       ),

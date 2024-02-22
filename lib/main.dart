@@ -3,13 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/pageNavigationState.dart';
-import 'package:leave_tracker_application/src/presentation/view/createRequestPage.dart';
-import 'package:leave_tracker_application/src/presentation/view/homePage.dart';
-import 'package:leave_tracker_application/src/presentation/view/notificationPage.dart';
-import 'package:leave_tracker_application/src/presentation/view/profilePage.dart';
-import 'package:leave_tracker_application/src/presentation/view/timesheetPage.dart';
-import 'package:leave_tracker_application/src/presentation/widgets/BottomNavigationBarWidget.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -36,5 +29,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-

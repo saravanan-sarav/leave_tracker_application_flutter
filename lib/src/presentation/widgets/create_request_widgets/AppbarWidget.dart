@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+
+class AppBarWidget extends StatefulWidget {
+  const AppBarWidget({super.key});
+
+  @override
+  State<AppBarWidget> createState() => _AppBarWidgetState();
+}
+
+class _AppBarWidgetState extends State<AppBarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 100),
+      height: double.infinity,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadiusDirectional.only(
+            topStart: Radius.circular(20), topEnd: Radius.circular(20)),
+        color: Colors.lightBlue.shade300,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15.0, top: 10),
+        child: Text(
+          "Create New Request",
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class MainAppBarWidget extends StatefulWidget {
+  const MainAppBarWidget({super.key});
+
+  @override
+  State<MainAppBarWidget> createState() => _MainAppBarWidgetState();
+}
+
+class _MainAppBarWidgetState extends State<MainAppBarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: double.infinity,
+      color: Colors.blue.shade900,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 45.0, right: 20, left: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+                size: 25,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                "Apply Leave",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.info_rounded,
+                color: Colors.white,
+                size: 25,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+

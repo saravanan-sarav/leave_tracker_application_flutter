@@ -18,11 +18,11 @@ class HomePage extends ConsumerWidget {
             color: Colors.white,
           ),
           Container(
-            height: 135,
+            height: 155,
             width: double.infinity,
             color: Colors.blue[900],
             child: const Padding(
-              padding: EdgeInsets.only(top: 20, right: 20, left: 20),
+              padding: EdgeInsets.only(top: 50, right: 20, left: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +65,7 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 100),
+            margin: const EdgeInsets.only(top: 120),
             child: Column(
               children: [
                 Container(
