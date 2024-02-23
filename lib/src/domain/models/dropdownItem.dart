@@ -8,6 +8,7 @@ class RequestType {
 final List<RequestType> requestTypes = [
   RequestType(1, "Compensatory Off"),
   RequestType(2, "Cyclone Leave"),
-  RequestType(2, "Leave Without Pay"),
-  RequestType(2, "Leave with Pay")
+  RequestType(3, "Leave Without Pay"),
+  RequestType(4, "Leave with Pay"),
+  RequestType(5, "Permission")
 ];

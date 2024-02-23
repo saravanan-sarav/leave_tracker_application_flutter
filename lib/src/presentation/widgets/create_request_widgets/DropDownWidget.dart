@@ -1,43 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:leave_tracker_application/src/domain/models/dropdownItem.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
 
-class DropDownWidget extends StatefulWidget {
-  final List<dynamic> listData;
-
-  const DropDownWidget({super.key, required this.listData});
+class DropDownWidget extends ConsumerStatefulWidget {
+  const DropDownWidget({super.key});
 
   @override
-  State<DropDownWidget> createState() => _DropDownWidgetState();
+  ConsumerState<DropDownWidget> createState() => _DropDownWidgetState();
 }
 
-class _DropDownWidgetState extends State<DropDownWidget> {
-  String? _selectedItem;
-
+class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
+    var requestTypes = ref.watch(requestTypeProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text("Request Type",style: TextStyle(fontWeight: FontWeight.bold),),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 8.0),
+          child: Text(
+            "Request Type",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 9,left: 10,right: 10),
+          padding: EdgeInsets.only(top: 9, left: 10, right: 10),
           height: 60,
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey), // Add border on all sides
+              border: Border.all(color: Colors.grey),
+              // Add border on all sides
               borderRadius: BorderRadius.circular(10.0)),
           child: DropdownButtonFormField<String>(
-            value: _selectedItem,
             hint: const Text('Select'),
             onChanged: (newValue) {
-              setState(() {
-                _selectedItem = newValue!;
-              });
+              if (newValue == "Permission") {
+                ref.read(permissionNotifyProvider.notifier).updateState();
+              } else {
+                ref.read(permissionNotifyProvider.notifier).setState();
+              }
             },
             items:
                 requestTypes.map<DropdownMenuItem<String>>((RequestType item) {
@@ -52,9 +56,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               }
               return null;
             },
-            decoration: InputDecoration(
-              border: InputBorder.none
-            ),
+            decoration: const InputDecoration(border: InputBorder.none),
           ),
         ),
       ],
