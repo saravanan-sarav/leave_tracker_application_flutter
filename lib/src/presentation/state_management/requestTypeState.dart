@@ -22,7 +22,8 @@ final requestTypeProvider = StateNotifierProvider<RequestTypeNotifier, dynamic>(
       RequestType(2, "Cyclone Leave"),
       RequestType(3, "Leave Without Pay"),
       RequestType(4, "Leave with Pay"),
-      RequestType(5, "Permission")
+      RequestType(5, "Permission"),
+      RequestType(6, "Work From Home")
     ],
   ),
 );
@@ -37,8 +38,27 @@ class RequestTypeSelectedNotifier extends StateNotifier<bool> {
   void change() {
     state = false;
   }
+  bool getState(){
+    return state;
+  }
 }
 
 final requestTypeSelectorProvider =
     StateNotifierProvider<RequestTypeSelectedNotifier, bool>(
         (ref) => RequestTypeSelectedNotifier(false));
+
+class RequestTypeValueNotifier extends StateNotifier<int> {
+  RequestTypeValueNotifier(super.state);
+
+  void changeValue(int value) {
+    state = value;
+  }
+
+  int getState(){
+    return state;
+  }
+}
+
+final requestTypeValueProvider =
+    StateNotifierProvider<RequestTypeValueNotifier, int>(
+        (ref) => RequestTypeValueNotifier(0));

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leave_tracker_application/src/presentation/view/holidayListPage.dart';
+import 'package:leave_tracker_application/src/presentation/view/remainingLeavePage.dart';
 
 class CreateRequestWidget extends StatelessWidget {
   const CreateRequestWidget({super.key});
@@ -165,128 +167,140 @@ class CreateRequestWidget extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   height: 120,
                   width: MediaQuery.of(context).size.width * 0.4,
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5),
-                        child: Container(
-                          height: 120,
-                          width: 160,
+                  child: InkWell(
+                    onTap: (){Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RemainingLeavePage()),
+                    );},
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: 160,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius:
+                                BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
-                              color: Colors.blue[100],
+                              color: Colors.cyan,
                               borderRadius:
                               BorderRadius.circular(20)),
-                        ),
-                      ),
-                      Container(
-                        height: 110,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: Colors.cyan,
-                            borderRadius:
-                            BorderRadius.circular(20)),
-                        child: const Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10.0, right: 20, left: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.lock_clock,
-                                    color: Colors.white,
-                                    size: 35,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )
-                                ],
+                          child: const Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.lock_clock,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: Text(
-                                "Remaining Leaves",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                              Padding(
+                                padding: EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  "Remaining Leaves",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   height: 120,
                   width:MediaQuery.of(context).size.width * 0.4,
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5),
-                        child: Container(
-                          height: 120,
-                          width: 160,
+                  child: InkWell(
+                    onTap: (){Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HolidayListPage()),
+                    );},
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: 160,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius:
+                                BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
-                              color: Colors.blue[100],
+                              color: Colors.blue,
                               borderRadius:
                               BorderRadius.circular(20)),
-                        ),
-                      ),
-                      Container(
-                        height: 110,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius:
-                            BorderRadius.circular(20)),
-                        child: const Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10.0, right: 20, left: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons
-                                        .format_list_bulleted_outlined,
-                                    color: Colors.white,
-                                    size: 35,
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                    size: 20,
-                                  )
-                                ],
+                          child: const Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .format_list_bulleted_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 16.0, left: 20),
-                              child: Text(
-                                "Holiday List",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 16.0, left: 20),
+                                child: Text(
+                                  "Holiday List",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],

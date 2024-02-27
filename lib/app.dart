@@ -27,7 +27,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var index = ref.watch(pageNavigatorProvider);
-    print("from Main ${index}");
     return Scaffold(
       body: _pages[index as int],
       bottomNavigationBar: const BottomNavigationBarWidget(),

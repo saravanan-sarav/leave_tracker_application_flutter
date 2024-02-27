@@ -52,6 +52,7 @@ class _RequestTitleTextFieldWidgetState
               ),
             ),
             cursorColor: Colors.grey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
         ],
       ),

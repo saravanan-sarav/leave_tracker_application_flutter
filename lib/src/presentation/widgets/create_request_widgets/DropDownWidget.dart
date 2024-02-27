@@ -42,6 +42,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
               } else {
                 ref.read(permissionNotifyProvider.notifier).setState();
               }
+              ref.read(requestTypeSelectorProvider.notifier).validate();
             },
             items:
                 requestTypes.map<DropdownMenuItem<String>>((RequestType item) {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/notificationBadgeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/pageNavigationState.dart';
-
+import 'package:badges/badges.dart' as badges;
 class BottomNavigationBarWidget extends ConsumerStatefulWidget {
   const BottomNavigationBarWidget({super.key});
 
@@ -28,21 +29,24 @@ class _BottomNavigationBarWidgetState
       selectedFontSize: 10,
       elevation: 0,
       onTap: _onItemTapped,
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           label: "Home",
           tooltip: "Home",
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
             icon: Icon(Icons.access_time_outlined), label: "TimeSheets"),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: SizedBox.shrink(), // Empty placeholder
           label: '',
         ),
         BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined), label: "Notifications"),
-        BottomNavigationBarItem(
+            icon: badges.Badge(
+              badgeContent: Text("${ref.watch(notificationBadgeProvider)}",style: TextStyle(color: Colors.white),),
+              child: const Icon(Icons.notifications_outlined,),
+            ), label: "Notifications"),
+        const BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined), label: "Profile"),
       ],
     );

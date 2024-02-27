@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
+import 'package:leave_tracker_application/src/domain/models/requestList.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createRequestSubmitState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/dateChecker.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/AppbarWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DateTimePickerWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DropDownWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/TextFieldWidget.dart';
+
+import '../state_management/requestTypeState.dart';
+import '../widgets/SnakeBarWidget.dart';
 
 class CreateRequestPage extends ConsumerStatefulWidget {
   const CreateRequestPage({super.key});
@@ -87,35 +91,154 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     return formattedTime;
   }
 
-  bool _requestTittleFilled = false;
-  bool _requestTypeFilled = false;
-  bool _projectNameFilled = false;
-  bool _teamIdFilled = false;
-  bool _fromDateFilled = false;
-  bool _toDateFilled = false;
-  bool _reasonFilled = false;
-  bool _fromTimeFilled = false;
-  bool _toTimeFilled = false;
+  // bool _requestTittleFilled = false;
+  // bool _requestTypeFilled = false;
+  // bool _projectNameFilled = false;
+  // bool _teamIdFilled = false;
+  // bool _fromDateFilled = false;
+  // bool _toDateFilled = false;
+  // bool _reasonFilled = false;
+  // bool _fromTimeFilled = false;
+  // bool _toTimeFilled = false;
 
   @override
   void initState() {
     super.initState();
-    _requestTextController.addListener(checkAllFieldAreFilled);
-    _reasonTextController.addListener(checkAllFieldAreFilled);
-    _teamIdController.addListener(checkAllFieldAreFilled);
-    _reasonTextController.addListener(checkAllFieldAreFilled);
   }
 
-  checkAllFieldAreFilled() {
-    setState(() {
-      _requestTittleFilled = _requestTextController.text.isNotEmpty;
-      _projectNameFilled = _reasonTextController.text.isNotEmpty;
-      _teamIdFilled = _teamIdController.text.isNotEmpty;
-
-    });
+  submitRequestData() {
+    bool validationSuccessful = false;
+    RequestData requestData = RequestData(
+        applicationDetails.length + 1,
+        "",
+        0,
+        "",
+        0,
+        DateTime.now(),
+        null,
+        "",
+        null,
+        null,
+        DateTime.now(),
+        findUsingRequestStatusId(2));
+    if (_requestTextController.text.isNotEmpty) {
+      requestData.requestTitle = _requestTextController.text;
+      if (ref.read(requestTypeSelectorProvider.notifier).getState()) {
+        requestData.requestType =
+            ref.read(requestTypeValueProvider.notifier).getState();
+        if (_projectNameController.text.isNotEmpty) {
+          requestData.projectName = _projectNameController.text;
+          if (_teamIdController.text.isNotEmpty) {
+            requestData.teamId = int.parse(_teamIdController.text);
+            if (fromDateChanged) {
+              requestData.fromDate =
+                  ref.read(fromDateProvider.notifier).getState();
+              if (_reasonTextController.text.isNotEmpty) {
+                requestData.reason = _reasonTextController.text;
+                if (ref.read(permissionNotifyProvider.notifier).getState()) {
+                  if (fromTimeChanged) {
+                    requestData.fromTime =
+                        ref.read(fromTimeProvider.notifier).getState();
+                    if (toTimeChanged) {
+                      requestData.toTime =
+                          ref.read(toTimeProvider.notifier).getState();
+                      validationSuccessful = true;
+                    } else {
+                      var snackbar = customShakingSnackBarWidget(
+                        content: const Text("Please Enter To Time...!!!"),
+                        backgroundColor:
+                            Colors.red, // Background color of the snackbar
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }
+                  } else {
+                    var snackbar = customShakingSnackBarWidget(
+                      content: const Text("Please Enter From Time...!!!"),
+                      backgroundColor:
+                          Colors.red, // Background color of the snackbar
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                } else {
+                  if (toDateChanged) {
+                    requestData.toDate =
+                        ref.read(ToDateProvider.notifier).getState();
+                    validationSuccessful = true;
+                  } else {
+                    var snackbar = customShakingSnackBarWidget(
+                      content: const Text("Please Enter To Date...!!!"),
+                      backgroundColor:
+                          Colors.red, // Background color of the snackbar
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                }
+              } else {
+                var snackbar = customShakingSnackBarWidget(
+                  content: Text("Please Enter reason...!!!"),
+                  backgroundColor:
+                      Colors.red, // Background color of the snackbar
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              }
+            } else {
+              var snackbar = customShakingSnackBarWidget(
+                content: Text("Please Select From Date...!!!"),
+                backgroundColor: Colors.red, // Background color of the snackbar
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            }
+          } else {
+            var snackbar = customShakingSnackBarWidget(
+              content: Text("Please Enter Team Id...!!!"),
+              backgroundColor: Colors.red, // Background color of the snackbar
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          }
+        } else {
+          var snackbar = customShakingSnackBarWidget(
+            content: Text("Please Enter Project Name...!!!"),
+            backgroundColor: Colors.red, // Background color of the snackbar
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      } else {
+        var snackbar = customShakingSnackBarWidget(
+          content: Text("Please Select RequestType...!!!"),
+          backgroundColor: Colors.red, // Background color of the snackbar
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    } else {
+      var snackbar = customShakingSnackBarWidget(
+        content: Text("Please enter Request Title..!!!"),
+        backgroundColor: Colors.red, // Background color of the snackbar
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+    if (validationSuccessful) {
+      applicationDetails.add(requestData);
+      var snackbar = customShakingSnackBarWidget(
+        content: Text("Successfully Submitted..!!!"),
+        backgroundColor: Colors.green, // Background color of the snackbar
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      notificationList.add(NotificationModel(
+          notificationList.length + 1,
+          "Saravanan",
+          requestData.requestTitle,
+          requestData.reason,
+          DateTime.now(),
+          false));
+      Navigator.pop(context);
+    } else {
+      var snackbar = customShakingSnackBarWidget(
+        content: Text("Please Check the entered fields are correct...!!!"),
+        backgroundColor: Colors.green, // Background color of the snackbar
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
   }
-
-  submitRequestData() {}
 
   @override
   Widget build(BuildContext context) {
@@ -337,11 +460,9 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
               icon: Padding(
                 padding: const EdgeInsets.only(right: 40.0, left: 20, top: 10),
                 child: ElevatedButton(
-                  onPressed: submitButtonIsValid
-                      ? () {
-                          submitRequestData();
-                        }
-                      : null,
+                  onPressed: () {
+                    submitRequestData();
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue.shade900),
                   child: const Center(

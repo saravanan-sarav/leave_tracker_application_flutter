@@ -39,6 +39,7 @@ dependencies:
   flutter_localization: ^0.2.0
   bottom_picker: ^2.4.0
   intl: ^0.18.0
+  badges: ^3.1.2
 
 dev_dependencies:
   flutter_test:

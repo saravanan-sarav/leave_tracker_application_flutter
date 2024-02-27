@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leave_tracker_application/src/domain/models/requestList.dart';
 
 class ListOfRequestWidget extends StatefulWidget {
   const ListOfRequestWidget({super.key});
@@ -64,9 +65,9 @@ class _ListOfRequestWidgetState extends State<ListOfRequestWidget> {
                                 borderRadius: BorderRadius.circular(20)),
                             height: 25,
                             width: 30,
-                            child: const Center(
+                            child:  Center(
                                 child: Text(
-                              "21",
+                              "${applicationDetails.length}",
                               style: TextStyle(color: Colors.white),
                             )),
                           ),

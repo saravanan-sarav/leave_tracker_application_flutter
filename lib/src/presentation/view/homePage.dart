@@ -1,12 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
-import 'package:leave_tracker_application/src/presentation/widgets/BottomNavigationBarWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/CreateRequest.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/ListOfRequest.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -64,68 +66,69 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 120),
-            child: Column(
-              children: [
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 100,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadiusDirectional.only(
-                          topStart: Radius.circular(20),
-                          topEnd: Radius.circular(20)),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 15, left: 15),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 13),
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.cyan,
-                              child: Icon(
-                                Icons.calendar_month,
-                                color: Colors.white,
+          SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.only(top: 120),
+              child: Column(
+                children: [
+                  Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 100,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadiusDirectional.only(
+                            topStart: Radius.circular(20),
+                            topEnd: Radius.circular(20)),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 15, left: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 13),
+                              child: CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.cyan,
+                                child: Icon(
+                                  Icons.calendar_month,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 20.0, top: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)!.timesheet,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                const Text(
-                                  "Follow Up,Check Attendance Details,...",
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.0, top: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)!.timesheet,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17),
+                                  ),
+                                  const Text(
+                                    "Follow Up,Check Attendance Details,...",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )),
-                CreateRequestWidget(),
-                ListOfRequestWidget()
-              ],
+                          ],
+                        ),
+                      )),
+                  CreateRequestWidget(),
+                  ListOfRequestWidget()
+                ],
+              ),
             ),
           )
         ],
       ),
-
     );
   }
 }

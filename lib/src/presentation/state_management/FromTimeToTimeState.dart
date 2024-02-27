@@ -41,6 +41,9 @@ class PermissionNotifier extends StateNotifier<bool> {
   void setState(){
     state = false;
   }
+  bool getState(){
+    return state;
+  }
 }
 
 final permissionNotifyProvider =
