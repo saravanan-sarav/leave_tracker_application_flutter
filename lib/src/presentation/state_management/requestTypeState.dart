@@ -13,9 +13,14 @@ class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
   void addRequestType(RequestType requestType) {
     state = [...state, requestType];
   }
+
+  List<RequestType> getState() {
+    return state;
+  }
 }
 
-final requestTypeProvider = StateNotifierProvider<RequestTypeNotifier, dynamic>(
+final requestTypeProvider =
+    StateNotifierProvider<RequestTypeNotifier, dynamic>(
   (ref) => RequestTypeNotifier(
     [
       RequestType(1, "Compensatory Off"),
@@ -38,7 +43,8 @@ class RequestTypeSelectedNotifier extends StateNotifier<bool> {
   void change() {
     state = false;
   }
-  bool getState(){
+
+  bool getState() {
     return state;
   }
 }
@@ -54,7 +60,7 @@ class RequestTypeValueNotifier extends StateNotifier<int> {
     state = value;
   }
 
-  int getState(){
+  int getState() {
     return state;
   }
 }

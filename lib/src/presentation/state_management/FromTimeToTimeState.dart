@@ -34,14 +34,15 @@ final toTimeProvider = StateNotifierProvider<ToTimePicker, TimeOfDay>(
 class PermissionNotifier extends StateNotifier<bool> {
   PermissionNotifier(super.state);
 
-  void updateState(){
-    state = true;
+  bool updateState() {
+    return state = true;
   }
 
-  void setState(){
+  void setState() {
     state = false;
   }
-  bool getState(){
+
+  bool getState() {
     return state;
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/historyTabs.dart';
 import 'package:leave_tracker_application/src/domain/models/requestList.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheetTabState.dart';
+import 'package:lottie/lottie.dart';
 
 class TimesheetPageWidget extends ConsumerStatefulWidget {
   const TimesheetPageWidget({super.key});
@@ -14,15 +16,16 @@ class TimesheetPageWidget extends ConsumerStatefulWidget {
 }
 
 class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
-  List<RequestData>? applicationDetails = getSortedRequestData(0);
+  List<RequestData>? applicationDetails =
+      getSortedRequestData(currentLoggedInUser.empId, 0);
   final DateFormat originalDateFormat =
       DateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
   final DateFormat targetDateFormat = DateFormat("dd-MM-yyyy");
   DateFormat formattedDate = DateFormat('dd-MMM');
 
   void _onStateChange() {
-    applicationDetails =
-        getSortedRequestData(ref.watch(timesheetFilterValueProvider));
+    applicationDetails = getSortedRequestData(
+        currentLoggedInUser.empId, ref.watch(timesheetFilterValueProvider));
   }
 
   @override
@@ -95,140 +98,170 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.77,
                   width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                      itemCount: applicationDetails!.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Container(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            color:
-                                applicationDetails![index].requestStatus?.id ==
-                                        1
-                                    ? Colors.green.shade50
-                                    : applicationDetails![index]
-                                                .requestStatus
-                                                ?.id ==
-                                            2
-                                        ? Colors.yellow.shade50
-                                        : applicationDetails![index]
-                                                    .requestStatus
-                                                    ?.id ==
-                                                3
-                                            ? Colors.red.shade50
-                                            : null,
-                            width: double.infinity,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Requested ${applicationDetails![index].requestTitle}",
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
+                  child: applicationDetails!.isEmpty
+                      ? Center(
+                          child: Lottie.asset(
+                            "assets/lotties/no_data_found.json",
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            width: MediaQuery.of(context).size.height * 0.6,
+                            repeat: true,
+                            reverse: true,
+                            animate: true,
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: applicationDetails!.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: (){},
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.only(right: 20, left: 20),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.15,
+                                  color: applicationDetails![index]
+                                              .requestStatus
+                                              ?.id ==
+                                          1
+                                      ? Colors.green.shade50
+                                      : applicationDetails![index]
+                                                  .requestStatus
+                                                  ?.id ==
+                                              2
+                                          ? Colors.yellow.shade50
+                                          : applicationDetails![index]
+                                                      .requestStatus
+                                                      ?.id ==
+                                                  3
+                                              ? Colors.red.shade50
+                                              : null,
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 10.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Time : ${targetDateFormat.format(applicationDetails![index].fromDate)}",
+                                                  "Requested ${applicationDetails![index].requestTitle}",
                                                   style: const TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 20),
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          left: 20.0),
-                                                  child: Text(
-                                                      "Reasons : ${applicationDetails![index].reason.substring(0, applicationDetails![index].reason.length > 20 ? 20 : applicationDetails![index].reason.length)}",
-                                                      style: const TextStyle(
-                                                          color: Colors.grey,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                ),
-                                                applicationDetails![index]
-                                                            .reason
-                                                            .length >
-                                                        20
-                                                    ? const Text(
-                                                        "...",
-                                                        style: TextStyle(
-                                                            color: Colors.grey),
-                                                      )
-                                                    : Text("")
+                                                      EdgeInsets.only(top: 8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        "Time : ${targetDateFormat.format(applicationDetails![index].fromDate)}",
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontWeight:
+                                                                FontWeight.bold),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                                left: 20.0),
+                                                        child: Text(
+                                                            "Reasons : ${applicationDetails![index].reason.substring(0, applicationDetails![index].reason.length > 20 ? 20 : applicationDetails![index].reason.length)}",
+                                                            style: const TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                      applicationDetails![index]
+                                                                  .reason
+                                                                  .length >
+                                                              20
+                                                          ? const Text(
+                                                              "...",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .grey),
+                                                            )
+                                                          : Text("")
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      Text(
-                                        formattedDate.format(
-                                            applicationDetails![index]
-                                                .appliedDate),
-                                        style: TextStyle(
-                                            color: Colors.blue[900],
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )
-                                    ],
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 20),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "Reported To : ",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 15),
+                                            Text(
+                                              formattedDate.format(
+                                                  applicationDetails![index]
+                                                      .appliedDate),
+                                              style: TextStyle(
+                                                  color: Colors.blue[900],
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            )
+                                          ],
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10.0),
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 20),
                                           child: Row(
                                             children: [
-                                              CircleAvatar(
-                                                foregroundImage: AssetImage(
-                                                    "assets/images/profile_picture.jpeg"),
-                                                radius: 15,
+                                              Text(
+                                                "Reported To : ",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15),
                                               ),
                                               Padding(
                                                 padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                    EdgeInsets.only(left: 10.0),
+                                                child: Row(
                                                   children: [
-                                                    Text(
-                                                      "SaravanaKumar",
-                                                      style: TextStyle(
-                                                          color: Colors.blue,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                    CircleAvatar(
+                                                      foregroundImage: AssetImage(
+                                                          "assets/images/profile_picture.jpeg"),
+                                                      radius: 15,
                                                     ),
-                                                    Text(
-                                                      "PM",
-                                                      style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "SaravanaKumar",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            "PM",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
                                                   ],
                                                 ),
                                               )
@@ -237,13 +270,11 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                         )
                                       ],
                                     ),
-                                  )
-                                ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          }),
                 )
               ],
             ),

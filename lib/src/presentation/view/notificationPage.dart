@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/notificationBadgeState.dart';
 
@@ -8,11 +9,14 @@ class NotificationPageWidget extends ConsumerStatefulWidget {
   const NotificationPageWidget({super.key});
 
   @override
-  ConsumerState<NotificationPageWidget> createState() => _NotificationPageWidgetState();
+  ConsumerState<NotificationPageWidget> createState() =>
+      _NotificationPageWidgetState();
 }
 
-class _NotificationPageWidgetState extends ConsumerState<NotificationPageWidget> {
-  List<NotificationModel>? notificationData = getSorted();
+class _NotificationPageWidgetState
+    extends ConsumerState<NotificationPageWidget> {
+  List<NotificationModel>? notificationData =
+      getSortedNotifications(currentLoggedInUser.empId);
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +161,15 @@ class _NotificationPageWidgetState extends ConsumerState<NotificationPageWidget>
                                   notificationData![index].markAsRead =
                                       !notificationData![index].markAsRead;
                                   if (notificationData![index].markAsRead) {
-                                    ref.read(notificationBadgeProvider.notifier).decreaseCount();
+                                    ref
+                                        .read(
+                                            notificationBadgeProvider.notifier)
+                                        .decreaseCount();
                                   } else {
-                                    ref.read(notificationBadgeProvider.notifier).increaseCount();
+                                    ref
+                                        .read(
+                                            notificationBadgeProvider.notifier)
+                                        .increaseCount();
                                   }
                                 });
                               },

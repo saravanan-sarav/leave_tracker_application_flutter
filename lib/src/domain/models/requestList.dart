@@ -23,6 +23,7 @@ RequestStatus? findUsingRequestStatusId(int id) {
 
 class RequestData {
   int id;
+  final String empId;
   String requestTitle;
   int requestType;
   String projectName;
@@ -37,6 +38,7 @@ class RequestData {
 
   RequestData(
       this.id,
+      this.empId,
       this.requestTitle,
       this.requestType,
       this.projectName,
@@ -53,6 +55,7 @@ class RequestData {
 List<RequestData> applicationDetails = [
   RequestData(
       1,
+      "1001",
       "Sick Leave",
       3,
       "CIBC",
@@ -66,6 +69,7 @@ List<RequestData> applicationDetails = [
       findUsingRequestStatusId(3)),
   RequestData(
       2,
+      "1001",
       "Compensatory Leave",
       1,
       "Sen benth",
@@ -79,6 +83,7 @@ List<RequestData> applicationDetails = [
       findUsingRequestStatusId(2)),
   RequestData(
       2,
+      "1001",
       "Permission",
       5,
       "Sen benth",
@@ -89,18 +94,21 @@ List<RequestData> applicationDetails = [
       TimeOfDay.now(),
       TimeOfDay.now(),
       DateTime.now(),
-      findUsingRequestStatusId(1)),
+      findUsingRequestStatusId(2)),
 ];
 
-List<RequestData>? getSortedRequestData(int? value) {
-  print(value);
-  if (value==0) {
-    applicationDetails.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
-    return applicationDetails;
+List<RequestData>? getSortedRequestData(String empId, int? value) {
+  if (value == 0) {
+    final filteredData =
+        applicationDetails.where((element) => element.empId == empId).toList();
+    filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+    return filteredData;
   }
   if (value! > 0) {
     final filteredData = applicationDetails
-        .where((element) => element.requestStatus?.id == value).toList();
+        .where((element) =>
+            element.empId == empId && element.requestStatus?.id == value)
+        .toList();
     filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
     return filteredData;
   }

@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/CreateRequest.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/ListOfRequest.dart';
 
@@ -23,7 +22,7 @@ class HomePage extends ConsumerWidget {
             height: 155,
             width: double.infinity,
             color: Colors.blue[900],
-            child: const Padding(
+            child: Padding(
               padding: EdgeInsets.only(top: 50, right: 20, left: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +34,7 @@ class HomePage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Saravanan S",
+                          currentLoggedInUser.name,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 15,
@@ -43,7 +42,7 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          "@Intern - Banking",
+                          "@${currentLoggedInUser.designation} - ${currentLoggedInUser.Domain}",
                           style: TextStyle(
                             color: Colors.white24,
                             fontSize: 15,

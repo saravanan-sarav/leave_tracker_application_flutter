@@ -3,6 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
+import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
+import 'package:leave_tracker_application/src/presentation/view/requestDetailPage.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -24,7 +26,7 @@ class MyApp extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
             .copyWith(background: Colors.white),
       ),
-      home: const MyHomePage(),
+      home: const LoginPage(),
       locale: Locale(ref.watch(LocalizationProvider.notifier).getLocale()),
     );
   }

@@ -4,28 +4,31 @@ import 'package:intl/intl.dart';
 
 class NotificationModel {
   final int id;
+  final String empId;
   final String name;
   final String requestTitle;
   final String reasons;
   final DateTime appliedDate;
   bool markAsRead;
 
-  NotificationModel(this.id, this.name, this.requestTitle, this.reasons,
-      this.appliedDate, this.markAsRead);
+  NotificationModel(this.id, this.empId, this.name, this.requestTitle,
+      this.reasons, this.appliedDate, this.markAsRead);
 }
 
 List<NotificationModel> notificationList = [
   NotificationModel(
       1,
+      "1001",
       "Saravanan",
       "Sick Leave",
       "Suffering from severe head Ache and Fever",
       parseCustomDateTime("20-10-2023T12:40"),
       false),
-  NotificationModel(1, "Saravanan", "Casual Leave", "Going for Temple visit",
-      parseCustomDateTime("22-11-2023T19:10"), true),
+  NotificationModel(1, "1001", "Saravanan", "Casual Leave",
+      "Going for Temple visit", parseCustomDateTime("22-11-2023T19:10"), true),
   NotificationModel(
       1,
+      "1001",
       "Saravanan",
       "Casual Leave",
       "Casual Leave on Monday.",
@@ -33,6 +36,7 @@ List<NotificationModel> notificationList = [
       false),
   NotificationModel(
       1,
+      "1001",
       "Saravanan",
       "Leave for Marriage function",
       "I am going to marriage function",
@@ -40,6 +44,7 @@ List<NotificationModel> notificationList = [
       false),
   NotificationModel(
       1,
+      "101",
       "Saravanan",
       "Medical Leave",
       "Going for full body Check Up",
@@ -47,6 +52,7 @@ List<NotificationModel> notificationList = [
       false),
   NotificationModel(
       1,
+      "101",
       "Saravanan",
       "Compensatory Leave",
       "I have worked last friday So I am taking Compensate leave today.",
@@ -83,29 +89,32 @@ DateTime parseCustomDateTime(String inputDateTimeString) {
   int hour = int.parse(timeParts[0]);
   int minute = int.parse(timeParts[1]);
 
-  print("$hour min - $minute");
-  // Return a DateTime object
   DateTime finalParser = DateTime(year, month, day, hour, minute);
   return finalParser;
 }
 
 String formatDateTime(DateTime dateTime) {
-  // Format the DateTime object in the desired format
   DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
   return dateFormat.format(dateTime);
 }
 
-List<NotificationModel>? getSorted() {
+List<NotificationModel>? getSortedNotifications(String empId) {
   try {
-    notificationList.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
-    return notificationList;
+    // Filter the notificationList based on empId
+    List<NotificationModel> filteredList =
+    notificationList.where((notification) => notification.empId == empId).toList();
+
+    // Sort the filteredList based on appliedDate
+    filteredList.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+
+    return filteredList;
   } catch (e) {
     return null;
   }
 }
 
-int getUnreadNotificationCount() {
-  final filteredList = notificationList.where((element) =>
-  element.markAsRead == false);
+int getUnreadNotificationCount(String empId) {
+  final filteredList = notificationList
+      .where((element) => element.empId == empId && !element.markAsRead);
   return filteredList.length;
 }

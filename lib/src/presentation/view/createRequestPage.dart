@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
+import 'package:leave_tracker_application/src/domain/models/remainingLeaveData.dart';
 import 'package:leave_tracker_application/src/domain/models/requestList.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createRequestSubmitState.dart';
@@ -11,6 +13,7 @@ import 'package:leave_tracker_application/src/presentation/widgets/create_reques
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DropDownWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/TextFieldWidget.dart';
 
+import '../../utils/constants/TimeParser.dart';
 import '../state_management/requestTypeState.dart';
 import '../widgets/SnakeBarWidget.dart';
 
@@ -27,10 +30,10 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
   bool fromTimeChanged = false;
   bool toTimeChanged = false;
 
-  TextEditingController _requestTextController = TextEditingController();
-  TextEditingController _projectNameController = TextEditingController();
-  TextEditingController _teamIdController = TextEditingController();
-  TextEditingController _reasonTextController = TextEditingController();
+  final TextEditingController _requestTextController = TextEditingController();
+  final TextEditingController _projectNameController = TextEditingController();
+  final TextEditingController _teamIdController = TextEditingController();
+  final TextEditingController _reasonTextController = TextEditingController();
 
   final String originalDateTimeString = "2024-02-22 16:55:25.081174";
   final DateFormat originalDateFormat =
@@ -110,6 +113,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     bool validationSuccessful = false;
     RequestData requestData = RequestData(
         applicationDetails.length + 1,
+        currentLoggedInUser.empId,
         "",
         0,
         "",
@@ -140,9 +144,20 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                     requestData.fromTime =
                         ref.read(fromTimeProvider.notifier).getState();
                     if (toTimeChanged) {
-                      requestData.toTime =
-                          ref.read(toTimeProvider.notifier).getState();
-                      validationSuccessful = true;
+                      if (!isToTimeIsGreater(
+                          ref.read(fromTimeProvider.notifier).getState(),
+                          ref.read(toTimeProvider.notifier).getState())) {
+                        requestData.toTime =
+                            ref.read(toTimeProvider.notifier).getState();
+                        validationSuccessful = true;
+                      } else {
+                        var snackbar = customShakingSnackBarWidget(
+                          content: const Text("Enter Correct To Time..."),
+                          backgroundColor:
+                              Colors.red, // Background color of the snackbar
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      }
                     } else {
                       var snackbar = customShakingSnackBarWidget(
                         content: const Text("Please Enter To Time...!!!"),
@@ -161,9 +176,22 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                   }
                 } else {
                   if (toDateChanged) {
-                    requestData.toDate =
-                        ref.read(ToDateProvider.notifier).getState();
-                    validationSuccessful = true;
+                    if (ref
+                            .read(fromDateProvider.notifier)
+                            .getState()
+                            .compareTo(
+                                ref.read(ToDateProvider.notifier).getState()) <
+                        0) {
+                      ref.read(permissionNotifyProvider.notifier).setState();
+                      validationSuccessful = true;
+                    } else {
+                      var snackbar = customShakingSnackBarWidget(
+                        content: const Text("Enter Correct To Date..."),
+                        backgroundColor:
+                            Colors.red, // Background color of the snackbar
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }
                   } else {
                     var snackbar = customShakingSnackBarWidget(
                       content: const Text("Please Enter To Date...!!!"),
@@ -217,26 +245,35 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
     if (validationSuccessful) {
-      applicationDetails.add(requestData);
-      var snackbar = customShakingSnackBarWidget(
-        content: Text("Successfully Submitted..!!!"),
-        backgroundColor: Colors.green, // Background color of the snackbar
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      notificationList.add(NotificationModel(
-          notificationList.length + 1,
-          "Saravanan",
-          requestData.requestTitle,
-          requestData.reason,
-          DateTime.now(),
-          false));
-      Navigator.pop(context);
-    } else {
-      var snackbar = customShakingSnackBarWidget(
-        content: Text("Please Check the entered fields are correct...!!!"),
-        backgroundColor: Colors.green, // Background color of the snackbar
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      bool leaveAvailable = updateRemainingLeaveDataByEmpId(
+          currentLoggedInUser.empId,
+          ref.read(requestTypeValueProvider.notifier).getState());
+      if (leaveAvailable) {
+
+        applicationDetails.add(requestData);
+        requestData.toDate = ref.read(ToDateProvider.notifier).getState();
+        var snackbar = customShakingSnackBarWidget(
+          content: Text("Successfully Submitted..!!!"),
+          backgroundColor: Colors.green, // Background color of the snackbar
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        notificationList.add(NotificationModel(
+            notificationList.length + 1,
+            currentLoggedInUser.empId,
+            "Saravanan",
+            requestData.requestTitle,
+            requestData.reason,
+            DateTime.now(),
+            false));
+        Navigator.pop(context);
+      } else {
+        var snackbar = customShakingSnackBarWidget(
+          content: Text("No Available Leave for Selected Type..!!!"),
+          backgroundColor:
+              Colors.blue.shade900, // Background color of the snackbar
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
     }
   }
 
@@ -441,6 +478,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                 padding: const EdgeInsets.only(right: 20.0, left: 40, top: 10),
                 child: ElevatedButton(
                   onPressed: () {
+                    ref.read(permissionNotifyProvider.notifier).setState();
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(

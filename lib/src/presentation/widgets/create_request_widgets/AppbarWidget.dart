@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../state_management/FromTimeToTimeState.dart';
 
 class AppBarWidget extends StatefulWidget {
   const AppBarWidget({super.key});
@@ -24,23 +27,21 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         child: Text(
           "Create New Request",
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 }
 
-class MainAppBarWidget extends StatefulWidget {
+class MainAppBarWidget extends ConsumerStatefulWidget {
   const MainAppBarWidget({super.key});
 
   @override
-  State<MainAppBarWidget> createState() => _MainAppBarWidgetState();
+  ConsumerState<MainAppBarWidget> createState() => _MainAppBarWidgetState();
 }
 
-class _MainAppBarWidgetState extends State<MainAppBarWidget> {
+class _MainAppBarWidgetState extends ConsumerState<MainAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,6 +56,7 @@ class _MainAppBarWidgetState extends State<MainAppBarWidget> {
           children: [
             IconButton(
               onPressed: () {
+                ref.read(permissionNotifyProvider.notifier).setState();
                 Navigator.pop(context);
               },
               icon: const Icon(
@@ -87,6 +89,3 @@ class _MainAppBarWidgetState extends State<MainAppBarWidget> {
     );
   }
 }
-
-
-
