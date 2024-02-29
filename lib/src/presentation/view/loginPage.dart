@@ -45,7 +45,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       style: TextStyle(
                           color: Colors.lightBlue.shade200,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18),
+                          fontSize: 15),
                     ),
                   ),
                 ],

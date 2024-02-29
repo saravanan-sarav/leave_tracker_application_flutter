@@ -14,3 +14,14 @@ bool isToTimeIsGreater(TimeOfDay time1, TimeOfDay time2) {
     }
   }
 }
+
+String formatTimeOfDayToIST(TimeOfDay? timeOfDay) {
+  if (timeOfDay != null) {
+    String hour = timeOfDay.hour.toString().padLeft(2, '0');
+    String minute = timeOfDay.minute.toString().padLeft(2, '0');
+    String period = timeOfDay.period == DayPeriod.am ? 'AM' : 'PM';
+    String formattedTime = '$hour:$minute $period - IST';
+    return formattedTime;
+  }
+  return "";
+}

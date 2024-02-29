@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leave_tracker_application/src/domain/models/dropdownItem.dart';
+import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
 
 class RequestStatus {
   final int id;
@@ -23,7 +25,7 @@ RequestStatus? findUsingRequestStatusId(int id) {
 
 class RequestData {
   int id;
-  final String empId;
+  String empId;
   String requestTitle;
   int requestType;
   String projectName;
@@ -35,6 +37,7 @@ class RequestData {
   String reason;
   DateTime appliedDate;
   RequestStatus? requestStatus;
+  DateTime? approvedAt;
 
   RequestData(
       this.id,
@@ -49,7 +52,8 @@ class RequestData {
       this.fromTime,
       this.toTime,
       this.appliedDate,
-      this.requestStatus);
+      this.requestStatus,
+      this.approvedAt);
 }
 
 List<RequestData> applicationDetails = [
@@ -66,7 +70,8 @@ List<RequestData> applicationDetails = [
       null,
       null,
       DateTime.now(),
-      findUsingRequestStatusId(3)),
+      findUsingRequestStatusId(3),
+      DateTime(2024, 03, 01)),
   RequestData(
       2,
       "1001",
@@ -80,9 +85,10 @@ List<RequestData> applicationDetails = [
       null,
       null,
       DateTime.now(),
-      findUsingRequestStatusId(2)),
+      findUsingRequestStatusId(1),
+      DateTime(2023,10,12)),
   RequestData(
-      2,
+      3,
       "1001",
       "Permission",
       5,
@@ -94,7 +100,8 @@ List<RequestData> applicationDetails = [
       TimeOfDay.now(),
       TimeOfDay.now(),
       DateTime.now(),
-      findUsingRequestStatusId(2)),
+      findUsingRequestStatusId(2),
+      null),
 ];
 
 List<RequestData>? getSortedRequestData(String empId, int? value) {
@@ -113,4 +120,89 @@ List<RequestData>? getSortedRequestData(String empId, int? value) {
     return filteredData;
   }
   return null;
+}
+
+int countApplicationsByEmpId(String empId) {
+  int count = 0;
+  for (var data in applicationDetails) {
+    if (data.empId == empId) {
+      count++;
+    }
+  }
+  return count;
+}
+
+class RequestDescriptionDetail {
+  final String empId;
+  final String empName;
+  final String empDomain;
+  final String empDesignation;
+  final int requestTypeId;
+  final String requestType;
+  final DateTime fromDate;
+  final DateTime? toDate;
+  final TimeOfDay? fromTime;
+  final TimeOfDay? toTime;
+  final DateTime createdAt;
+  final DateTime? approvedAt;
+  final int requestStatusId;
+  final String requestStatus;
+  final String reason;
+  final String reportingToUserName;
+  final String reportingToUserDomain;
+  final String reportingToUserDesignation;
+
+  RequestDescriptionDetail(
+      this.empId,
+      this.empName,
+      this.empDomain,
+      this.empDesignation,
+      this.requestTypeId,
+      this.requestType,
+      this.fromDate,
+      this.toDate,
+      this.fromTime,
+      this.toTime,
+      this.createdAt,
+      this.approvedAt,
+      this.requestStatusId,
+      this.requestStatus,
+      this.reason,
+      this.reportingToUserName,
+      this.reportingToUserDomain,
+      this.reportingToUserDesignation);
+}
+
+RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
+  RequestData requestData =
+      applicationDetails.firstWhere((element) => element.id == id);
+
+  UserData user =
+      userDetails.firstWhere((element) => element.empId == requestData.empId);
+
+  UserData reportingTo =
+      userDetails.firstWhere((element) => element.empId == user.reportingTo);
+
+  RequestType requestType = requestTypes
+      .firstWhere((element) => element.id == requestData.requestType);
+
+  return RequestDescriptionDetail(
+      user.empId,
+      user.name,
+      user.Domain,
+      user.designation,
+      requestType.id,
+      requestType.type,
+      requestData.fromDate,
+      (requestData.toDate),
+      (requestData.fromTime),
+      (requestData.toTime),
+      requestData.appliedDate,
+      requestData.approvedAt,
+      requestData.requestStatus!.id,
+      requestData.requestStatus!.requestStatus,
+      requestData.reason,
+      reportingTo.name,
+      reportingTo.Domain,
+      reportingTo.designation);
 }

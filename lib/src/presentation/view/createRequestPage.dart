@@ -124,7 +124,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         null,
         null,
         DateTime.now(),
-        findUsingRequestStatusId(2));
+        findUsingRequestStatusId(2),null);
     if (_requestTextController.text.isNotEmpty) {
       requestData.requestTitle = _requestTextController.text;
       if (ref.read(requestTypeSelectorProvider.notifier).getState()) {

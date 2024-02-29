@@ -28,7 +28,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
   Widget build(BuildContext context) {
     var index = ref.watch(pageNavigatorProvider);
     return Scaffold(
-      body: _pages[index as int],
+      body: _pages[index],
       bottomNavigationBar: const BottomNavigationBarWidget(),
       floatingActionButton: FloatingActionButton(
         shape: const StadiumBorder(),

@@ -68,7 +68,7 @@ class _NotificationPageWidgetState
                             ),
                           ],
                         ),
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.12,
                         width: double.infinity,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,8 +128,8 @@ class _NotificationPageWidgetState
                                                   notificationData![index]
                                                               .reasons
                                                               .length >
-                                                          40
-                                                      ? 40
+                                                          30
+                                                      ? 30
                                                       : notificationData![index]
                                                           .reasons
                                                           .length),
@@ -139,7 +139,7 @@ class _NotificationPageWidgetState
                                         notificationData![index]
                                                     .reasons
                                                     .length >
-                                                40
+                                                30
                                             ? Text("...")
                                             : Text("")
                                       ],
