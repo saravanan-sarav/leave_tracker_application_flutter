@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
+import 'package:leave_tracker_application/src/presentation/view/profilePage.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/CreateRequest.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/ListOfRequest.dart';
 
@@ -23,19 +24,19 @@ class HomePage extends ConsumerWidget {
             width: double.infinity,
             color: Colors.blue[900],
             child: Padding(
-              padding: EdgeInsets.only(top: 50, right: 20, left: 20),
+              padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 12.0),
+                    padding: const EdgeInsets.only(top: 12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           currentLoggedInUser.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class HomePage extends ConsumerWidget {
                         ),
                         Text(
                           "@${currentLoggedInUser.designation} - ${currentLoggedInUser.Domain}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white24,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -52,14 +53,22 @@ class HomePage extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.white,
-                    backgroundImage:
-                        AssetImage('assets/images/profile_picture.jpeg'),
-                    // Background color of the avatar
-                    foregroundImage: AssetImage(
-                        'assets/images/profile_picture.jpeg'), // Path to your image asset
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ProfilePage()));
+                    },
+                    child: const CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      backgroundImage:
+                          AssetImage('assets/images/profile_picture.jpeg'),
+                      // Background color of the avatar
+                      foregroundImage: AssetImage(
+                          'assets/images/profile_picture.jpeg'), // Path to your image asset
+                    ),
                   ),
                 ],
               ),
@@ -81,7 +90,7 @@ class HomePage extends ConsumerWidget {
                             topEnd: Radius.circular(20)),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(right: 15, left: 15),
+                        padding: const EdgeInsets.only(right: 15, left: 15),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -97,7 +106,8 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 20.0, top: 20),
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, top: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -120,8 +130,8 @@ class HomePage extends ConsumerWidget {
                           ],
                         ),
                       )),
-                  CreateRequestWidget(),
-                  ListOfRequestWidget()
+                  const CreateRequestWidget(),
+                  const ListOfRequestWidget()
                 ],
               ),
             ),
