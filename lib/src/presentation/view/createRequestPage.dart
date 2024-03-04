@@ -124,7 +124,9 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         null,
         null,
         DateTime.now(),
-        findUsingRequestStatusId(2),null);
+        findUsingRequestStatusId(2),
+        null,
+        currentUserReportingUserDetail.empId);
     if (_requestTextController.text.isNotEmpty) {
       requestData.requestTitle = _requestTextController.text;
       if (ref.read(requestTypeSelectorProvider.notifier).getState()) {
@@ -249,7 +251,6 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
           currentLoggedInUser.empId,
           ref.read(requestTypeValueProvider.notifier).getState());
       if (leaveAvailable) {
-
         applicationDetails.add(requestData);
         requestData.toDate = ref.read(ToDateProvider.notifier).getState();
         var snackbar = customShakingSnackBarWidget(

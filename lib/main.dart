@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
-import 'package:leave_tracker_application/src/presentation/view/requestDetailPage.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -29,7 +27,7 @@ class MyApp extends ConsumerWidget {
         fontFamily: GoogleFonts.karla().fontFamily,
       ),
       home: const LoginPage(),
-      locale: Locale(ref.watch(LocalizationProvider.notifier).getLocale()),
+      locale: Locale(ref.watch(localizationProvider.notifier).getLocale()),
     );
   }
 }

@@ -28,6 +28,7 @@ class UserRemainingLeaveData {
 List<UserRemainingLeaveData> userRemainingLeaveDataList = [
   UserRemainingLeaveData(1, "1001", {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}),
   UserRemainingLeaveData(2, "101", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
+  UserRemainingLeaveData(2, "1", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
 ];
 
 UserRemainingLeaveData getLoggedInUserLeaveData(String empId) {

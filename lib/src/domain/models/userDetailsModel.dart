@@ -1,3 +1,5 @@
+
+
 class UserData {
   int id;
   String empId;
@@ -26,18 +28,8 @@ class UserData {
 }
 
 List<UserData> userDetails = [
-  UserData(
-      1,
-      "1001",
-      "Saravanan S",
-      "Banking",
-      "Intern",
-      DateTime(2023, 9, 11),
-      "user",
-      "1234",
-      DateTime(2001, 10, 04),
-      2003,
-      "101"),
+  UserData(1, "1001", "Saravanan S", "Banking", "Intern", DateTime(2023, 9, 11),
+      "user", "1234", DateTime(2001, 10, 04), 2003, "101"),
   UserData(
       2,
       "101",
@@ -51,7 +43,7 @@ List<UserData> userDetails = [
       2003,
       "1"),
   UserData(3, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11),
-      "admin@kumaran.com", "1234", DateTime(1995, 01, 04), 2003, "1"),
+      "admin@", "1234", DateTime(1995, 01, 04), 2003, "1"),
 ];
 
 class ReportingUserDetail {
@@ -68,8 +60,8 @@ ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
       userDetails.firstWhere((element) => element.empId == empId);
   UserData reportingTo = userDetails
       .firstWhere((element) => element.empId == loggedInUser.reportingTo);
-  return ReportingUserDetail(
-      reportingTo.empId, reportingTo.name, reportingTo.designation,reportingTo.Domain);
+  return ReportingUserDetail(reportingTo.empId, reportingTo.name,
+      reportingTo.designation, reportingTo.Domain);
 }
 
 UserData? isUserIsValid(
@@ -82,4 +74,11 @@ UserData? isUserIsValid(
     }
   }
   return null;
+}
+
+ReportingUserDetail getRequestReportingToUser(String empId) {
+  UserData reportingUser =
+      userDetails.firstWhere((element) => element.empId == empId);
+  return ReportingUserDetail(reportingUser.empId, reportingUser.name,
+      reportingUser.designation, reportingUser.Domain);
 }

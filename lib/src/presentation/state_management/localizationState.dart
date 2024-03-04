@@ -19,4 +19,4 @@ class LocalizationNotifier extends StateNotifier<Localization> {
   }
 }
 
-final LocalizationProvider = StateNotifierProvider((ref) => LocalizationNotifier(const Localization("en")));
+final localizationProvider = StateNotifierProvider((ref) => LocalizationNotifier(const Localization("en")));

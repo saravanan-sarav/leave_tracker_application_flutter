@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 
 import '../../utils/constants/TimeParser.dart';
 import '../../utils/constants/dateParser.dart';
+import '../widgets/SnakeBarWidget.dart';
 
 class RequestDescriptionPage extends ConsumerStatefulWidget {
   final int requestId;
@@ -23,6 +25,11 @@ class _RequestDescriptionPageState
   void initState() {
     requestDescriptionDetail = getRequestDetailsByRequestId(widget.requestId);
     super.initState();
+  }
+
+  void updateRequest() {
+    requestDescriptionDetail = getRequestDetailsByRequestId(widget.requestId);
+    setState(() {});
   }
 
   @override
@@ -108,7 +115,8 @@ class _RequestDescriptionPageState
                           const Text(
                             "Status : ",
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(requestDescriptionDetail.requestStatus,
                               style: const TextStyle(
@@ -118,16 +126,20 @@ class _RequestDescriptionPageState
                               ? const Icon(
                                   Icons.verified,
                                   color: Colors.white,
+                                  size: 15,
                                 )
                               : requestDescriptionDetail.requestStatusId == 2
                                   ? const Icon(
                                       Icons.warning_amber,
                                       color: Colors.white,
+                                      size: 15,
                                     )
-                                  : requestDescriptionDetail.requestStatusId == 3
+                                  : requestDescriptionDetail.requestStatusId ==
+                                          3
                                       ? const Icon(
-                                          Icons.cancel_outlined,
+                                          Icons.cancel,
                                           color: Colors.white,
+                                          size: 18,
                                         )
                                       : const Icon(Icons.add),
                         ],
@@ -172,7 +184,8 @@ class _RequestDescriptionPageState
                                 Text(
                                   "${requestDescriptionDetail.empName} (${requestDescriptionDetail.empId})",
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 Text(
                                   "@${requestDescriptionDetail.empDesignation} - ${requestDescriptionDetail.empDomain}",
@@ -205,9 +218,10 @@ class _RequestDescriptionPageState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${requestDescriptionDetail.requestType}",
+                                  requestDescriptionDetail.requestType,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 17),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
                                 ),
                               ],
                             ))
@@ -233,12 +247,15 @@ class _RequestDescriptionPageState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${formatDateAsNumber(requestDescriptionDetail.fromDate)}",
+                                  formatDateAsNumber(
+                                      requestDescriptionDetail.fromDate),
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 Text(
-                                  "${formatDateToDayOfWeek(requestDescriptionDetail.fromDate)}",
+                                  formatDateToDayOfWeek(
+                                      requestDescriptionDetail.fromDate),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15,
@@ -254,7 +271,8 @@ class _RequestDescriptionPageState
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const Expanded(
                                       child: Text(
@@ -266,16 +284,19 @@ class _RequestDescriptionPageState
                                   )),
                                   Expanded(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${formatDateAsNumber(requestDescriptionDetail.toDate)}",
+                                        formatDateAsNumber(
+                                            requestDescriptionDetail.toDate),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
                                       ),
                                       Text(
-                                        "${formatDateToDayOfWeek(requestDescriptionDetail.toDate)}",
+                                        formatDateToDayOfWeek(
+                                            requestDescriptionDetail.toDate),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
@@ -292,7 +313,8 @@ class _RequestDescriptionPageState
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const Expanded(
                                       child: Text(
@@ -304,10 +326,12 @@ class _RequestDescriptionPageState
                                   )),
                                   Expanded(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${formatTimeOfDayToIST(requestDescriptionDetail.fromTime)}",
+                                        formatTimeOfDayToIST(
+                                            requestDescriptionDetail.fromTime),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -323,7 +347,8 @@ class _RequestDescriptionPageState
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const Expanded(
                                       child: Text(
@@ -335,10 +360,12 @@ class _RequestDescriptionPageState
                                   )),
                                   Expanded(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${formatTimeOfDayToIST(requestDescriptionDetail.toTime)}",
+                                        formatTimeOfDayToIST(
+                                            requestDescriptionDetail.toTime),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -377,7 +404,7 @@ class _RequestDescriptionPageState
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
                             Text(
-                                "${formatDateAsNumber(requestDescriptionDetail.createdAt)} - ${formatDateToDayOfWeek(requestDescriptionDetail.createdAt)}",
+                                "${formatDateAsNumber(requestDescriptionDetail.createdAt)} (${getTimeFromDate(requestDescriptionDetail.createdAt)}) - ${formatDateToDayOfWeek(requestDescriptionDetail.createdAt)}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
@@ -391,13 +418,13 @@ class _RequestDescriptionPageState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Approved At",
+                              "Request Status Changed At",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
                             requestDescriptionDetail.approvedAt != null
                                 ? Text(
-                                    "${formatDateAsNumber(requestDescriptionDetail.approvedAt)} - ${formatDateToDayOfWeek(requestDescriptionDetail.approvedAt)}",
+                                    "${formatDateAsNumber(requestDescriptionDetail.approvedAt)} (${getTimeFromDate(requestDescriptionDetail.approvedAt!)}) - ${formatDateToDayOfWeek(requestDescriptionDetail.approvedAt)}",
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
@@ -421,7 +448,7 @@ class _RequestDescriptionPageState
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                            Text("${requestDescriptionDetail.reason}",
+                            Text(requestDescriptionDetail.reason,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
@@ -455,7 +482,8 @@ class _RequestDescriptionPageState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${requestDescriptionDetail.reportingToUserName}",
+                                      requestDescriptionDetail
+                                          .reportingToUserName,
                                       style: const TextStyle(
                                           color: Colors.blue,
                                           fontSize: 16,
@@ -482,6 +510,251 @@ class _RequestDescriptionPageState
           ),
         ],
       ),
+      bottomNavigationBar: !ref.read(requestCreateOrSentTypeProvider) &&
+              requestDescriptionDetail.requestStatusId == 2
+          ? BottomNavigationBar(
+              items: [
+                BottomNavigationBarItem(
+                    icon: Padding(
+                      padding:
+                          const EdgeInsets.only(right: 40.0, left: 20, top: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (requestStatusChange(widget.requestId, 3)) {
+                            updateRequest();
+                            var snackbar = customShakingSnackBarWidget(
+                              content:
+                                  const Text("Status Changed Successfully"),
+                              backgroundColor: Colors.blue.shade900,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          } else {
+                            var snackbar = customShakingSnackBarWidget(
+                              content: const Text("Something Went Wrong"),
+                              backgroundColor: Colors.blue.shade900,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red.shade900),
+                        child: const Center(
+                            child: Text(
+                          "Reject",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 20),
+                        )),
+                      ),
+                    ),
+                    label: ""),
+                BottomNavigationBarItem(
+                    icon: Padding(
+                      padding:
+                          const EdgeInsets.only(right: 40.0, left: 20, top: 10),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (requestStatusChange(widget.requestId, 1)) {
+                            updateRequest();
+                            var snackbar = customShakingSnackBarWidget(
+                              content:
+                                  const Text("Status Changed Successfully"),
+                              backgroundColor: Colors.blue.shade900,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          } else {
+                            var snackbar = customShakingSnackBarWidget(
+                              content: const Text("Something Went Wrong"),
+                              backgroundColor: Colors.blue.shade900,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade900),
+                        child: const Center(
+                            child: Text(
+                          "Approve",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 20),
+                        )),
+                      ),
+                    ),
+                    label: ""),
+              ],
+            )
+          : !ref.read(requestCreateOrSentTypeProvider) &&
+                  requestDescriptionDetail.requestStatusId == 1
+              ? BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 40.0, left: 20, top: 10),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (requestStatusChange(widget.requestId, 2)) {
+                                updateRequest();
+                                var snackbar = customShakingSnackBarWidget(
+                                  content:
+                                      const Text("Status Changed Successfully"),
+                                  backgroundColor: Colors.blue.shade900,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              } else {
+                                var snackbar = customShakingSnackBarWidget(
+                                  content: const Text("Something Went Wrong"),
+                                  backgroundColor: Colors.blue.shade900,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.yellow.shade900),
+                            child: const Center(
+                                child: Text(
+                              "Pending",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 20),
+                            )),
+                          ),
+                        ),
+                        label: ""),
+                    BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 40.0, left: 20, top: 10),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (requestStatusChange(widget.requestId, 3)) {
+                                updateRequest();
+                                var snackbar = customShakingSnackBarWidget(
+                                  content:
+                                      const Text("Status Changed Successfully"),
+                                  backgroundColor: Colors.blue.shade900,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              } else {
+                                var snackbar = customShakingSnackBarWidget(
+                                  content: const Text("Something Went Wrong"),
+                                  backgroundColor: Colors.blue.shade900,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red.shade900),
+                            child: const Center(
+                                child: Text(
+                              "Reject",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 20),
+                            )),
+                          ),
+                        ),
+                        label: ""),
+                  ],
+                )
+              : !ref.read(requestCreateOrSentTypeProvider) &&
+                      requestDescriptionDetail.requestStatusId == 3
+                  ? BottomNavigationBar(
+                      items: [
+                        BottomNavigationBarItem(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 40.0, left: 20, top: 10),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (requestStatusChange(
+                                      widget.requestId, 2)) {
+                                    updateRequest();
+                                    var snackbar = customShakingSnackBarWidget(
+                                      content: const Text(
+                                          "Status Changed Successfully"),
+                                      backgroundColor: Colors.blue.shade900,
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackbar);
+                                  } else {
+                                    var snackbar = customShakingSnackBarWidget(
+                                      content:
+                                          const Text("Something Went Wrong"),
+                                      backgroundColor: Colors.blue.shade900,
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackbar);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.yellow.shade900),
+                                child: const Center(
+                                    child: Text(
+                                  "Pending",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                )),
+                              ),
+                            ),
+                            label: ""),
+                        BottomNavigationBarItem(
+                            icon: Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 40.0, left: 20, top: 10),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (requestStatusChange(
+                                      widget.requestId, 1)) {
+                                    updateRequest();
+                                    var snackbar = customShakingSnackBarWidget(
+                                      content: const Text(
+                                          "Status Changed Successfully"),
+                                      backgroundColor: Colors.blue.shade900,
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackbar);
+                                  } else {
+                                    var snackbar = customShakingSnackBarWidget(
+                                      content:
+                                          const Text("Something Went Wrong"),
+                                      backgroundColor: Colors.blue.shade900,
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackbar);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green.shade900),
+                                child: const Center(
+                                    child: Text(
+                                  "Approve",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                )),
+                              ),
+                            ),
+                            label: ""),
+                      ],
+                    )
+                  : null,
     );
   }
 }

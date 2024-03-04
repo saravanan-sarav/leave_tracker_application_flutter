@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/dropdownItem.dart';
 import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
 
@@ -38,6 +39,7 @@ class RequestData {
   DateTime appliedDate;
   RequestStatus? requestStatus;
   DateTime? approvedAt;
+  final String reportTo;
 
   RequestData(
       this.id,
@@ -53,7 +55,8 @@ class RequestData {
       this.toTime,
       this.appliedDate,
       this.requestStatus,
-      this.approvedAt);
+      this.approvedAt,
+      this.reportTo);
 }
 
 List<RequestData> applicationDetails = [
@@ -71,7 +74,8 @@ List<RequestData> applicationDetails = [
       null,
       DateTime.now(),
       findUsingRequestStatusId(3),
-      DateTime(2024, 03, 01)),
+      DateTime(2024, 03, 01),
+      "101"),
   RequestData(
       2,
       "1001",
@@ -86,10 +90,11 @@ List<RequestData> applicationDetails = [
       null,
       DateTime.now(),
       findUsingRequestStatusId(1),
-      DateTime(2023,10,12)),
+      DateTime(2023, 10, 12),
+      "101"),
   RequestData(
       3,
-      "1001",
+      "101",
       "Permission",
       5,
       "Sen benth",
@@ -101,10 +106,43 @@ List<RequestData> applicationDetails = [
       TimeOfDay.now(),
       DateTime.now(),
       findUsingRequestStatusId(2),
-      null),
+      null,
+      "1"),
+  RequestData(
+      3,
+      "101",
+      "Permission",
+      5,
+      "Sen benth",
+      152,
+      DateTime.now(),
+      null,
+      "I worked last week sunday.",
+      TimeOfDay.now(),
+      TimeOfDay.now(),
+      DateTime.now(),
+      findUsingRequestStatusId(2),
+      null,
+      "1"),
+  RequestData(
+      3,
+      "101",
+      "Permission",
+      5,
+      "Sen benth",
+      152,
+      DateTime.now(),
+      null,
+      "I worked last week sunday.",
+      TimeOfDay.now(),
+      TimeOfDay.now(),
+      DateTime.now(),
+      findUsingRequestStatusId(2),
+      null,
+      "1"),
 ];
 
-List<RequestData>? getSortedRequestData(String empId, int? value) {
+List<RequestData>? getSortedCreatedByMeRequestData(String empId, int? value) {
   if (value == 0) {
     final filteredData =
         applicationDetails.where((element) => element.empId == empId).toList();
@@ -122,10 +160,39 @@ List<RequestData>? getSortedRequestData(String empId, int? value) {
   return null;
 }
 
+List<RequestData>? getSortedSentToMeRequestData(String empId, int? value) {
+  if (value == 0) {
+    final filteredData = applicationDetails
+        .where((element) => element.reportTo == empId)
+        .toList();
+    filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+    return filteredData;
+  }
+  if (value! > 0) {
+    final filteredData = applicationDetails
+        .where((element) =>
+            element.reportTo == empId && element.requestStatus?.id == value)
+        .toList();
+    filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+    return filteredData;
+  }
+  return null;
+}
+
 int countApplicationsByEmpId(String empId) {
   int count = 0;
   for (var data in applicationDetails) {
     if (data.empId == empId) {
+      count++;
+    }
+  }
+  return count;
+}
+
+int countApplicationsSentToMeByEmpId(String empId) {
+  int count = 0;
+  for (var data in applicationDetails) {
+    if (data.reportTo == empId) {
       count++;
     }
   }
@@ -205,4 +272,17 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
       reportingTo.name,
       reportingTo.Domain,
       reportingTo.designation);
+}
+
+bool requestStatusChange(int requestId, int statusId) {
+  for (RequestData r in applicationDetails) {
+    if (r.id == requestId && r.reportTo == currentLoggedInUser.empId) {
+      RequestStatus requestStatus =
+          requestStatusList.firstWhere((element) => element.id == statusId);
+      r.requestStatus = requestStatus;
+      r.approvedAt = DateTime.now();
+      return true;
+    }
+  }
+  return false;
 }

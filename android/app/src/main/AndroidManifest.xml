@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="leave_tracker_application"
+        android:label="Leave Tracker"
         android:name="${applicationName}"
         android:icon="@mipmap/leavelogo">
         <activity

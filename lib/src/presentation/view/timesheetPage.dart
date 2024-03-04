@@ -4,9 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/historyTabs.dart';
 import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheetTabState.dart';
 import 'package:leave_tracker_application/src/presentation/view/requestDetailPage.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../domain/models/userDetailsModel.dart';
 
 class TimesheetPageWidget extends ConsumerStatefulWidget {
   const TimesheetPageWidget({super.key});
@@ -17,16 +20,34 @@ class TimesheetPageWidget extends ConsumerStatefulWidget {
 }
 
 class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
-  List<RequestData>? applicationDetails =
-      getSortedRequestData(currentLoggedInUser.empId, 0);
+  List<RequestData>? applicationDetails = [];
+
+  @override
+  void initState() {
+    bool createOrSent = ref.read(requestCreateOrSentTypeProvider);
+    if (createOrSent) {
+      applicationDetails =
+          getSortedCreatedByMeRequestData(currentLoggedInUser.empId, 0);
+    } else {
+      applicationDetails =
+          getSortedSentToMeRequestData(currentLoggedInUser.empId, 0);
+    }
+    super.initState();
+  }
+
   final DateFormat originalDateFormat =
       DateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
   final DateFormat targetDateFormat = DateFormat("dd-MM-yyyy");
   DateFormat formattedDate = DateFormat('dd-MMM');
 
   void _onStateChange() {
-    applicationDetails = getSortedRequestData(
-        currentLoggedInUser.empId, ref.watch(timesheetFilterValueProvider));
+    if (ref.read(requestCreateOrSentTypeProvider)) {
+      applicationDetails = getSortedCreatedByMeRequestData(
+          currentLoggedInUser.empId, ref.read(timesheetFilterValueProvider))!;
+    } else {
+      applicationDetails = getSortedSentToMeRequestData(
+          currentLoggedInUser.empId, ref.read(timesheetFilterValueProvider))!;
+    }
   }
 
   @override
@@ -44,6 +65,9 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
               children: [
                 IconButton(
                     onPressed: () {
+                      ref
+                          .read(requestCreateOrSentTypeProvider.notifier)
+                          .validate();
                       Navigator.pop(context);
                     },
                     icon: const Icon(
@@ -130,7 +154,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                         builder: (context) =>
                                             RequestDescriptionPage(
                                                 applicationDetails![index].id)),
-                                  );
+                                  ).then((value) => setState(() {}));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -237,10 +261,11 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                             ],
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 20),
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
                                             child: Row(
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "Reported To : ",
                                                   style: TextStyle(
                                                       fontWeight:
@@ -248,18 +273,20 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                       fontSize: 14),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 10.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10.0),
                                                   child: Row(
                                                     children: [
-                                                      CircleAvatar(
+                                                      const CircleAvatar(
                                                         foregroundImage: AssetImage(
                                                             "assets/images/profile_picture.jpeg"),
                                                         radius: 15,
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                .only(
                                                                 left: 8.0),
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -267,8 +294,12 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              "${currentUserReportingUserDetail.name}",
-                                                              style: TextStyle(
+                                                              getRequestReportingToUser(
+                                                                      applicationDetails![
+                                                                              index]
+                                                                          .reportTo)
+                                                                  .name,
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .blue,
                                                                   fontSize: 15,
@@ -277,13 +308,18 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                           .bold),
                                                             ),
                                                             Text(
-                                                              "${currentUserReportingUserDetail.designation}",
-                                                              style: TextStyle(
+                                                              getRequestReportingToUser(
+                                                                      applicationDetails![
+                                                                              index]
+                                                                          .reportTo)
+                                                                  .designation,
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .grey,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,fontSize: 12),
+                                                                          .bold,
+                                                                  fontSize: 12),
                                                             ),
                                                           ],
                                                         ),
