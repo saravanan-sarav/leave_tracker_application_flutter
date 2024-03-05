@@ -43,7 +43,7 @@ class HomePage extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          "@${currentLoggedInUser.designation} - ${currentLoggedInUser.Domain}",
+                          "@${currentLoggedInUser.designation} - ${currentLoggedInUser.domain}",
                           style: const TextStyle(
                             color: Colors.white24,
                             fontSize: 15,

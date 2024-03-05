@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:leave_tracker_application/src/data/database/dbHelper.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DatabaseHelper db = DatabaseHelper();
+  db.db;
   runApp(const ProviderScope(child: MyApp()));
 }
 

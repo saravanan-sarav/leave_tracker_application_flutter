@@ -1,6 +1,8 @@
 import 'package:leave_tracker_application/src/domain/models/remainingLeaveData.dart';
 import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
 
+import 'ReportingToUser.dart';
+
 UserData currentLoggedInUser = userDetails[0];
 
 ReportingUserDetail currentUserReportingUserDetail =

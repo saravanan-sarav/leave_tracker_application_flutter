@@ -256,7 +256,7 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
   return RequestDescriptionDetail(
       user.empId,
       user.name,
-      user.Domain,
+      user.domain,
       user.designation,
       requestType.id,
       requestType.type,
@@ -270,7 +270,7 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
       requestData.requestStatus!.requestStatus,
       requestData.reason,
       reportingTo.name,
-      reportingTo.Domain,
+      reportingTo.domain,
       reportingTo.designation);
 }
 

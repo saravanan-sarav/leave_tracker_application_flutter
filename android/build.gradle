@@ -16,3 +16,13 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        // Other dependencies for the buildscript can be added here
+    }
+}

@@ -174,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     fontSize: 15),
                               ),
                               Text(
-                                "@${currentLoggedInUser.designation} - ${currentLoggedInUser.Domain}",
+                                "@${currentLoggedInUser.designation} - ${currentLoggedInUser.domain}",
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

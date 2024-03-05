@@ -1,30 +1,76 @@
+import 'ReportingToUser.dart';
 
+const String userTableName = "user";
+const String userColumnId = "id";
+const String userColumnEmpId = "emp_id";
+const String userColumnName = "name";
+const String userColumnDomain = "domain";
+const String userColumnDesignation = "designation";
+const String userColumnJoiningDate = "joining_date";
+const String userColumnEmail = "email";
+const String userColumnPassword = "password";
+const String userColumnDateOfBirth = "date_of_birth";
+const String userColumnTeamId = "team_id";
+const String userColumnReportingTo = "reporting_to_emp_id";
 
 class UserData {
   int id;
   String empId;
   String name;
-  String Domain;
+  String domain;
   String designation;
   DateTime joiningDate;
   String email;
   String password;
   DateTime dateOfBirth;
-  int TeamId;
+  int teamId;
   String reportingTo;
 
   UserData(
       this.id,
       this.empId,
       this.name,
-      this.Domain,
+      this.domain,
       this.designation,
       this.joiningDate,
       this.email,
       this.password,
       this.dateOfBirth,
-      this.TeamId,
+      this.teamId,
       this.reportingTo);
+
+  Map<String, Object?> toJson() {
+    Map<String, dynamic> map = {
+      userColumnId: id,
+      userColumnEmpId: empId,
+      userColumnName: name,
+      userColumnDomain: domain,
+      userColumnDesignation: designation,
+      userColumnJoiningDate: joiningDate,
+      userColumnEmail: email,
+      userColumnPassword: password,
+      userColumnDateOfBirth: dateOfBirth,
+      userColumnTeamId: teamId,
+      userColumnReportingTo: reportingTo
+    };
+    return map;
+  }
+
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      json[userColumnId],
+      json[userColumnEmpId] as String,
+      json[userColumnName] as String,
+      json[userColumnDomain] as String,
+      json[userColumnDesignation] as String,
+      json[userColumnJoiningDate] as DateTime,
+      json[userColumnEmail] as String,
+      json[userColumnPassword] as String,
+      json[userColumnDateOfBirth] as DateTime,
+      json[userColumnTeamId] as int,
+      json[userColumnReportingTo] as String,
+    );
+  }
 }
 
 List<UserData> userDetails = [
@@ -42,18 +88,9 @@ List<UserData> userDetails = [
       DateTime(1995, 01, 04),
       2003,
       "1"),
-  UserData(3, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11),
-      "admin@", "1234", DateTime(1995, 01, 04), 2003, "1"),
+  UserData(3, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11), "admin@",
+      "1234", DateTime(1995, 01, 04), 2003, "1"),
 ];
-
-class ReportingUserDetail {
-  String empId;
-  String name;
-  String designation;
-  String domain;
-
-  ReportingUserDetail(this.empId, this.name, this.designation, this.domain);
-}
 
 ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
   UserData loggedInUser =
@@ -61,7 +98,7 @@ ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
   UserData reportingTo = userDetails
       .firstWhere((element) => element.empId == loggedInUser.reportingTo);
   return ReportingUserDetail(reportingTo.empId, reportingTo.name,
-      reportingTo.designation, reportingTo.Domain);
+      reportingTo.designation, reportingTo.domain);
 }
 
 UserData? isUserIsValid(
@@ -80,5 +117,5 @@ ReportingUserDetail getRequestReportingToUser(String empId) {
   UserData reportingUser =
       userDetails.firstWhere((element) => element.empId == empId);
   return ReportingUserDetail(reportingUser.empId, reportingUser.name,
-      reportingUser.designation, reportingUser.Domain);
+      reportingUser.designation, reportingUser.domain);
 }
