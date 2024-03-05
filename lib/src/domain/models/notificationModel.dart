@@ -8,11 +8,11 @@ class NotificationModel {
   final String name;
   final String requestTitle;
   final String reasons;
-  final DateTime appliedDate;
+  final DateTime createdAt;
   bool markAsRead;
 
   NotificationModel(this.id, this.empId, this.name, this.requestTitle,
-      this.reasons, this.appliedDate, this.markAsRead);
+      this.reasons, this.createdAt, this.markAsRead);
 }
 
 List<NotificationModel> notificationList = [
@@ -57,7 +57,7 @@ List<NotificationModel> notificationList = [
       "Compensatory Leave",
       "I have worked last friday So I am taking Compensate leave today.",
       parseCustomDateTime("25-02-2024T07:40"),
-      false)
+      false),
 ];
 
 String formatTimeAgo(DateTime dateTime) {
@@ -101,11 +101,12 @@ String formatDateTime(DateTime dateTime) {
 List<NotificationModel>? getSortedNotifications(String empId) {
   try {
     // Filter the notificationList based on empId
-    List<NotificationModel> filteredList =
-    notificationList.where((notification) => notification.empId == empId).toList();
+    List<NotificationModel> filteredList = notificationList
+        .where((notification) => notification.empId == empId)
+        .toList();
 
     // Sort the filteredList based on appliedDate
-    filteredList.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
+    filteredList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
     return filteredList;
   } catch (e) {

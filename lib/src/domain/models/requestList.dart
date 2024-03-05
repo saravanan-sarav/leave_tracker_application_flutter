@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/dropdownItem.dart';
+import 'package:leave_tracker_application/src/domain/models/requestType.dart';
 import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
 
 class RequestStatus {

@@ -146,7 +146,7 @@ class _NotificationPageWidgetState
                                     ), // Limit to 2 lines),
                                     Text(
                                       formatTimeAgo(
-                                          notificationData![index].appliedDate),
+                                          notificationData![index].createdAt),
                                       style: TextStyle(color: Colors.lightBlue),
                                     ),
                                   ],
