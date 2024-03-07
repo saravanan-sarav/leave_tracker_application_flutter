@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
-import 'package:leave_tracker_application/src/domain/models/remainingLeaveData.dart';
-import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/domain/models/remainingLeave.dart';
+import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createRequestSubmitState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/dateChecker.dart';
@@ -13,6 +14,7 @@ import 'package:leave_tracker_application/src/presentation/widgets/create_reques
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/DropDownWidget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/TextFieldWidget.dart';
 
+import '../../domain/models/Request.dart';
 import '../../utils/constants/TimeParser.dart';
 import '../state_management/requestTypeState.dart';
 import '../widgets/SnakeBarWidget.dart';
@@ -109,7 +111,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     super.initState();
   }
 
-  submitRequestData() {
+  submitRequestData() async {
     bool validationSuccessful = false;
     RequestData requestData = RequestData(
         applicationDetails.length + 1,
@@ -117,25 +119,25 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         "",
         0,
         "",
-        0,
+        "",
         DateTime.now(),
+        null,
+        null,
         null,
         "",
-        null,
-        null,
         DateTime.now(),
-        findUsingRequestStatusId(2),
+        2,
         null,
         currentUserReportingUserDetail.empId);
     if (_requestTextController.text.isNotEmpty) {
       requestData.requestTitle = _requestTextController.text;
       if (ref.read(requestTypeSelectorProvider.notifier).getState()) {
-        requestData.requestType =
+        requestData.requestTypeId =
             ref.read(requestTypeValueProvider.notifier).getState();
         if (_projectNameController.text.isNotEmpty) {
           requestData.projectName = _projectNameController.text;
           if (_teamIdController.text.isNotEmpty) {
-            requestData.teamId = int.parse(_teamIdController.text);
+            requestData.teamId = _teamIdController.text;
             if (fromDateChanged) {
               requestData.fromDate =
                   ref.read(fromDateProvider.notifier).getState();
@@ -185,6 +187,8 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                                 ref.read(ToDateProvider.notifier).getState()) <
                         0) {
                       ref.read(permissionNotifyProvider.notifier).setState();
+                      requestData.toDate =
+                          ref.read(ToDateProvider.notifier).getState();
                       validationSuccessful = true;
                     } else {
                       var snackbar = customShakingSnackBarWidget(
@@ -205,7 +209,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                 }
               } else {
                 var snackbar = customShakingSnackBarWidget(
-                  content: Text("Please Enter reason...!!!"),
+                  content: const Text("Please Enter reason...!!!"),
                   backgroundColor:
                       Colors.red, // Background color of the snackbar
                 );
@@ -213,35 +217,35 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
               }
             } else {
               var snackbar = customShakingSnackBarWidget(
-                content: Text("Please Select From Date...!!!"),
+                content: const Text("Please Select From Date...!!!"),
                 backgroundColor: Colors.red, // Background color of the snackbar
               );
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             }
           } else {
             var snackbar = customShakingSnackBarWidget(
-              content: Text("Please Enter Team Id...!!!"),
+              content: const Text("Please Enter Team Id...!!!"),
               backgroundColor: Colors.red, // Background color of the snackbar
             );
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           }
         } else {
           var snackbar = customShakingSnackBarWidget(
-            content: Text("Please Enter Project Name...!!!"),
+            content: const Text("Please Enter Project Name...!!!"),
             backgroundColor: Colors.red, // Background color of the snackbar
           );
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
         }
       } else {
         var snackbar = customShakingSnackBarWidget(
-          content: Text("Please Select RequestType...!!!"),
+          content: const Text("Please Select RequestType...!!!"),
           backgroundColor: Colors.red, // Background color of the snackbar
         );
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
     } else {
       var snackbar = customShakingSnackBarWidget(
-        content: Text("Please enter Request Title..!!!"),
+        content: const Text("Please enter Request Title..!!!"),
         backgroundColor: Colors.red, // Background color of the snackbar
       );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -251,25 +255,38 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
           currentLoggedInUser.empId,
           ref.read(requestTypeValueProvider.notifier).getState());
       if (leaveAvailable) {
-        applicationDetails.add(requestData);
-        requestData.toDate = ref.read(ToDateProvider.notifier).getState();
-        var snackbar = customShakingSnackBarWidget(
-          content: Text("Successfully Submitted..!!!"),
-          backgroundColor: Colors.green, // Background color of the snackbar
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        notificationList.add(NotificationModel(
-            notificationList.length + 1,
-            currentLoggedInUser.empId,
-            "Saravanan",
-            requestData.requestTitle,
-            requestData.reason,
-            DateTime.now(),
-            false));
-        Navigator.pop(context);
+        requestData.reportTo =
+            ref.read(reportingToUserDetailsProvider.notifier).getState().empId;
+        bool result = await ref
+            .read(requestsProvider.notifier)
+            .createRequest(requestData);
+        // requestData.toDate = ref.read(ToDateProvider.notifier).getState();
+        if (result) {
+          var snackbar = customShakingSnackBarWidget(
+            content: const Text("Successfully Submitted..!!!"),
+            backgroundColor: Colors.green, // Background color of the snackbar
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          // notificationList.add(NotificationModel(
+          //     notificationList.length + 1,
+          //     currentLoggedInUser.empId,
+          //     "Saravanan",
+          //     requestData.requestTitle,
+          //     requestData.reason,
+          //     DateTime.now(),
+          //     false));
+          Navigator.pop(context);
+        } else {
+          var snackbar = customShakingSnackBarWidget(
+            content: const Text("Something Went Wrong Try Again..."),
+            backgroundColor: Colors.red, // Background color of the snackbar
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+          Navigator.pop(context);
+        }
       } else {
         var snackbar = customShakingSnackBarWidget(
-          content: Text("No Available Leave for Selected Type..!!!"),
+          content: const Text("No Available Leave for Selected Type..!!!"),
           backgroundColor:
               Colors.blue.shade900, // Background color of the snackbar
         );
@@ -291,10 +308,10 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     return Scaffold(
       body: Stack(
         children: [
-          MainAppBarWidget(),
-          AppBarWidget(),
+          const MainAppBarWidget(),
+          const AppBarWidget(),
           Container(
-            margin: EdgeInsets.only(top: 145),
+            margin: const EdgeInsets.only(top: 145),
             height: double.infinity,
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -306,7 +323,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
               scrollDirection: Axis.vertical,
               child: Form(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -314,7 +331,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                         labelText: "Request Title",
                         textEditingController: _requestTextController,
                       ),
-                      DropDownWidget(),
+                      const DropDownWidget(),
                       ProjectNameTextFieldWidget(
                         labelText: "Project Name",
                         textEditingController: _projectNameController,
@@ -345,7 +362,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                             child: fromDateChanged == true
                                 ? Text(
                                     targetDateFormat.format(fromDate),
-                                    style: TextStyle(fontSize: 20),
+                                    style: const TextStyle(fontSize: 20),
                                   )
                                 : const Text(
                                     "From Date",
@@ -381,7 +398,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                                   child: toDateChanged == true
                                       ? Text(
                                           targetDateFormat.format(toDate),
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         )
                                       : const Text(
                                           "To Date",
@@ -400,7 +417,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       permissionClicked
                           ? GestureDetector(
                               onTap: () {

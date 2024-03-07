@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loginPageState.dart';
 
 class LoginEmailTextFieldWidget extends ConsumerStatefulWidget {
-  const LoginEmailTextFieldWidget({super.key});
+  final TextEditingController emailController;
+
+  const LoginEmailTextFieldWidget(this.emailController, {super.key});
 
   @override
   ConsumerState<LoginEmailTextFieldWidget> createState() =>
@@ -30,6 +32,7 @@ class _LoginEmailTextFieldWidgetState
             ),
           ),
           TextFormField(
+            controller: widget.emailController,
             onChanged: (value) {
               ref.read(loginPageEmailProvider.notifier).setState(value);
             },
@@ -72,7 +75,9 @@ class _LoginEmailTextFieldWidgetState
 }
 
 class LoginPasswordTextFieldWidget extends ConsumerStatefulWidget {
-  const LoginPasswordTextFieldWidget({super.key});
+  final TextEditingController passwordController;
+
+  const LoginPasswordTextFieldWidget(this.passwordController, {super.key});
 
   @override
   ConsumerState<LoginPasswordTextFieldWidget> createState() =>
@@ -99,6 +104,7 @@ class _LoginPasswordTextFieldWidgetState
             ),
           ),
           TextFormField(
+            controller: widget.passwordController,
             onChanged: (value) {
               ref.read(loginPagePasswordProvider.notifier).setState(value);
             },

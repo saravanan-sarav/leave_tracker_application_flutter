@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/requestType.dart';
-import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
+import 'package:leave_tracker_application/src/domain/models/user.dart';
+
+import 'Request.dart';
+
+const String requestStatusTableName = "request_status";
+const String requestStatusColumnId = "id";
+const String requestStatusColumnRequestStatus = "request_status_type";
 
 class RequestStatus {
   final int id;
   final String requestStatus;
 
   RequestStatus(this.id, this.requestStatus);
+
+  factory RequestStatus.fromJson(Map<String, dynamic> json) {
+    return RequestStatus(
+      json[requestStatusColumnId] as int,
+      json[requestStatusColumnRequestStatus] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      requestStatusColumnId: id,
+      requestStatusColumnRequestStatus: requestStatus,
+    };
+  }
 }
 
 List<RequestStatus> requestStatusList = [
@@ -24,41 +44,6 @@ RequestStatus? findUsingRequestStatusId(int id) {
   }
 }
 
-class RequestData {
-  int id;
-  String empId;
-  String requestTitle;
-  int requestType;
-  String projectName;
-  int teamId;
-  DateTime fromDate;
-  DateTime? toDate;
-  TimeOfDay? fromTime;
-  TimeOfDay? toTime;
-  String reason;
-  DateTime appliedDate;
-  RequestStatus? requestStatus;
-  DateTime? approvedAt;
-  final String reportTo;
-
-  RequestData(
-      this.id,
-      this.empId,
-      this.requestTitle,
-      this.requestType,
-      this.projectName,
-      this.teamId,
-      this.fromDate,
-      this.toDate,
-      this.reason,
-      this.fromTime,
-      this.toTime,
-      this.appliedDate,
-      this.requestStatus,
-      this.approvedAt,
-      this.reportTo);
-}
-
 List<RequestData> applicationDetails = [
   RequestData(
       1,
@@ -66,14 +51,14 @@ List<RequestData> applicationDetails = [
       "Sick Leave",
       3,
       "CIBC",
-      102,
+      "102",
       DateTime.now(),
       DateTime.now(),
+      null,
+      null,
       "I am suffering from severe fever.",
-      null,
-      null,
       DateTime.now(),
-      findUsingRequestStatusId(3),
+      3,
       DateTime(2024, 03, 01),
       "101"),
   RequestData(
@@ -82,62 +67,62 @@ List<RequestData> applicationDetails = [
       "Compensatory Leave",
       1,
       "Sen benth",
-      152,
+      "152",
       DateTime.now(),
       DateTime.now(),
+      null,
+      null,
       "I worked last week sunday.",
-      null,
-      null,
       DateTime.now(),
-      findUsingRequestStatusId(1),
+      1,
       DateTime(2023, 10, 12),
       "101"),
   RequestData(
       3,
-      "101",
+      "1001",
       "Permission",
       5,
       "Sen benth",
-      152,
+      "152",
       DateTime.now(),
       null,
+      TimeOfDay.now(),
+      TimeOfDay.now(),
       "I worked last week sunday.",
-      TimeOfDay.now(),
-      TimeOfDay.now(),
       DateTime.now(),
-      findUsingRequestStatusId(2),
+      1,
       null,
       "1"),
   RequestData(
-      3,
+      4,
       "101",
       "Permission",
       5,
       "Sen benth",
-      152,
+      "152",
       DateTime.now(),
       null,
+      TimeOfDay.now(),
+      TimeOfDay.now(),
       "I worked last week sunday.",
-      TimeOfDay.now(),
-      TimeOfDay.now(),
       DateTime.now(),
-      findUsingRequestStatusId(2),
+      2,
       null,
       "1"),
   RequestData(
-      3,
+      5,
       "101",
       "Permission",
       5,
       "Sen benth",
-      152,
+      "152",
       DateTime.now(),
       null,
+      TimeOfDay.now(),
+      TimeOfDay.now(),
       "I worked last week sunday.",
-      TimeOfDay.now(),
-      TimeOfDay.now(),
       DateTime.now(),
-      findUsingRequestStatusId(2),
+      2,
       null,
       "1"),
 ];
@@ -152,7 +137,7 @@ List<RequestData>? getSortedCreatedByMeRequestData(String empId, int? value) {
   if (value! > 0) {
     final filteredData = applicationDetails
         .where((element) =>
-            element.empId == empId && element.requestStatus?.id == value)
+            element.empId == empId && element.requestStatusId == value)
         .toList();
     filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
     return filteredData;
@@ -171,7 +156,7 @@ List<RequestData>? getSortedSentToMeRequestData(String empId, int? value) {
   if (value! > 0) {
     final filteredData = applicationDetails
         .where((element) =>
-            element.reportTo == empId && element.requestStatus?.id == value)
+            element.reportTo == empId && element.requestStatusId == value)
         .toList();
     filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
     return filteredData;
@@ -251,7 +236,7 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
       userDetails.firstWhere((element) => element.empId == user.reportingTo);
 
   RequestType requestType = requestTypes
-      .firstWhere((element) => element.id == requestData.requestType);
+      .firstWhere((element) => element.id == requestData.requestTypeId);
 
   return RequestDescriptionDetail(
       user.empId,
@@ -266,8 +251,8 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
       (requestData.toTime),
       requestData.appliedDate,
       requestData.approvedAt,
-      requestData.requestStatus!.id,
-      requestData.requestStatus!.requestStatus,
+      requestData.requestStatusId,
+      "Dummy RequestStatus",
       requestData.reason,
       reportingTo.name,
       reportingTo.domain,
@@ -279,7 +264,7 @@ bool requestStatusChange(int requestId, int statusId) {
     if (r.id == requestId && r.reportTo == currentLoggedInUser.empId) {
       RequestStatus requestStatus =
           requestStatusList.firstWhere((element) => element.id == statusId);
-      r.requestStatus = requestStatus;
+      // r.requestStatus = requestStatus;
       r.approvedAt = DateTime.now();
       return true;
     }

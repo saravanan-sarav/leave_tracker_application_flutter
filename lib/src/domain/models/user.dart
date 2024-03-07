@@ -1,4 +1,4 @@
-import 'ReportingToUser.dart';
+import 'ReportingUserDetail.dart';
 
 const String userTableName = "user";
 const String userColumnId = "id";
@@ -39,17 +39,17 @@ class UserData {
       this.teamId,
       this.reportingTo);
 
-  Map<String, Object?> toJson() {
+  Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       userColumnId: id,
       userColumnEmpId: empId,
       userColumnName: name,
       userColumnDomain: domain,
       userColumnDesignation: designation,
-      userColumnJoiningDate: joiningDate,
+      userColumnJoiningDate: joiningDate.toString(),
       userColumnEmail: email,
       userColumnPassword: password,
-      userColumnDateOfBirth: dateOfBirth,
+      userColumnDateOfBirth: dateOfBirth.toString(),
       userColumnTeamId: teamId,
       userColumnReportingTo: reportingTo
     };
@@ -63,10 +63,10 @@ class UserData {
       json[userColumnName] as String,
       json[userColumnDomain] as String,
       json[userColumnDesignation] as String,
-      json[userColumnJoiningDate] as DateTime,
+      DateTime.parse(json[userColumnJoiningDate]),
       json[userColumnEmail] as String,
       json[userColumnPassword] as String,
-      json[userColumnDateOfBirth] as DateTime,
+      DateTime.parse(json[userColumnDateOfBirth]),
       json[userColumnTeamId] as int,
       json[userColumnReportingTo] as String,
     );
@@ -92,26 +92,26 @@ List<UserData> userDetails = [
       "1234", DateTime(1995, 01, 04), 2003, "1"),
 ];
 
-ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
-  UserData loggedInUser =
-      userDetails.firstWhere((element) => element.empId == empId);
-  UserData reportingTo = userDetails
-      .firstWhere((element) => element.empId == loggedInUser.reportingTo);
-  return ReportingUserDetail(reportingTo.empId, reportingTo.name,
-      reportingTo.designation, reportingTo.domain);
-}
+// ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
+//   UserData loggedInUser =
+//       userDetails.firstWhere((element) => element.empId == empId);
+//   UserData reportingTo = userDetails
+//       .firstWhere((element) => element.empId == loggedInUser.reportingTo);
+//   return ReportingUserDetail(reportingTo.empId, reportingTo.name,
+//       reportingTo.designation, reportingTo.domain);
+// }
 
-UserData? isUserIsValid(
-  String email,
-  String password,
-) {
-  for (UserData user in userDetails) {
-    if (user.email == email && user.password == password) {
-      return user;
-    }
-  }
-  return null;
-}
+// UserData? isUserIsValid(
+//   String email,
+//   String password,
+// ) {
+//   for (UserData user in userDetails) {
+//     if (user.email == email && user.password == password) {
+//       return user;
+//     }
+//   }
+//   return null;
+// }
 
 ReportingUserDetail getRequestReportingToUser(String empId) {
   UserData reportingUser =

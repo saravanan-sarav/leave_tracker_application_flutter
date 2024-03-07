@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
+import 'package:leave_tracker_application/src/domain/models/notification.dart';
 
 class NotificationBadgeCountNotifier extends StateNotifier<int> {
   NotificationBadgeCountNotifier(super.state);

@@ -1,8 +1,12 @@
-import '../models/ReportingToUser.dart';
-import '../models/userDetailsModel.dart';
+import 'package:dartz/dartz.dart';
+
+import '../../utils/exceptions/dataNotFoundException.dart';
+import '../models/ReportingUserDetail.dart';
+import '../models/user.dart';
 
 abstract class UserRepository {
-  Future<UserData?> authUser(String userEmail, String password);
+  Future<Either<UserData, DataNotFoundException>> authUser(
+      String userEmail, String password);
 
-  Future<ReportingUserDetail> getReportingToUserDetails();
+  Future<ReportingUserDetail?> getReportingToUserDetails(String empId);
 }

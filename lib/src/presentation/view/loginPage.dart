@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/app.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/loginPageState.dart';
+import 'package:leave_tracker_application/src/domain/models/user.dart';
+import 'package:leave_tracker_application/src/presentation/providers/holidaysProvider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/login_page_widgets/LoginTextFieldWidget.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import '../widgets/SnakeBarWidget.dart';
 
@@ -16,6 +19,9 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,19 +60,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Container(
                 padding: const EdgeInsets.only(top: 20),
                 margin: const EdgeInsets.only(top: 290, right: 10, left: 10),
-                height: MediaQuery.of(context).size.height * 0.41,
+                height: 400,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
-                    LoginEmailTextFieldWidget(),
-                    LoginPasswordTextFieldWidget(),
+                    LoginEmailTextFieldWidget(emailTextController),
+                    LoginPasswordTextFieldWidget(passwordTextController),
                     Row(
                       children: [
                         GestureDetector(
                           onTap: () {
+                            context.loaderOverlay.show();
                             var snackbar = customShakingSnackBarWidget(
                               content:
                                   const Text("Please Contact Admin Team..!!!"),
@@ -94,21 +101,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         height: 50,
                         width: 100,
                         child: ElevatedButton(
-                            onPressed: () {
-                              String email = ref
-                                  .read(loginPageEmailProvider.notifier)
-                                  .getState();
-                              String password = ref
-                                  .read(loginPagePasswordProvider.notifier)
-                                  .getState();
-                              UserData? authUser =
-                                  isUserIsValid(email, password);
-                              if (authUser != null) {
-                                setCurrentLoggedInUser(authUser);
+                            onPressed: () async {
+                              ref.read(loadingProvider.notifier).startLoading();
+                              final String email = emailTextController.text;
+                              final String password =
+                                  passwordTextController.text;
+                              await ref
+                                  .read(authUserDetailsProvider.notifier)
+                                  .authUserDetails(email, password);
+                              final authUser =
+                                  ref.watch(authUserDetailsProvider.notifier);
+                              if (authUser.getAuthUserDetails() is UserData) {
+                                final currentLoggedInUserDetails = ref.read(
+                                    currentLoggedInUserDetailsProvider
+                                        .notifier);
+                                currentLoggedInUserDetails
+                                    .setState(authUser.getAuthUserDetails());
+                                ref
+                                    .read(
+                                        reportingToUserDetailsProvider.notifier)
+                                    .getReportingToUserDetails(
+                                        currentLoggedInUserDetails
+                                            .getState()
+                                            .reportingTo);
+                                authUser.clearAuthData();
+                                ref
+                                    .read(holidaysProvider.notifier)
+                                    .getAllHolidays();
+                                ref
+                                    .read(requestsProvider.notifier)
+                                    .getUserRequests(ref);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MyHomePage()));
+                                        builder: (context) =>
+                                            const MyHomePage()));
+                                ref.read(loadingProvider.notifier).endLoading();
                               } else {
                                 if (email == "" || password == "") {
                                   var snackbar = customShakingSnackBarWidget(
@@ -121,8 +149,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       .showSnackBar(snackbar);
                                 } else {
                                   var snackbar = customShakingSnackBarWidget(
-                                    content:
-                                        const Text("Invalid Credentials..!!!"),
+                                    content: Text(
+                                        "${ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()}"),
                                     backgroundColor: Colors
                                         .red, // Background color of the snackbar
                                   );

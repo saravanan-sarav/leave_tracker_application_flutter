@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
 
-import '../../domain/models/remainingLeaveData.dart';
+import '../../domain/models/remainingLeave.dart';
 
 class RemainingLeavePage extends ConsumerStatefulWidget {
   const RemainingLeavePage({super.key});
@@ -88,7 +88,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
                             child: Text(
-                              remainingLeaves[index].categoryName,
+                              "remainingLeaves[index].categoryName",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
@@ -106,7 +106,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "${remainingLeaves[index].AllotedLeave}",
+                                  "${remainingLeaves[index].allocatedLeave}",
                                   style: TextStyle(
                                       color: Colors.blue.shade900,
                                       fontSize: 20,

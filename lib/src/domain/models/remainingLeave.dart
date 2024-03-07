@@ -1,20 +1,45 @@
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 
+const String remainingLeaveTableName = "remaining_leave";
+const String remainingLeaveColumnId = "id";
+const String remainingLeaveColumnAllocatedLeave = "allocated_leave";
+const String remainingLeaveColumnRequestTypeId = "request_type_id";
+
 class RemainingLeave {
   final int id;
-  final String categoryName;
-  final int AllotedLeave;
+  final int allocatedLeave;
+  final int requestTypeId;
 
-  RemainingLeave(this.id, this.categoryName, this.AllotedLeave);
+  RemainingLeave(
+    this.id,
+    this.allocatedLeave,
+    this.requestTypeId,
+  );
+
+  factory RemainingLeave.fromJson(Map<String, dynamic> json) {
+    return RemainingLeave(
+      json[remainingLeaveColumnId],
+      json[remainingLeaveColumnAllocatedLeave],
+      json[remainingLeaveColumnRequestTypeId],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      remainingLeaveColumnId: id,
+      remainingLeaveColumnAllocatedLeave: allocatedLeave,
+      remainingLeaveColumnRequestTypeId: requestTypeId,
+    };
+  }
 }
 
 List<RemainingLeave> remainingLeaves = [
-  RemainingLeave(1, "Compensatory Leave", 0),
-  RemainingLeave(2, "Cyclone Leave", 2),
-  RemainingLeave(3, "Leave without Pay", 2),
-  RemainingLeave(4, "Leave With Pay", 2),
-  RemainingLeave(5, "Permission", 6),
-  RemainingLeave(6, "Work From Home", 6),
+  RemainingLeave(1, 1, 0),
+  RemainingLeave(2, 2, 2),
+  RemainingLeave(3, 3, 2),
+  RemainingLeave(4, 4, 2),
+  RemainingLeave(5, 5, 6),
+  RemainingLeave(6, 6, 6),
 ];
 
 class UserRemainingLeaveData {
@@ -42,9 +67,9 @@ bool updateRemainingLeaveDataByEmpId(String empId, int remainingLeaveType) {
   );
   final updatedRemainingLeave = {...user.remainingLeave};
   if (updatedRemainingLeave.containsKey(remainingLeaveType)) {
-    print(remainingLeaves[remainingLeaveType].AllotedLeave);
+    print(remainingLeaves[remainingLeaveType].allocatedLeave);
     print(updatedRemainingLeave[remainingLeaveType]);
-    if (remainingLeaves[remainingLeaveType - 1].AllotedLeave !=
+    if (remainingLeaves[remainingLeaveType - 1].allocatedLeave !=
         updatedRemainingLeave[remainingLeaveType]!) {
       updatedRemainingLeave[remainingLeaveType] =
           (updatedRemainingLeave[remainingLeaveType]! + 1);
@@ -57,4 +82,13 @@ bool updateRemainingLeaveDataByEmpId(String empId, int remainingLeaveType) {
     }
   }
   return false;
+}
+
+class UserRemainingLeave {
+  final int id;
+  final String empId;
+  final int requestTypeId;
+  final int bookedCount;
+
+  UserRemainingLeave(this.id, this.empId, this.requestTypeId, this.bookedCount);
 }

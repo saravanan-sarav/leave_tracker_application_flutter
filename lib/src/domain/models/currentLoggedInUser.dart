@@ -1,7 +1,7 @@
-import 'package:leave_tracker_application/src/domain/models/remainingLeaveData.dart';
-import 'package:leave_tracker_application/src/domain/models/userDetailsModel.dart';
+import 'package:leave_tracker_application/src/domain/models/remainingLeave.dart';
+import 'package:leave_tracker_application/src/domain/models/user.dart';
 
-import 'ReportingToUser.dart';
+import 'ReportingUserDetail.dart';
 
 UserData currentLoggedInUser = userDetails[0];
 
@@ -11,12 +11,12 @@ ReportingUserDetail currentUserReportingUserDetail =
 UserRemainingLeaveData userRemainingLeaveData =
     UserRemainingLeaveData(0, "", {});
 
-void setCurrentLoggedInUser(UserData userData) {
-  currentLoggedInUser = userData;
-  currentUserReportingUserDetail =
-      getReportingUserDetailOfCurrentLoggedInUser(currentLoggedInUser.empId);
-  userRemainingLeaveData = getLoggedInUserLeaveData(currentLoggedInUser.empId);
-}
+// void setCurrentLoggedInUser(UserData userData) {
+//   currentLoggedInUser = userData;
+//   currentUserReportingUserDetail =
+//       getReportingUserDetailOfCurrentLoggedInUser(currentLoggedInUser.empId);
+//   userRemainingLeaveData = getLoggedInUserLeaveData(currentLoggedInUser.empId);
+// }
 
 void updateRemainingLeaveData(String empId) {
   userRemainingLeaveData = getLoggedInUserLeaveData(currentLoggedInUser.empId);

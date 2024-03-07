@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheetPage.dart';
+
+import '../../state_management/loadingProvider.dart';
 
 class ListOfRequestWidget extends ConsumerStatefulWidget {
   const ListOfRequestWidget({super.key});
@@ -31,12 +33,14 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
           ),
           GestureDetector(
             onTap: () {
+              ref.read(loadingProvider.notifier).startLoading();
               ref.read(requestCreateOrSentTypeProvider.notifier).validate();
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const TimesheetPageWidget()),
               );
+              ref.read(loadingProvider.notifier).endLoading();
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 10),

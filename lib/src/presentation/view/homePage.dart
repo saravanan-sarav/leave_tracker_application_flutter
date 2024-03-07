@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
+import 'package:leave_tracker_application/src/domain/models/user.dart';
+import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/view/profilePage.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/CreateRequest.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/ListOfRequest.dart';
@@ -11,6 +12,8 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final UserData currentLoggedInUser =
+        ref.watch(currentLoggedInUserDetailsProvider.notifier).getState();
     return Scaffold(
       body: Stack(
         children: [

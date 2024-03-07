@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 
 import '../../utils/constants/TimeParser.dart';

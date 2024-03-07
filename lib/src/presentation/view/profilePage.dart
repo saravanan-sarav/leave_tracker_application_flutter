@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:leave_tracker_application/src/domain/models/notificationModel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/domain/models/notification.dart';
+import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
 import 'package:leave_tracker_application/src/utils/constants/dateParser.dart';
 
-import '../../domain/models/currentLoggedInUser.dart';
-
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends ConsumerState<ProfilePage> {
   Color _backgroundColor = Colors.white;
   bool isTappedCheck = false;
 
@@ -25,6 +25,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentLoggedInUser =
+        ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
+    final currentUserReportingUserDetail =
+        ref.read(reportingToUserDetailsProvider.notifier).getState();
     return Material(
       child: Stack(
         children: [

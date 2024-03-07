@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/historyTabs.dart';
-import 'package:leave_tracker_application/src/domain/models/requestList.dart';
+import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheetTabState.dart';
 import 'package:leave_tracker_application/src/presentation/view/requestDetailPage.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../domain/models/userDetailsModel.dart';
+import '../../domain/models/Request.dart';
+import '../../domain/models/user.dart';
 
 class TimesheetPageWidget extends ConsumerStatefulWidget {
   const TimesheetPageWidget({super.key});
@@ -20,17 +22,17 @@ class TimesheetPageWidget extends ConsumerStatefulWidget {
 }
 
 class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
-  List<RequestData>? applicationDetails = [];
+  List<RequestData> applicationDetails = [];
 
   @override
   void initState() {
+    applicationDetails = ref.read(requestsProvider.notifier).getState(0)!;
     bool createOrSent = ref.read(requestCreateOrSentTypeProvider);
     if (createOrSent) {
-      applicationDetails =
-          getSortedCreatedByMeRequestData(currentLoggedInUser.empId, 0);
+      applicationDetails = ref.read(requestsProvider.notifier).getState(0)!;
     } else {
       applicationDetails =
-          getSortedSentToMeRequestData(currentLoggedInUser.empId, 0);
+          getSortedSentToMeRequestData(currentLoggedInUser.empId, 0)!;
     }
     super.initState();
   }
@@ -42,8 +44,9 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
 
   void _onStateChange() {
     if (ref.read(requestCreateOrSentTypeProvider)) {
-      applicationDetails = getSortedCreatedByMeRequestData(
-          currentLoggedInUser.empId, ref.read(timesheetFilterValueProvider))!;
+      applicationDetails = ref
+          .read(requestsProvider.notifier)
+          .getState(ref.read(timesheetFilterValueProvider))!;
     } else {
       applicationDetails = getSortedSentToMeRequestData(
           currentLoggedInUser.empId, ref.read(timesheetFilterValueProvider))!;
@@ -132,7 +135,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.77,
                     width: MediaQuery.of(context).size.width,
-                    child: applicationDetails!.isEmpty
+                    child: applicationDetails.isEmpty
                         ? Center(
                             child: Lottie.asset(
                               "assets/lotties/no_data_found.json",
@@ -144,7 +147,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                             ),
                           )
                         : ListView.builder(
-                            itemCount: applicationDetails!.length,
+                            itemCount: applicationDetails.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
@@ -153,7 +156,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             RequestDescriptionPage(
-                                                applicationDetails![index].id)),
+                                                applicationDetails[index].id)),
                                   ).then((value) => setState(() {}));
                                 },
                                 child: Padding(
@@ -163,19 +166,16 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                         right: 20, left: 20),
                                     height: MediaQuery.of(context).size.height *
                                         0.15,
-                                    color: applicationDetails![index]
-                                                .requestStatus
-                                                ?.id ==
+                                    color: applicationDetails[index]
+                                                .requestStatusId ==
                                             1
                                         ? Colors.green.shade50
-                                        : applicationDetails![index]
-                                                    .requestStatus
-                                                    ?.id ==
+                                        : applicationDetails[index]
+                                                    .requestStatusId ==
                                                 2
                                             ? Colors.yellow.shade50
-                                            : applicationDetails![index]
-                                                        .requestStatus
-                                                        ?.id ==
+                                            : applicationDetails[index]
+                                                        .requestStatusId ==
                                                     3
                                                 ? Colors.red.shade50
                                                 : null,
@@ -193,7 +193,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Requested ${applicationDetails![index].requestTitle}",
+                                                    "Requested ${applicationDetails[index].requestTitle}",
                                                     style: const TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -210,7 +210,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                               .spaceAround,
                                                       children: [
                                                         Text(
-                                                          "Time : ${targetDateFormat.format(applicationDetails![index].fromDate)}",
+                                                          "Time : ${targetDateFormat.format(applicationDetails[index].fromDate)}",
                                                           style: const TextStyle(
                                                               color:
                                                                   Colors.grey,
@@ -224,7 +224,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                   .only(
                                                                   left: 20.0),
                                                           child: Text(
-                                                              "Reasons : ${applicationDetails![index].reason.substring(0, applicationDetails![index].reason.length > 15 ? 15 : applicationDetails![index].reason.length)}",
+                                                              "Reasons : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .grey,
@@ -232,7 +232,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                       FontWeight
                                                                           .bold)),
                                                         ),
-                                                        applicationDetails![
+                                                        applicationDetails[
                                                                         index]
                                                                     .reason
                                                                     .length >
@@ -251,7 +251,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                               ),
                                               Text(
                                                 formattedDate.format(
-                                                    applicationDetails![index]
+                                                    applicationDetails[index]
                                                         .appliedDate),
                                                 style: TextStyle(
                                                     color: Colors.blue[900],
@@ -295,7 +295,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                           children: [
                                                             Text(
                                                               getRequestReportingToUser(
-                                                                      applicationDetails![
+                                                                      applicationDetails[
                                                                               index]
                                                                           .reportTo)
                                                                   .name,
@@ -309,7 +309,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                             ),
                                                             Text(
                                                               getRequestReportingToUser(
-                                                                      applicationDetails![
+                                                                      applicationDetails[
                                                                               index]
                                                                           .reportTo)
                                                                   .designation,

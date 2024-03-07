@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:leave_tracker_application/src/presentation/providers/holidaysProvider.dart';
 
-import '../../domain/models/holidayListModel.dart';
+import '../../domain/models/holiday.dart';
 
-class HolidayListPage extends StatelessWidget {
+class HolidayListPage extends ConsumerWidget {
+  const HolidayListPage({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    Map<int, List<Holiday>> holidaysByMonth = parseHolidaysByMonth();
+  Widget build(BuildContext context, WidgetRef ref) {
+    Map<int, List<Holiday>> holidaysByMonth =
+        ref.read(holidaysProvider.notifier).getSortedState();
 
     return Scaffold(
       body: Stack(
@@ -50,12 +55,12 @@ class HolidayListPage extends StatelessWidget {
                 ),
               )),
           Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               color: Colors.white,
             ),
-            margin: EdgeInsets.only(top: 80),
+            margin: const EdgeInsets.only(top: 80),
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
             child: ListView.builder(
@@ -81,22 +86,38 @@ class HolidayListPage extends StatelessWidget {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: monthHolidays.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Row(
                             children: [
-                              Text("${monthHolidays[index].name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                              Text(
+                                monthHolidays[index].name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 4.0),
                                 child: Text(
-                                    "${monthHolidays[index].holidayType.id == 2 ? "(${monthHolidays[index].holidayType.type})" : ""}",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  monthHolidays[index].holidayTypeId == 2
+                                      ? "(${monthHolidays[index].holidayTypeId})"
+                                      : "",
+                                  style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               )
                             ],
                           ),
-                          subtitle: Text(DateFormat('dd MMMM yyyy')
-                              .format(monthHolidays[index].date),style: TextStyle(color: Colors.lightBlue,fontWeight: FontWeight.bold,fontSize: 15),),
+                          subtitle: Text(
+                            DateFormat('dd MMMM yyyy')
+                                .format(monthHolidays[index].date),
+                            style: const TextStyle(
+                                color: Colors.lightBlue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
                         );
                       },
                     ),
