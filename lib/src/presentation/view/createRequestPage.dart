@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/remainingLeave.dart';
 import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
@@ -251,10 +251,11 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
     if (validationSuccessful) {
-      bool leaveAvailable = updateRemainingLeaveDataByEmpId(
-          currentLoggedInUser.empId,
-          ref.read(requestTypeValueProvider.notifier).getState());
-      if (leaveAvailable) {
+      bool? leaveAvailable = await ref
+          .read(remainingLeavesProvider.notifier)
+          .checkSelectedLeaveIsAvailable(
+              ref.read(requestTypeValueProvider.notifier).getState(), ref);
+      if (leaveAvailable!) {
         requestData.reportTo =
             ref.read(reportingToUserDetailsProvider.notifier).getState().empId;
         bool result = await ref

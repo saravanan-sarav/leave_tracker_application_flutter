@@ -113,9 +113,9 @@ List<UserData> userDetails = [
 //   return null;
 // }
 
-ReportingUserDetail getRequestReportingToUser(String empId) {
+ReportingUserDetailDummy getRequestReportingToUser(String empId) {
   UserData reportingUser =
       userDetails.firstWhere((element) => element.empId == empId);
-  return ReportingUserDetail(reportingUser.empId, reportingUser.name,
+  return ReportingUserDetailDummy(reportingUser.empId, reportingUser.name,
       reportingUser.designation, reportingUser.domain);
 }

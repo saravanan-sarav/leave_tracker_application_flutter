@@ -34,61 +34,61 @@ class RemainingLeave {
 }
 
 List<RemainingLeave> remainingLeaves = [
-  RemainingLeave(1, 1, 0),
+  RemainingLeave(1, 2, 1),
   RemainingLeave(2, 2, 2),
-  RemainingLeave(3, 3, 2),
-  RemainingLeave(4, 4, 2),
-  RemainingLeave(5, 5, 6),
-  RemainingLeave(6, 6, 6),
+  RemainingLeave(3, 3, 3),
+  RemainingLeave(4, 3, 4),
+  RemainingLeave(5, 6, 5),
+  RemainingLeave(6, 15, 6),
 ];
 
-class UserRemainingLeaveData {
+class UserRemainingLeaveDataDummy {
   final int id;
   final String empId;
   final Map<int, int> remainingLeave;
 
-  UserRemainingLeaveData(this.id, this.empId, this.remainingLeave);
+  UserRemainingLeaveDataDummy(this.id, this.empId, this.remainingLeave);
 }
 
-List<UserRemainingLeaveData> userRemainingLeaveDataList = [
-  UserRemainingLeaveData(1, "1001", {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}),
-  UserRemainingLeaveData(2, "101", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
-  UserRemainingLeaveData(2, "1", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
+List<UserRemainingLeaveDataDummy> userRemainingLeaveDataList = [
+  UserRemainingLeaveDataDummy(1, "1001", {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}),
+  UserRemainingLeaveDataDummy(2, "101", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
+  UserRemainingLeaveDataDummy(2, "1", {1: 0, 2: 0, 3: 1, 4: 2, 5: 0, 6: 0}),
 ];
 
-UserRemainingLeaveData getLoggedInUserLeaveData(String empId) {
+UserRemainingLeaveDataDummy getLoggedInUserLeaveData(String empId) {
   return userRemainingLeaveDataList
       .firstWhere((element) => element.empId == empId);
 }
 
-bool updateRemainingLeaveDataByEmpId(String empId, int remainingLeaveType) {
-  final user = userRemainingLeaveDataList.firstWhere(
-    (user) => user.empId == empId,
-  );
-  final updatedRemainingLeave = {...user.remainingLeave};
-  if (updatedRemainingLeave.containsKey(remainingLeaveType)) {
-    print(remainingLeaves[remainingLeaveType].allocatedLeave);
-    print(updatedRemainingLeave[remainingLeaveType]);
-    if (remainingLeaves[remainingLeaveType - 1].allocatedLeave !=
-        updatedRemainingLeave[remainingLeaveType]!) {
-      updatedRemainingLeave[remainingLeaveType] =
-          (updatedRemainingLeave[remainingLeaveType]! + 1);
-      userRemainingLeaveDataList[userRemainingLeaveDataList.indexOf(user)] =
-          UserRemainingLeaveData(user.id, user.empId, updatedRemainingLeave);
-      updateRemainingLeaveData(empId);
-      return true;
-    } else {
-      return false;
-    }
-  }
-  return false;
-}
-
-class UserRemainingLeave {
-  final int id;
-  final String empId;
-  final int requestTypeId;
-  final int bookedCount;
-
-  UserRemainingLeave(this.id, this.empId, this.requestTypeId, this.bookedCount);
-}
+// bool updateRemainingLeaveDataByEmpId(String empId, int remainingLeaveType) {
+//   final user = userRemainingLeaveDataList.firstWhere(
+//     (user) => user.empId == empId,
+//   );
+//   final updatedRemainingLeave = {...user.remainingLeave};
+//   if (updatedRemainingLeave.containsKey(remainingLeaveType)) {
+//     print(remainingLeaves[remainingLeaveType].allocatedLeave);
+//     print(updatedRemainingLeave[remainingLeaveType]);
+//     if (remainingLeaves[remainingLeaveType - 1].allocatedLeave !=
+//         updatedRemainingLeave[remainingLeaveType]!) {
+//       updatedRemainingLeave[remainingLeaveType] =
+//           (updatedRemainingLeave[remainingLeaveType]! + 1);
+//       userRemainingLeaveDataList[userRemainingLeaveDataList.indexOf(user)] =
+//           UserRemainingLeaveDataDummy(user.id, user.empId, updatedRemainingLeave);
+//       updateRemainingLeaveData(empId);
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+//   return false;
+// }
+//
+// class UserRemainingLeave {
+//   final int id;
+//   final String empId;
+//   final int requestTypeId;
+//   final int bookedCount;
+//
+//   UserRemainingLeave(this.id, this.empId, this.requestTypeId, this.bookedCount);
+// }

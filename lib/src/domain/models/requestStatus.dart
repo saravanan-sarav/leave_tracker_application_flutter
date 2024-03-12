@@ -36,13 +36,13 @@ List<RequestStatus> requestStatusList = [
   RequestStatus(3, "Rejected")
 ];
 
-RequestStatus? findUsingRequestStatusId(int id) {
-  try {
-    return requestStatusList.firstWhere((element) => element.id == id);
-  } catch (e) {
-    return null;
-  }
-}
+// RequestStatus? findUsingRequestStatusId(int id) {
+//   try {
+//     return requestStatusList.firstWhere((element) => element.id == id);
+//   } catch (e) {
+//     return null;
+//   }
+// }
 
 List<RequestData> applicationDetails = [
   RequestData(
@@ -91,7 +91,7 @@ List<RequestData> applicationDetails = [
       "I worked last week sunday.",
       DateTime.now(),
       1,
-      null,
+      DateTime(2023,10,09),
       "1"),
   RequestData(
       4,
@@ -184,7 +184,7 @@ int countApplicationsSentToMeByEmpId(String empId) {
   return count;
 }
 
-class RequestDescriptionDetail {
+class RequestDescriptionDetailDummy {
   final String empId;
   final String empName;
   final String empDomain;
@@ -204,7 +204,7 @@ class RequestDescriptionDetail {
   final String reportingToUserDomain;
   final String reportingToUserDesignation;
 
-  RequestDescriptionDetail(
+  RequestDescriptionDetailDummy(
       this.empId,
       this.empName,
       this.empDomain,
@@ -225,7 +225,7 @@ class RequestDescriptionDetail {
       this.reportingToUserDesignation);
 }
 
-RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
+RequestDescriptionDetailDummy getRequestDetailsByRequestId(int id) {
   RequestData requestData =
       applicationDetails.firstWhere((element) => element.id == id);
 
@@ -238,7 +238,7 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
   RequestType requestType = requestTypes
       .firstWhere((element) => element.id == requestData.requestTypeId);
 
-  return RequestDescriptionDetail(
+  return RequestDescriptionDetailDummy(
       user.empId,
       user.name,
       user.domain,
@@ -259,15 +259,6 @@ RequestDescriptionDetail getRequestDetailsByRequestId(int id) {
       reportingTo.designation);
 }
 
-bool requestStatusChange(int requestId, int statusId) {
-  for (RequestData r in applicationDetails) {
-    if (r.id == requestId && r.reportTo == currentLoggedInUser.empId) {
-      RequestStatus requestStatus =
-          requestStatusList.firstWhere((element) => element.id == statusId);
-      // r.requestStatus = requestStatus;
-      r.approvedAt = DateTime.now();
-      return true;
-    }
-  }
-  return false;
-}
+// bool requestStatusChange(int requestId, int statusId) {
+//
+// }

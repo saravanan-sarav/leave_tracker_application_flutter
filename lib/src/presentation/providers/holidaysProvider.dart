@@ -22,9 +22,10 @@ class HolidaysNotifier extends StateNotifier<List<Holiday>> {
 
   HolidaysNotifier(super.state, this.holidayRepository);
 
-  void getAllHolidays() async {
+  Future<bool> getAllHolidays() async {
     final holidaysOrNotFound = await holidayRepository.getAllHolidays();
     holidaysOrNotFound.fold((l) => state = l, (r) => []);
+    return true;
   }
 
   Map<int, List<Holiday>> getSortedState() {

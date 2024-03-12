@@ -55,20 +55,20 @@ final currentLoggedInUserDetailsProvider = StateNotifierProvider((ref) =>
         ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()));
 
 class ReportingToUserDetailsNotifier
-    extends StateNotifier<ReportingUserDetail> {
+    extends StateNotifier<ReportingUserDetailDummy> {
   final UserRepository userRepository;
 
   ReportingToUserDetailsNotifier(this.userRepository, super.state);
 
   Future<void> getReportingToUserDetails(String empId) async {
-    ReportingUserDetail? reportingUserDetail =
+    ReportingUserDetailDummy? reportingUserDetail =
         await userRepository.getReportingToUserDetails(empId);
     if (reportingUserDetail != null) {
       state = reportingUserDetail;
     }
   }
 
-  ReportingUserDetail getState() {
+  ReportingUserDetailDummy getState() {
     return state;
   }
 }
@@ -76,5 +76,5 @@ class ReportingToUserDetailsNotifier
 final reportingToUserDetailsProvider = StateNotifierProvider((ref) {
   UserRepository userRepository = ref.read(userRepositoryProvider);
   return ReportingToUserDetailsNotifier(
-      userRepository, ReportingUserDetail("", "", "", ""));
+      userRepository, ReportingUserDetailDummy("", "", "", ""));
 });

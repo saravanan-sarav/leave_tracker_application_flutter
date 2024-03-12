@@ -5,11 +5,11 @@ import 'ReportingUserDetail.dart';
 
 UserData currentLoggedInUser = userDetails[0];
 
-ReportingUserDetail currentUserReportingUserDetail =
-    ReportingUserDetail("", "", "", "");
+ReportingUserDetailDummy currentUserReportingUserDetail =
+    ReportingUserDetailDummy("", "", "", "");
 
-UserRemainingLeaveData userRemainingLeaveData =
-    UserRemainingLeaveData(0, "", {});
+UserRemainingLeaveDataDummy userRemainingLeaveData =
+    UserRemainingLeaveDataDummy(0, "", {});
 
 // void setCurrentLoggedInUser(UserData userData) {
 //   currentLoggedInUser = userData;

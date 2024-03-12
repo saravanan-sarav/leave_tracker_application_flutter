@@ -20,6 +20,7 @@ class DatabaseHelper {
     // final Directory = await getExternalStorageDirectory();
     // final databasePath = join(Directory!.path, "leave_management.db");
     // await deleteDatabase(databasePath);
+
     database = await initDatabase();
     // await loadUserDetails();
     // await loadRequestStatus();
@@ -28,17 +29,16 @@ class DatabaseHelper {
     // await loadHolidays();
     // await loadRemainingLeave();
     // await loadRequestDetails();
+    // await loadUserRemainingLeave();
   }
 
   Future<Database> initDatabase() async {
     final Directory = await getExternalStorageDirectory();
     final databasePath = join(Directory!.path, "leave_management.db");
-    return await openDatabase(databasePath, version: 1, onCreate: _onCreate);
+    return await openDatabase(databasePath,
+        version: 1, onCreate: _onCreate,);
   }
 
-  Future _onConfigure(Database db) async {
-    await db.execute("");
-  }
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
@@ -80,8 +80,7 @@ Future<void> loadUserDetails() async {
   for (UserData user in userDetails) {
     if (db != null) {
       await db.insert(userTableName, user.toJson());
-    } else {
-    }
+    } else {}
   }
 }
 
@@ -141,6 +140,16 @@ Future<void> loadRequestDetails() async {
   for (RequestData request in applicationDetails) {
     if (db != null) {
       await db.insert(requestDataTableName, request.toJson());
+    }
+  }
+}
+
+Future<void> loadUserRemainingLeave() async {
+  Database? db = DatabaseHelper.database;
+
+  for (UserRemainingLeave request in userRemainingLeaveData) {
+    if (db != null) {
+      await db.insert(userRemainingLeaveTableName, request.toJson());
     }
   }
 }

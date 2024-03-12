@@ -3,9 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leave_tracker_application/src/data/database/dbHelper.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,8 +48,15 @@ class MyApp extends ConsumerWidget {
               if (isLoading == true)
                 Container(
                   color: Colors.black.withOpacity(0.5),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+                  child: Center(
+                    child: Lottie.asset(
+                      "assets/lotties/loader.json",
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      repeat: true,
+                      reverse: true,
+                      animate: true,
+                    ),
                   ),
                 ),
             ],

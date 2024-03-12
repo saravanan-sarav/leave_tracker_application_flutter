@@ -28,10 +28,20 @@ class UserRemainingLeave {
 
   Map<String, dynamic> toJson() {
     return {
-      userRemainingLeaveColumnId: id,
       userRemainingLeaveColumnEmpId: empId,
       userRemainingLeaveColumnRequestTypeId: requestTypeId,
       userRemainingLeaveColumnBookedCount: bookedCount,
     };
   }
 }
+
+List<UserRemainingLeave> userRemainingLeaveData = [
+  UserRemainingLeave(1, "1001", 2, 1),
+  UserRemainingLeave(2, "1001", 4, 0),
+  UserRemainingLeave(3, "1001", 3, 2),
+  UserRemainingLeave(4, "1001", 1, 2),
+  UserRemainingLeave(5, "1001", 5, 3),
+  UserRemainingLeave(6, "1001", 6, 8),
+  UserRemainingLeave(7, "101", 6, 8),
+  UserRemainingLeave(8, "101", 4, 8),
+];

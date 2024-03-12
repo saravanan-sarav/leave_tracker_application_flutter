@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
 import 'package:leave_tracker_application/src/presentation/view/holidayListPage.dart';
 import 'package:leave_tracker_application/src/presentation/view/remainingLeavePage.dart';
@@ -186,7 +187,10 @@ class CreateRequestWidget extends ConsumerWidget {
                   height: 120,
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      await ref
+                          .read(remainingLeavesProvider.notifier)
+                          .getAllRemainingLeave(ref);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

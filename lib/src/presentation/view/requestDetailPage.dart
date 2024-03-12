@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 
 import '../../utils/constants/TimeParser.dart';
@@ -8,9 +9,7 @@ import '../../utils/constants/dateParser.dart';
 import '../widgets/SnakeBarWidget.dart';
 
 class RequestDescriptionPage extends ConsumerStatefulWidget {
-  final int requestId;
-
-  const RequestDescriptionPage(this.requestId, {super.key});
+  const RequestDescriptionPage({super.key});
 
   @override
   ConsumerState<RequestDescriptionPage> createState() =>
@@ -21,19 +20,21 @@ class _RequestDescriptionPageState
     extends ConsumerState<RequestDescriptionPage> {
   late RequestDescriptionDetail requestDescriptionDetail;
 
-  @override
-  void initState() {
-    requestDescriptionDetail = getRequestDetailsByRequestId(widget.requestId);
-    super.initState();
-  }
-
-  void updateRequest() {
-    requestDescriptionDetail = getRequestDetailsByRequestId(widget.requestId);
+  void updateRequest(int requestId) async {
+    await ref
+        .read(requestDescriptionDetailProvider.notifier)
+        .getRequestDescriptionByRequestId(requestId);
+    await ref
+        .read(requestSentToMeProvider.notifier)
+        .getSentToMeRequestList(ref);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final sentToMe = ref.read(requestSentToMeProvider.notifier);
+    requestDescriptionDetail =
+        ref.read(requestDescriptionDetailProvider.notifier).getState();
     return Scaffold(
       body: Stack(
         children: [
@@ -429,7 +430,7 @@ class _RequestDescriptionPageState
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                         color: Colors.grey))
-                                : Text(
+                                : const Text(
                                     "Not Yet Approved",
                                     style: TextStyle(
                                         color: Colors.grey,
@@ -519,9 +520,11 @@ class _RequestDescriptionPageState
                       padding:
                           const EdgeInsets.only(right: 40.0, left: 20, top: 10),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (requestStatusChange(widget.requestId, 3)) {
-                            updateRequest();
+                        onPressed: () async {
+                          if (await sentToMe.requestStatusChange(
+                              requestDescriptionDetail.requestTypeId, 3)) {
+                            updateRequest(
+                                requestDescriptionDetail.requestTypeId);
                             var snackbar = customShakingSnackBarWidget(
                               content:
                                   const Text("Status Changed Successfully"),
@@ -532,7 +535,7 @@ class _RequestDescriptionPageState
                           } else {
                             var snackbar = customShakingSnackBarWidget(
                               content: const Text("Something Went Wrong"),
-                              backgroundColor: Colors.blue.shade900,
+                              backgroundColor: Colors.lightBlue.shade900,
                             );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackbar);
@@ -556,9 +559,10 @@ class _RequestDescriptionPageState
                       padding:
                           const EdgeInsets.only(right: 40.0, left: 20, top: 10),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (requestStatusChange(widget.requestId, 1)) {
-                            updateRequest();
+                        onPressed: () async {
+                          if (await sentToMe.requestStatusChange(
+                              requestDescriptionDetail.id, 1)) {
+                            updateRequest(requestDescriptionDetail.id);
                             var snackbar = customShakingSnackBarWidget(
                               content:
                                   const Text("Status Changed Successfully"),
@@ -569,7 +573,7 @@ class _RequestDescriptionPageState
                           } else {
                             var snackbar = customShakingSnackBarWidget(
                               content: const Text("Something Went Wrong"),
-                              backgroundColor: Colors.blue.shade900,
+                              backgroundColor: Colors.lightBlue.shade900,
                             );
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackbar);
@@ -599,9 +603,10 @@ class _RequestDescriptionPageState
                           padding: const EdgeInsets.only(
                               right: 40.0, left: 20, top: 10),
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (requestStatusChange(widget.requestId, 2)) {
-                                updateRequest();
+                            onPressed: () async {
+                              if (await sentToMe.requestStatusChange(
+                                  requestDescriptionDetail.id, 2)) {
+                                updateRequest(requestDescriptionDetail.id);
                                 var snackbar = customShakingSnackBarWidget(
                                   content:
                                       const Text("Status Changed Successfully"),
@@ -612,7 +617,7 @@ class _RequestDescriptionPageState
                               } else {
                                 var snackbar = customShakingSnackBarWidget(
                                   content: const Text("Something Went Wrong"),
-                                  backgroundColor: Colors.blue.shade900,
+                                  backgroundColor: Colors.lightBlue.shade900,
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackbar);
@@ -636,9 +641,10 @@ class _RequestDescriptionPageState
                           padding: const EdgeInsets.only(
                               right: 40.0, left: 20, top: 10),
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (requestStatusChange(widget.requestId, 3)) {
-                                updateRequest();
+                            onPressed: () async {
+                              if (await sentToMe.requestStatusChange(
+                                  requestDescriptionDetail.id, 3)) {
+                                updateRequest(requestDescriptionDetail.id);
                                 var snackbar = customShakingSnackBarWidget(
                                   content:
                                       const Text("Status Changed Successfully"),
@@ -649,7 +655,7 @@ class _RequestDescriptionPageState
                               } else {
                                 var snackbar = customShakingSnackBarWidget(
                                   content: const Text("Something Went Wrong"),
-                                  backgroundColor: Colors.blue.shade900,
+                                  backgroundColor: Colors.lightBlue.shade900,
                                 );
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackbar);
@@ -679,10 +685,10 @@ class _RequestDescriptionPageState
                               padding: const EdgeInsets.only(
                                   right: 40.0, left: 20, top: 10),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  if (requestStatusChange(
-                                      widget.requestId, 2)) {
-                                    updateRequest();
+                                onPressed: () async {
+                                  if (await sentToMe.requestStatusChange(
+                                      requestDescriptionDetail.id, 2)) {
+                                    updateRequest(requestDescriptionDetail.id);
                                     var snackbar = customShakingSnackBarWidget(
                                       content: const Text(
                                           "Status Changed Successfully"),
@@ -694,7 +700,8 @@ class _RequestDescriptionPageState
                                     var snackbar = customShakingSnackBarWidget(
                                       content:
                                           const Text("Something Went Wrong"),
-                                      backgroundColor: Colors.blue.shade900,
+                                      backgroundColor:
+                                          Colors.lightBlue.shade900,
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackbar);
@@ -718,10 +725,10 @@ class _RequestDescriptionPageState
                               padding: const EdgeInsets.only(
                                   right: 40.0, left: 20, top: 10),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  if (requestStatusChange(
-                                      widget.requestId, 1)) {
-                                    updateRequest();
+                                onPressed: () async {
+                                  if (await sentToMe.requestStatusChange(
+                                      requestDescriptionDetail.id, 1)) {
+                                    updateRequest(requestDescriptionDetail.id);
                                     var snackbar = customShakingSnackBarWidget(
                                       content: const Text(
                                           "Status Changed Successfully"),
@@ -733,7 +740,8 @@ class _RequestDescriptionPageState
                                     var snackbar = customShakingSnackBarWidget(
                                       content:
                                           const Text("Something Went Wrong"),
-                                      backgroundColor: Colors.blue.shade900,
+                                      backgroundColor:
+                                          Colors.lightBlue.shade900,
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackbar);

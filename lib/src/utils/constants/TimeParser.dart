@@ -32,3 +32,17 @@ String getTimeFromDate(DateTime dateTime) {
   String formattedTime = DateFormat.jm().format(dateTime);
   return formattedTime;
 }
+
+TimeOfDay stringToTimeOfDay(String timeString) {
+  List<String> parts = timeString.split(':');
+  if (parts.length == 2) {
+    List<String> hours = parts[0].split("(");
+    List<String> minutes = parts[1].split(")");
+    int? hour = int.tryParse(hours[1]);
+    int? minute = int.tryParse(minutes[0]);
+    if (hour != null && minute != null) {
+      return TimeOfDay(hour: hour, minute: minute);
+    }
+  }
+  return const TimeOfDay(hour: 0, minute: 0);
+}

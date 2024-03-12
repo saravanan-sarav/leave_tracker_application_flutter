@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheetPage.dart';
 
@@ -74,7 +75,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          countApplicationsByEmpId(currentLoggedInUser.empId) !=
+                          ref.watch(requestsProvider.notifier).getCount() !=
                                   0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
@@ -85,7 +86,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                   width: 30,
                                   child: Center(
                                       child: Text(
-                                    "${countApplicationsByEmpId(currentLoggedInUser.empId)}",
+                                    "${ref.watch(requestsProvider.notifier).getCount()}",
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                 )
@@ -102,13 +103,18 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
+              ref.read(loadingProvider.notifier).startLoading();
               ref.read(requestCreateOrSentTypeProvider.notifier).unValidate();
+              await ref
+                  .read(requestSentToMeProvider.notifier)
+                  .getSentToMeRequestList(ref);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const TimesheetPageWidget()),
               );
+              ref.read(loadingProvider.notifier).endLoading();
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 20.0, right: 10, left: 10),
@@ -142,8 +148,9 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          countApplicationsSentToMeByEmpId(
-                                      currentLoggedInUser.empId) !=
+                          ref
+                                      .watch(requestSentToMeProvider.notifier)
+                                      .getCount() !=
                                   0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
@@ -154,7 +161,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                   width: 30,
                                   child: Center(
                                       child: Text(
-                                    "${countApplicationsSentToMeByEmpId(currentLoggedInUser.empId)}",
+                                    "${ref.watch(requestSentToMeProvider.notifier).getCount()}",
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                 )

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:leave_tracker_application/src/presentation/providers/holidaysProvider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
@@ -125,18 +126,24 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                             .getState()
                                             .reportingTo);
                                 authUser.clearAuthData();
-                                ref
+                                await ref
                                     .read(holidaysProvider.notifier)
                                     .getAllHolidays();
-                                ref
+                                await ref
                                     .read(requestsProvider.notifier)
                                     .getUserRequests(ref);
+                                await ref
+                                    .read(requestSentToMeProvider.notifier)
+                                    .getSentToMeRequestList(ref);
+                                await ref
+                                    .read(remainingLeavesProvider.notifier)
+                                    .getAllRemainingLeave(ref);
+                                ref.read(loadingProvider.notifier).endLoading();
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const MyHomePage()));
-                                ref.read(loadingProvider.notifier).endLoading();
                               } else {
                                 if (email == "" || password == "") {
                                   var snackbar = customShakingSnackBarWidget(

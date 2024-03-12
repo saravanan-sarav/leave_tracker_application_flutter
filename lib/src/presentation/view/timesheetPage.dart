@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/historyTabs.dart';
-import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheetTabState.dart';
@@ -32,7 +30,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
       applicationDetails = ref.read(requestsProvider.notifier).getState(0)!;
     } else {
       applicationDetails =
-          getSortedSentToMeRequestData(currentLoggedInUser.empId, 0)!;
+          ref.read(requestSentToMeProvider.notifier).getState(0)!;
     }
     super.initState();
   }
@@ -47,9 +45,12 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
       applicationDetails = ref
           .read(requestsProvider.notifier)
           .getState(ref.read(timesheetFilterValueProvider))!;
+      setState(() {});
     } else {
-      applicationDetails = getSortedSentToMeRequestData(
-          currentLoggedInUser.empId, ref.read(timesheetFilterValueProvider))!;
+      applicationDetails = ref
+          .read(requestSentToMeProvider.notifier)
+          .getState(ref.read(timesheetFilterValueProvider))!;
+      setState(() {});
     }
   }
 
@@ -150,14 +151,21 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                             itemCount: applicationDetails.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: () {
+                                onTap: () async {
+                                  await ref
+                                      .read(requestDescriptionDetailProvider
+                                          .notifier)
+                                      .getRequestDescriptionByRequestId(
+                                          applicationDetails[index].id);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            RequestDescriptionPage(
-                                                applicationDetails[index].id)),
-                                  ).then((value) => setState(() {}));
+                                            RequestDescriptionPage()),
+                                  ).then((value) {
+                                    print("Returned");
+                                    setState(() {});
+                                  });
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),

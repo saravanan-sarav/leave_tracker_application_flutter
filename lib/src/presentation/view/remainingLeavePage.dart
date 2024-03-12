@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
-
-import '../../domain/models/remainingLeave.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 
 class RemainingLeavePage extends ConsumerStatefulWidget {
   const RemainingLeavePage({super.key});
@@ -15,6 +12,9 @@ class RemainingLeavePage extends ConsumerStatefulWidget {
 class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
   @override
   Widget build(BuildContext context) {
+    final remainingLeaves =
+        ref.read(remainingLeavesProvider.notifier).getLeaveData();
+
     return Scaffold(
         body: Stack(
       children: [
@@ -88,7 +88,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                           Padding(
                             padding: const EdgeInsets.only(top: 15.0),
                             child: Text(
-                              "remainingLeaves[index].categoryName",
+                              remainingLeaves[index].requestType,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
@@ -128,7 +128,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                                       fontSize: 20),
                                 ),
                                 Text(
-                                  "${getRemainingLeaveOfCurrentUserByKey(remainingLeaves[index].id)}",
+                                  "${remainingLeaves[index].bookedCount}",
                                   style: TextStyle(
                                       color: Colors.blue.shade900,
                                       fontSize: 20,

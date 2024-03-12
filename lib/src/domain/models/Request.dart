@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/constants/TimeParser.dart';
+
 const String requestDataTableName = "request_data";
 const String requestDataColumnId = "id";
 const String requestDataColumnEmpId = "emp_id";
@@ -64,9 +66,9 @@ class RequestData {
       requestDataColumnFromTime: fromTime.toString(),
       requestDataColumnToTime: toTime.toString(),
       requestDataColumnReason: reason,
-      requestDataColumnAppliedDate: appliedDate.toString(),
+      requestDataColumnAppliedDate: appliedDate.toIso8601String(),
       requestDataColumnRequestStatusId: requestStatusId,
-      requestDataColumnApprovedAt: approvedAt?.toString(),
+      requestDataColumnApprovedAt: approvedAt?.toIso8601String(),
       requestDataColumnReportTo: reportTo,
     };
   }
@@ -98,17 +100,4 @@ class RequestData {
       json[requestDataColumnReportTo],
     );
   }
-}
-
-TimeOfDay stringToTimeOfDay(String timeString) {
-  List<String> parts = timeString.split(':');
-  if (parts.length == 2) {
-    int? hour = int.tryParse(parts[0]);
-    int? minute = int.tryParse(parts[1]);
-    if (hour != null && minute != null) {
-      return TimeOfDay(hour: hour, minute: minute);
-    }
-  }
-  // Return a default time if parsing fails
-  return const TimeOfDay(hour: 0, minute: 0);
 }
