@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 const String notificationTableName = "notification";
 const String notificationColumnId = "id";
 const String notificationColumnEmpId = "emp_id";
-const String notificationColumnRequestTitle = "request_title";
-const String notificationColumnActions = "actions";
+const String notificationColumnName = "name";
+const String notificationColumnRequestTypeId = "request_type_id";
+const String notificationColumnActionId = "action_id";
+const String notificationColumnReason = "reason";
 const String notificationColumnCreatedAt = "created_at";
 const String notificationColumnMarkAsRead = "mark_as_read";
 const String notificationColumnMarkAsReadAt = "mark_as_read_at";
@@ -14,17 +16,21 @@ const String notificationColumnMarkAsReadAt = "mark_as_read_at";
 class NotificationModel {
   final int id;
   final String empId;
-  final String requestTitle;
-  final String actions;
+  final String name;
+  final int requestTypeId;
+  final int actionId;
+  final String reason;
   final DateTime createdAt;
   bool markAsRead;
-  final DateTime? markAsReadAt;
+  DateTime? markAsReadAt;
 
   NotificationModel(
     this.id,
     this.empId,
-    this.requestTitle,
-    this.actions,
+    this.name,
+    this.requestTypeId,
+    this.actionId,
+    this.reason,
     this.createdAt,
     this.markAsRead,
     this.markAsReadAt,
@@ -34,10 +40,12 @@ class NotificationModel {
     return NotificationModel(
       json[notificationColumnId],
       json[notificationColumnEmpId],
-      json[notificationColumnRequestTitle],
-      json[notificationColumnActions],
+      json[notificationColumnName],
+      json[notificationColumnRequestTypeId],
+      json[notificationColumnActionId],
+      json[notificationColumnReason],
       DateTime.parse(json[notificationColumnCreatedAt]),
-      json[notificationColumnMarkAsRead],
+      json[notificationColumnMarkAsRead] == 1 ? true : false,
       json[notificationColumnMarkAsReadAt] != null
           ? DateTime.parse(json[notificationColumnMarkAsReadAt])
           : null,
@@ -46,10 +54,11 @@ class NotificationModel {
 
   Map<String, dynamic> toJson() {
     return {
-      notificationColumnId: id,
       notificationColumnEmpId: empId,
-      notificationColumnRequestTitle: requestTitle,
-      notificationColumnActions: actions,
+      notificationColumnName: name,
+      notificationColumnRequestTypeId: requestTypeId,
+      notificationColumnActionId: actionId,
+      notificationColumnReason: reason,
       notificationColumnCreatedAt: createdAt.toString(),
       notificationColumnMarkAsRead: markAsRead ? 1 : 0,
       notificationColumnMarkAsReadAt: markAsReadAt?.toString(),
@@ -58,63 +67,35 @@ class NotificationModel {
 }
 
 List<NotificationModel> notificationList = [
-  // NotificationModel(
-  //     1,
-  //     "1001",
-  //     "Saravanan",
-  //     "Sick Leave",
-  //     "Suffering from severe head Ache and Fever",
-  //     parseCustomDateTime("20-10-2023T12:40"),
-  //     false),
-  // NotificationModel(1, "1001", "Saravanan", "Casual Leave",
-  //     "Going for Temple visit", parseCustomDateTime("22-11-2023T19:10"), true),
-  // NotificationModel(
-  //     1,
-  //     "1001",
-  //     "Saravanan",
-  //     "Casual Leave",
-  //     "Casual Leave on Monday.",
-  //     parseCustomDateTime("12-02-2024T08:40"),
-  //     false),
-  // NotificationModel(
-  //     1,
-  //     "1001",
-  //     "Saravanan",
-  //     "Leave for Marriage function",
-  //     "I am going to marriage function",
-  //     parseCustomDateTime("19-02-2024T03:40"),
-  //     false),
-  // NotificationModel(
-  //     1,
-  //     "101",
-  //     "Saravanan",
-  //     "Medical Leave",
-  //     "Going for full body Check Up",
-  //     parseCustomDateTime("26-02-2024T08:40"),
-  //     false),
-  // NotificationModel(
-  //     1,
-  //     "101",
-  //     "Saravanan",
-  //     "Compensatory Leave",
-  //     "I have worked last friday So I am taking Compensate leave today.",
-  //     parseCustomDateTime("25-02-2024T07:40"),
-  //     false),
+  NotificationModel(1, "1001", "Saravanan", 1, 1, "I am Suffering From Fever",
+      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
+  NotificationModel(
+      2,
+      "1001",
+      "Saravanakumar",
+      3,
+      2,
+      "I am going to take compensatory Leave",
+      DateTime(2023, 10, 03),
+      true,
+      DateTime(2023, 10, 04)),
+  NotificationModel(3, "1001", "Saravanakumar", 2, 4, "I am going to temple",
+      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
+  NotificationModel(
+      4,
+      "1001",
+      "Saravanakumar",
+      4,
+      2,
+      "I am Not feeling well so going to take rest..",
+      DateTime(2023, 10, 03),
+      true,
+      DateTime(2023, 10, 04)),
+  NotificationModel(5, "1001", "Sick Leave", 5, 1, "Comensatory Off",
+      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
 ];
 
-String formatTimeAgo(DateTime dateTime) {
-  Duration difference = DateTime.now().difference(dateTime);
 
-  if (difference.inDays > 0) {
-    return '${difference.inDays} day(s) ago';
-  } else if (difference.inHours > 0) {
-    return '${difference.inHours} hour(s) ago';
-  } else if (difference.inMinutes > 0) {
-    return '${difference.inMinutes} minute(s) ago';
-  } else {
-    return 'Just now';
-  }
-}
 
 DateTime parseCustomDateTime(String inputDateTimeString) {
   // Parse the custom date-time string

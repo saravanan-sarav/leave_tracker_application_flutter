@@ -4,6 +4,7 @@ import 'package:leave_tracker_application/src/data/datasources/local/requestsDat
 import 'package:leave_tracker_application/src/data/repositories/requestRepositoryImpl.dart';
 import 'package:leave_tracker_application/src/domain/models/Request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
+import 'package:leave_tracker_application/src/domain/models/requestType.dart';
 import 'package:leave_tracker_application/src/domain/repositories/requestRepository.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 
@@ -181,4 +182,25 @@ final requestDescriptionDetailProvider =
           "",
           ""),
       requestRepository);
+});
+
+class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
+  final RequestRepository requestRepository;
+
+  RequestTypeNotifier(this.requestRepository) : super([]);
+
+  Future<bool> getRequestType() async {
+    final RequestTypeOrNotFound = await requestRepository.getRequestTypes();
+    RequestTypeOrNotFound.fold((l) => state = l, (r) => []);
+    return true;
+  }
+
+  String requestTypeName(int id) {
+    return state.firstWhere((element) => element.id == id).type;
+  }
+}
+
+final requestTypesProvider = StateNotifierProvider((ref) {
+  final requestRepository = ref.read(requestRepositoryProvider);
+  return RequestTypeNotifier(requestRepository);
 });

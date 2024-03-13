@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
 import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
+import 'package:leave_tracker_application/src/domain/models/user.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notificationProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
@@ -15,6 +17,7 @@ import 'package:leave_tracker_application/src/presentation/widgets/create_reques
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/TextFieldWidget.dart';
 
 import '../../domain/models/Request.dart';
+import '../../domain/models/notification.dart';
 import '../../utils/constants/TimeParser.dart';
 import '../state_management/requestTypeState.dart';
 import '../widgets/SnakeBarWidget.dart';
@@ -39,7 +42,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
 
   final String originalDateTimeString = "2024-02-22 16:55:25.081174";
   final DateFormat originalDateFormat =
-      DateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+  DateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
   final DateFormat targetDateFormat = DateFormat("dd-MM-yyyy");
 
   void openFromDatePicker() {
@@ -158,7 +161,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                         var snackbar = customShakingSnackBarWidget(
                           content: const Text("Enter Correct To Time..."),
                           backgroundColor:
-                              Colors.red, // Background color of the snackbar
+                          Colors.red, // Background color of the snackbar
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       }
@@ -166,7 +169,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                       var snackbar = customShakingSnackBarWidget(
                         content: const Text("Please Enter To Time...!!!"),
                         backgroundColor:
-                            Colors.red, // Background color of the snackbar
+                        Colors.red, // Background color of the snackbar
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
@@ -174,17 +177,17 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                     var snackbar = customShakingSnackBarWidget(
                       content: const Text("Please Enter From Time...!!!"),
                       backgroundColor:
-                          Colors.red, // Background color of the snackbar
+                      Colors.red, // Background color of the snackbar
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
                 } else {
                   if (toDateChanged) {
                     if (ref
-                            .read(fromDateProvider.notifier)
-                            .getState()
-                            .compareTo(
-                                ref.read(ToDateProvider.notifier).getState()) <
+                        .read(fromDateProvider.notifier)
+                        .getState()
+                        .compareTo(
+                        ref.read(ToDateProvider.notifier).getState()) <
                         0) {
                       ref.read(permissionNotifyProvider.notifier).setState();
                       requestData.toDate =
@@ -194,7 +197,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                       var snackbar = customShakingSnackBarWidget(
                         content: const Text("Enter Correct To Date..."),
                         backgroundColor:
-                            Colors.red, // Background color of the snackbar
+                        Colors.red, // Background color of the snackbar
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
@@ -202,7 +205,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                     var snackbar = customShakingSnackBarWidget(
                       content: const Text("Please Enter To Date...!!!"),
                       backgroundColor:
-                          Colors.red, // Background color of the snackbar
+                      Colors.red, // Background color of the snackbar
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
@@ -211,7 +214,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                 var snackbar = customShakingSnackBarWidget(
                   content: const Text("Please Enter reason...!!!"),
                   backgroundColor:
-                      Colors.red, // Background color of the snackbar
+                  Colors.red, // Background color of the snackbar
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
@@ -254,10 +257,13 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
       bool? leaveAvailable = await ref
           .read(remainingLeavesProvider.notifier)
           .checkSelectedLeaveIsAvailable(
-              ref.read(requestTypeValueProvider.notifier).getState(), ref);
+          ref.read(requestTypeValueProvider.notifier).getState(), ref);
       if (leaveAvailable!) {
         requestData.reportTo =
-            ref.read(reportingToUserDetailsProvider.notifier).getState().empId;
+            ref
+                .read(reportingToUserDetailsProvider.notifier)
+                .getState()
+                .empId;
         bool result = await ref
             .read(requestsProvider.notifier)
             .createRequest(requestData);
@@ -268,14 +274,20 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
             backgroundColor: Colors.green, // Background color of the snackbar
           );
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
-          // notificationList.add(NotificationModel(
-          //     notificationList.length + 1,
-          //     currentLoggedInUser.empId,
-          //     "Saravanan",
-          //     requestData.requestTitle,
-          //     requestData.reason,
-          //     DateTime.now(),
-          //     false));
+          UserData userData =
+          ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
+          await ref
+              .read(notificationsProvider.notifier)
+              .createNotification(NotificationModel(
+              1,
+              userData.empId,
+              userData.name,
+              ref.read(requestTypeValueProvider),
+              1,
+              requestData.reason,
+              DateTime.now(),
+              false,
+              null));
           Navigator.pop(context);
         } else {
           var snackbar = customShakingSnackBarWidget(
@@ -289,7 +301,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         var snackbar = customShakingSnackBarWidget(
           content: const Text("No Available Leave for Selected Type..!!!"),
           backgroundColor:
-              Colors.blue.shade900, // Background color of the snackbar
+          Colors.blue.shade900, // Background color of the snackbar
         );
         ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
@@ -305,7 +317,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     final permissionClicked = ref.watch(permissionNotifyProvider);
 
     final submitButtonIsValid =
-        ref.watch(createRequestButtonValidationProvider);
+    ref.watch(createRequestButtonValidationProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -362,122 +374,122 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                             padding: const EdgeInsets.only(top: 20.0, left: 10),
                             child: fromDateChanged == true
                                 ? Text(
-                                    targetDateFormat.format(fromDate),
-                                    style: const TextStyle(fontSize: 20),
-                                  )
+                              targetDateFormat.format(fromDate),
+                              style: const TextStyle(fontSize: 20),
+                            )
                                 : const Text(
-                                    "From Date",
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 15),
-                                  ),
+                              "From Date",
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 15),
+                            ),
                           ),
                         ),
                       ),
                       !permissionClicked
                           ? const Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 10),
-                              child: Text(
-                                "To Date",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
+                        padding: EdgeInsets.only(top: 20.0, bottom: 10),
+                        child: Text(
+                          "To Date",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
                           : const SizedBox(),
                       !permissionClicked
                           ? GestureDetector(
-                              onTap: () {
-                                openToDatePicker();
-                              },
-                              child: Container(
-                                height: 60,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 20.0, left: 10),
-                                  child: toDateChanged == true
-                                      ? Text(
-                                          targetDateFormat.format(toDate),
-                                          style: const TextStyle(fontSize: 20),
-                                        )
-                                      : const Text(
-                                          "To Date",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        ),
-                                ),
-                              ),
+                        onTap: () {
+                          openToDatePicker();
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 10),
+                            child: toDateChanged == true
+                                ? Text(
+                              targetDateFormat.format(toDate),
+                              style: const TextStyle(fontSize: 20),
                             )
+                                : const Text(
+                              "To Date",
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      )
                           : const SizedBox(),
                       permissionClicked
                           ? const Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 10),
-                              child: Text(
-                                "From Time",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
+                        padding: EdgeInsets.only(top: 20.0, bottom: 10),
+                        child: Text(
+                          "From Time",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
                           : const SizedBox(),
                       permissionClicked
                           ? GestureDetector(
-                              onTap: () {
-                                openFromTimePicker(context);
-                              },
-                              child: Container(
-                                height: 60,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 20.0, left: 10),
-                                  child: fromTimeChanged == true
-                                      ? Text(convertTimeOfDayToString(fromTime))
-                                      : const Text(
-                                          "from Time",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        ),
-                                ),
-                              ),
-                            )
+                        onTap: () {
+                          openFromTimePicker(context);
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 10),
+                            child: fromTimeChanged == true
+                                ? Text(convertTimeOfDayToString(fromTime))
+                                : const Text(
+                              "from Time",
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      )
                           : const SizedBox(),
                       // To Time Setup
                       permissionClicked
                           ? const Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 10),
-                              child: Text(
-                                "To Time",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
+                        padding: EdgeInsets.only(top: 20.0, bottom: 10),
+                        child: Text(
+                          "To Time",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
                           : const SizedBox(),
                       permissionClicked
                           ? GestureDetector(
-                              onTap: () {
-                                openToTimePicker(context);
-                              },
-                              child: Container(
-                                height: 60,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 20.0, left: 10),
-                                  child: toTimeChanged == true
-                                      ? Text(convertTimeOfDayToString(toTime))
-                                      : const Text(
-                                          "To Time",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        ),
-                                ),
-                              ),
-                            )
+                        onTap: () {
+                          openToTimePicker(context);
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20.0, left: 10),
+                            child: toTimeChanged == true
+                                ? Text(convertTimeOfDayToString(toTime))
+                                : const Text(
+                              "To Time",
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      )
                           : const SizedBox(),
                       TextAreaWidget(
                         textEditingController: _reasonTextController,
@@ -504,12 +516,12 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                       backgroundColor: Colors.red.shade600),
                   child: const Center(
                       child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
-                  )),
+                        "Cancel",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20),
+                      )),
                 ),
               ),
               label: ""),
@@ -524,12 +536,12 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                       backgroundColor: Colors.blue.shade900),
                   child: const Center(
                       child: Text(
-                    "Submit",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
-                  )),
+                        "Submit",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20),
+                      )),
                 ),
               ),
               label: ""),

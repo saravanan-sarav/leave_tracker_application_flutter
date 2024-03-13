@@ -147,204 +147,222 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                               animate: true,
                             ),
                           )
-                        : ListView.builder(
-                            itemCount: applicationDetails.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  await ref
-                                      .read(requestDescriptionDetailProvider
-                                          .notifier)
-                                      .getRequestDescriptionByRequestId(
-                                          applicationDetails[index].id);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RequestDescriptionPage()),
-                                  ).then((value) {
-                                    print("Returned");
-                                    setState(() {});
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.only(
-                                        right: 20, left: 20),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    color: applicationDetails[index]
-                                                .requestStatusId ==
-                                            1
-                                        ? Colors.green.shade50
-                                        : applicationDetails[index]
+                        : RefreshIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                            backgroundColor: Colors.blue,
+                            onRefresh: () async {
+                              setState(() {});
+                              return Future<void>.delayed(
+                                  const Duration(seconds: 3));
+                            },
+                            child: ListView.builder(
+                                itemCount: applicationDetails.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      await ref
+                                          .read(requestDescriptionDetailProvider
+                                              .notifier)
+                                          .getRequestDescriptionByRequestId(
+                                              applicationDetails[index].id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RequestDescriptionPage()),
+                                      ).then((value) async {
+                                        setState(() {});
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            right: 20, left: 20),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.15,
+                                        color: applicationDetails[index]
                                                     .requestStatusId ==
-                                                2
-                                            ? Colors.yellow.shade50
+                                                1
+                                            ? Colors.green.shade50
                                             : applicationDetails[index]
                                                         .requestStatusId ==
-                                                    3
-                                                ? Colors.red.shade50
-                                                : null,
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                    2
+                                                ? Colors.yellow.shade50
+                                                : applicationDetails[index]
+                                                            .requestStatusId ==
+                                                        3
+                                                    ? Colors.red.shade50
+                                                    : null,
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 10.0),
+                                          child: Column(
                                             children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    "Requested ${applicationDetails[index].requestTitle}",
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          "Time : ${targetDateFormat.format(applicationDetails[index].fromDate)}",
-                                                          style: const TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 20.0),
-                                                          child: Text(
-                                                              "Reasons : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        ),
-                                                        applicationDetails[
-                                                                        index]
-                                                                    .reason
-                                                                    .length >
-                                                                15
-                                                            ? const Text(
-                                                                "...",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .grey),
-                                                              )
-                                                            : const Text("")
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              Text(
-                                                formattedDate.format(
-                                                    applicationDetails[index]
-                                                        .appliedDate),
-                                                style: TextStyle(
-                                                    color: Colors.blue[900],
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 14),
-                                              )
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 20),
-                                            child: Row(
-                                              children: [
-                                                const Text(
-                                                  "Reported To : ",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10.0),
-                                                  child: Row(
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      const CircleAvatar(
-                                                        foregroundImage: AssetImage(
-                                                            "assets/images/profile_picture.jpeg"),
-                                                        radius: 15,
+                                                      Text(
+                                                        "Requested ${applicationDetails[index].requestTitle}",
+                                                        style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18),
                                                       ),
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .only(
-                                                                left: 8.0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                                .only(top: 8.0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
                                                           children: [
                                                             Text(
-                                                              getRequestReportingToUser(
-                                                                      applicationDetails[
-                                                                              index]
-                                                                          .reportTo)
-                                                                  .name,
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                            Text(
-                                                              getRequestReportingToUser(
-                                                                      applicationDetails[
-                                                                              index]
-                                                                          .reportTo)
-                                                                  .designation,
+                                                              "Time : ${targetDateFormat.format(applicationDetails[index].fromDate)}",
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .grey,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .bold,
-                                                                  fontSize: 12),
+                                                                          .bold),
                                                             ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          20.0),
+                                                              child: Text(
+                                                                  "Reasons : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                            ),
+                                                            applicationDetails[
+                                                                            index]
+                                                                        .reason
+                                                                        .length >
+                                                                    15
+                                                                ? const Text(
+                                                                    "...",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .grey),
+                                                                  )
+                                                                : const Text("")
                                                           ],
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                                                  Text(
+                                                    formattedDate.format(
+                                                        applicationDetails[
+                                                                index]
+                                                            .appliedDate),
+                                                    style: TextStyle(
+                                                        color: Colors.blue[900],
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14),
+                                                  )
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 20),
+                                                child: Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Reported To : ",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10.0),
+                                                      child: Row(
+                                                        children: [
+                                                          const CircleAvatar(
+                                                            foregroundImage:
+                                                                AssetImage(
+                                                                    "assets/images/profile_picture.jpeg"),
+                                                            radius: 15,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 8.0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  getRequestReportingToUser(
+                                                                          applicationDetails[index]
+                                                                              .reportTo)
+                                                                      .name,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                                Text(
+                                                                  getRequestReportingToUser(
+                                                                          applicationDetails[index]
+                                                                              .reportTo)
+                                                                      .designation,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            }),
+                                  );
+                                }),
+                          ),
                   )
                 ],
               ),

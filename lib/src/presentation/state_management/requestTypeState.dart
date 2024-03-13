@@ -1,11 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RequestType {
-  final int id;
-  final String type;
-
-  RequestType(this.id, this.type);
-}
+import '../../domain/models/requestType.dart';
 
 class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
   RequestTypeNotifier(super.state);

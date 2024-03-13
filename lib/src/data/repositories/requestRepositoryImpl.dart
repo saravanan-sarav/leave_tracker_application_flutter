@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasources/local/requestsDataSource.dart';
 import 'package:leave_tracker_application/src/domain/models/Request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
+import 'package:leave_tracker_application/src/domain/models/requestType.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/dataNotFoundException.dart';
 
 import '../../domain/repositories/requestRepository.dart';
@@ -52,11 +53,21 @@ class RequestRepositoryImpl extends RequestRepository {
   Future<bool> changeRequestStatus(int requestId, int requestStatusId) async {
     bool? result =
         await requestDataSource.updateRequestStatus(requestId, requestStatusId);
-    print("in implementation --> $result");
     if (result!) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  @override
+  Future<Either<List<RequestType>, DataNotFoundException>>
+      getRequestTypes() async {
+    List<RequestType>? requestList = await requestDataSource.getRequestTypes();
+    if (requestList!.isNotEmpty) {
+      return Left(requestList);
+    } else {
+      return Right(DataNotFoundException("No Data Found"));
     }
   }
 }

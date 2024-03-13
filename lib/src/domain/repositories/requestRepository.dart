@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/domain/models/Request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
+import 'package:leave_tracker_application/src/domain/models/requestType.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/dataNotFoundException.dart';
 
 abstract class RequestRepository {
@@ -14,4 +15,6 @@ abstract class RequestRepository {
   Future<Either<List<RequestData>,DataNotFoundException>> getSentToMeRequestData(String empId);
 
   Future<bool> changeRequestStatus(int requestId, int requestStatusId);
+  Future<Either<List<RequestType>, DataNotFoundException>>
+  getRequestTypes();
 }

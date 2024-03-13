@@ -42,6 +42,10 @@ List<UserRemainingLeave> userRemainingLeaveData = [
   UserRemainingLeave(4, "1001", 1, 2),
   UserRemainingLeave(5, "1001", 5, 3),
   UserRemainingLeave(6, "1001", 6, 8),
-  UserRemainingLeave(7, "101", 6, 8),
-  UserRemainingLeave(8, "101", 4, 8),
+  UserRemainingLeave(1, "101", 2, 0),
+  UserRemainingLeave(2, "101", 4, 0),
+  UserRemainingLeave(3, "101", 3, 1),
+  UserRemainingLeave(4, "101", 1, 2),
+  UserRemainingLeave(5, "101", 5, 2),
+  UserRemainingLeave(6, "101", 6, 4),
 ];

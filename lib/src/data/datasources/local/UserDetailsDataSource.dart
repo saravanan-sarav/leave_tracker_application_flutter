@@ -8,7 +8,6 @@ class UserDetailsDataSource {
     if (dbClient != null) {
       List<Map<String, dynamic>> result = await dbClient.rawQuery(
           '''select * from $userTableName WHERE $userColumnEmail="$userEmail" AND $userColumnPassword="$password";''');
-      print(result.first);
       if (result.isNotEmpty) {
         return UserData.fromJson(result.first);
       } else {

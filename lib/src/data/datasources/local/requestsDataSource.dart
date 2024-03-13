@@ -4,6 +4,7 @@ import 'package:leave_tracker_application/src/domain/models/custom_models/Reques
 import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/domain/models/requestType.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/dataNotFoundException.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -106,6 +107,20 @@ class RequestDataSource {
       } else {
         return false;
       }
+    }
+    return null;
+  }
+
+  Future<List<RequestType>?> getRequestTypes() async {
+    List<RequestType> requestTypeList = [];
+    Database? dbClient = DatabaseHelper.database;
+    if (dbClient != null) {
+      List<Map<String, dynamic>> result = await dbClient.rawQuery(
+          "SELECT * FROM $requestTypeTableName");
+      for (var res in result) {
+        requestTypeList.add(RequestType.fromJson(res));
+      }
+      return requestTypeList;
     }
     return null;
   }

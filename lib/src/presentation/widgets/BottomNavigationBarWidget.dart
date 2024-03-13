@@ -1,8 +1,9 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/notificationBadgeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/pageNavigationState.dart';
-import 'package:badges/badges.dart' as badges;
+
 class BottomNavigationBarWidget extends ConsumerStatefulWidget {
   const BottomNavigationBarWidget({super.key});
 
@@ -17,7 +18,7 @@ class _BottomNavigationBarWidgetState
     print(index);
     setState(() {
       ref.read(pageNavigatorProvider.notifier).changeNavigationPage(index);
-      });
+    });
   }
 
   @override
@@ -42,10 +43,20 @@ class _BottomNavigationBarWidgetState
           label: '',
         ),
         BottomNavigationBarItem(
-            icon: badges.Badge(
-              badgeContent: Text("${ref.watch(notificationBadgeProvider)}",style: TextStyle(color: Colors.white),),
-              child: const Icon(Icons.notifications_outlined,),
-            ), label: "Notifications"),
+            icon: ref.watch(notificationBadgeProvider) != 0
+                ? badges.Badge(
+                    badgeContent: Text(
+                      "${ref.watch(notificationBadgeProvider)}",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    child: const Icon(
+                      Icons.notifications_outlined,
+                    ),
+                  )
+                : const Icon(
+                    Icons.notifications_outlined,
+                  ),
+            label: "Notifications"),
         const BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined), label: "Profile"),
       ],

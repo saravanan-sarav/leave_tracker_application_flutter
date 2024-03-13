@@ -1,6 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/notification.dart';
 
 class NotificationBadgeCountNotifier extends StateNotifier<int> {
   NotificationBadgeCountNotifier(super.state);
@@ -16,9 +14,12 @@ class NotificationBadgeCountNotifier extends StateNotifier<int> {
   int getState() {
     return state;
   }
+
+  void setNotificationCount(int value) {
+    state = value;
+  }
 }
 
 final notificationBadgeProvider =
-    StateNotifierProvider<NotificationBadgeCountNotifier, int>((ref) =>
-        NotificationBadgeCountNotifier(
-            getUnreadNotificationCount(currentLoggedInUser.empId)));
+    StateNotifierProvider<NotificationBadgeCountNotifier, int>(
+        (ref) => NotificationBadgeCountNotifier(0));

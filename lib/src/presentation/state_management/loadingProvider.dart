@@ -8,7 +8,7 @@ class LoadingNotifier extends StateNotifier<bool> {
   }
 
   void endLoading() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       state = false;
     });
   }

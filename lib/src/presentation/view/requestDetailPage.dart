@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
+import 'package:leave_tracker_application/src/domain/models/notification.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notificationProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 
@@ -525,6 +527,19 @@ class _RequestDescriptionPageState
                               requestDescriptionDetail.requestTypeId, 3)) {
                             updateRequest(
                                 requestDescriptionDetail.requestTypeId);
+                            ref
+                                .read(notificationsProvider.notifier)
+                                .createNotification(NotificationModel(
+                                    1,
+                                    requestDescriptionDetail.empId,
+                                    requestDescriptionDetail
+                                        .reportingToUserName,
+                                    requestDescriptionDetail.requestTypeId,
+                                    4,
+                                    requestDescriptionDetail.reason,
+                                    DateTime.now(),
+                                    false,
+                                    null));
                             var snackbar = customShakingSnackBarWidget(
                               content:
                                   const Text("Status Changed Successfully"),
@@ -563,6 +578,29 @@ class _RequestDescriptionPageState
                           if (await sentToMe.requestStatusChange(
                               requestDescriptionDetail.id, 1)) {
                             updateRequest(requestDescriptionDetail.id);
+                            NotificationModel(
+                                1,
+                                requestDescriptionDetail.empId,
+                                requestDescriptionDetail.empName,
+                                requestDescriptionDetail.requestTypeId,
+                                2,
+                                requestDescriptionDetail.reason,
+                                DateTime.now(),
+                                false,
+                                null);
+                            ref
+                                .read(notificationsProvider.notifier)
+                                .createNotification(NotificationModel(
+                                    1,
+                                    requestDescriptionDetail.empId,
+                                    requestDescriptionDetail
+                                        .reportingToUserName,
+                                    requestDescriptionDetail.requestTypeId,
+                                    1,
+                                    requestDescriptionDetail.reason,
+                                    DateTime.now(),
+                                    false,
+                                    null));
                             var snackbar = customShakingSnackBarWidget(
                               content:
                                   const Text("Status Changed Successfully"),
@@ -607,6 +645,19 @@ class _RequestDescriptionPageState
                               if (await sentToMe.requestStatusChange(
                                   requestDescriptionDetail.id, 2)) {
                                 updateRequest(requestDescriptionDetail.id);
+                                ref
+                                    .read(notificationsProvider.notifier)
+                                    .createNotification(NotificationModel(
+                                        1,
+                                        requestDescriptionDetail.empId,
+                                        requestDescriptionDetail
+                                            .reportingToUserName,
+                                        requestDescriptionDetail.requestTypeId,
+                                        3,
+                                        requestDescriptionDetail.reason,
+                                        DateTime.now(),
+                                        false,
+                                        null));
                                 var snackbar = customShakingSnackBarWidget(
                                   content:
                                       const Text("Status Changed Successfully"),
@@ -645,6 +696,19 @@ class _RequestDescriptionPageState
                               if (await sentToMe.requestStatusChange(
                                   requestDescriptionDetail.id, 3)) {
                                 updateRequest(requestDescriptionDetail.id);
+                                ref
+                                    .read(notificationsProvider.notifier)
+                                    .createNotification(NotificationModel(
+                                        1,
+                                        requestDescriptionDetail.empId,
+                                        requestDescriptionDetail
+                                            .reportingToUserName,
+                                        requestDescriptionDetail.requestTypeId,
+                                        4,
+                                        requestDescriptionDetail.reason,
+                                        DateTime.now(),
+                                        false,
+                                        null));
                                 var snackbar = customShakingSnackBarWidget(
                                   content:
                                       const Text("Status Changed Successfully"),
@@ -689,6 +753,20 @@ class _RequestDescriptionPageState
                                   if (await sentToMe.requestStatusChange(
                                       requestDescriptionDetail.id, 2)) {
                                     updateRequest(requestDescriptionDetail.id);
+                                    ref
+                                        .read(notificationsProvider.notifier)
+                                        .createNotification(NotificationModel(
+                                            1,
+                                            requestDescriptionDetail.empId,
+                                            requestDescriptionDetail
+                                                .reportingToUserName,
+                                            requestDescriptionDetail
+                                                .requestTypeId,
+                                            3,
+                                            requestDescriptionDetail.reason,
+                                            DateTime.now(),
+                                            false,
+                                            null));
                                     var snackbar = customShakingSnackBarWidget(
                                       content: const Text(
                                           "Status Changed Successfully"),
@@ -729,6 +807,20 @@ class _RequestDescriptionPageState
                                   if (await sentToMe.requestStatusChange(
                                       requestDescriptionDetail.id, 1)) {
                                     updateRequest(requestDescriptionDetail.id);
+                                    ref
+                                        .read(notificationsProvider.notifier)
+                                        .createNotification(NotificationModel(
+                                            1,
+                                            requestDescriptionDetail.empId,
+                                            requestDescriptionDetail
+                                                .reportingToUserName,
+                                            requestDescriptionDetail
+                                                .requestTypeId,
+                                            2,
+                                            requestDescriptionDetail.reason,
+                                            DateTime.now(),
+                                            false,
+                                            null));
                                     var snackbar = customShakingSnackBarWidget(
                                       content: const Text(
                                           "Status Changed Successfully"),

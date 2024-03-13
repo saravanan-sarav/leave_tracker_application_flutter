@@ -46,3 +46,17 @@ TimeOfDay stringToTimeOfDay(String timeString) {
   }
   return const TimeOfDay(hour: 0, minute: 0);
 }
+
+String formatTimeAgo(DateTime dateTime) {
+  Duration difference = DateTime.now().difference(dateTime);
+
+  if (difference.inDays > 0) {
+    return '${difference.inDays} day(s) ago';
+  } else if (difference.inHours > 0) {
+    return '${difference.inHours} hr(s) ago';
+  } else if (difference.inMinutes > 0) {
+    return '${difference.inMinutes} min(s) ago';
+  } else {
+    return 'Just now';
+  }
+}

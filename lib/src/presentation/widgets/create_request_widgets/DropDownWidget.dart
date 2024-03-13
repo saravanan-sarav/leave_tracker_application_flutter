@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/FromTimeToTimeState.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/requestTypeState.dart';
 
+import '../../../domain/models/requestType.dart';
+
 class DropDownWidget extends ConsumerStatefulWidget {
   const DropDownWidget({super.key});
 

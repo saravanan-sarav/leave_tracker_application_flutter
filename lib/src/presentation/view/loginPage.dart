@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:leave_tracker_application/src/presentation/providers/holidaysProvider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notificationProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/remainingLeaveProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
@@ -111,7 +112,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   .read(authUserDetailsProvider.notifier)
                                   .authUserDetails(email, password);
                               final authUser =
-                                  ref.watch(authUserDetailsProvider.notifier);
+                                  ref.read(authUserDetailsProvider.notifier);
+                              print(authUser.getAuthUserDetails());
                               if (authUser.getAuthUserDetails() is UserData) {
                                 final currentLoggedInUserDetails = ref.read(
                                     currentLoggedInUserDetailsProvider
@@ -138,13 +140,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 await ref
                                     .read(remainingLeavesProvider.notifier)
                                     .getAllRemainingLeave(ref);
+                                await ref
+                                    .read(notificationsProvider.notifier)
+                                    .getAllNotifications(ref);
+                                await ref
+                                    .read(notificationActionProvider.notifier)
+                                    .getNotificationActions();
                                 ref.read(loadingProvider.notifier).endLoading();
+                                await ref
+                                    .read(requestTypesProvider.notifier)
+                                    .getRequestType();
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const MyHomePage()));
+                                ref.read(loadingProvider.notifier).endLoading();
                               } else {
+                                print("end Loading Came");
+                                ref.read(loadingProvider.notifier).endLoading();
                                 if (email == "" || password == "") {
                                   var snackbar = customShakingSnackBarWidget(
                                     content:
@@ -155,6 +169,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackbar);
                                 } else {
+                                  ref
+                                      .read(loadingProvider.notifier)
+                                      .endLoading();
+
                                   var snackbar = customShakingSnackBarWidget(
                                     content: Text(
                                         "${ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()}"),

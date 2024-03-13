@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/currentLoggedInUser.dart';
-import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/createdOrSentRequestState.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheetPage.dart';
@@ -40,7 +38,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const TimesheetPageWidget()),
-              );
+              ).then((value) => setState(() {}));
               ref.read(loadingProvider.notifier).endLoading();
             },
             child: Padding(
@@ -75,8 +73,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          ref.watch(requestsProvider.notifier).getCount() !=
-                                  0
+                          ref.watch(requestsProvider.notifier).getCount() != 0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
@@ -113,7 +110,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const TimesheetPageWidget()),
-              );
+              ).then((value) => setState(() {}));
               ref.read(loadingProvider.notifier).endLoading();
             },
             child: Padding(

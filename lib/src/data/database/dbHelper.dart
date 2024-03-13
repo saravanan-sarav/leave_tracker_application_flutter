@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../domain/models/NotificationAction.dart';
 import '../../domain/models/Request.dart';
 import '../../domain/models/holiday.dart';
 import '../../domain/models/holidayType.dart';
@@ -22,23 +23,27 @@ class DatabaseHelper {
     // await deleteDatabase(databasePath);
 
     database = await initDatabase();
-    // await loadUserDetails();
-    // await loadRequestStatus();
-    // await loadRequestType();
-    // await loadHolidayType();
-    // await loadHolidays();
-    // await loadRemainingLeave();
-    // await loadRequestDetails();
-    // await loadUserRemainingLeave();
+    await loadUserDetails();
+    await loadRequestStatus();
+    await loadRequestType();
+    await loadHolidayType();
+    await loadHolidays();
+    await loadRemainingLeave();
+    await loadRequestDetails();
+    await loadUserRemainingLeave();
+    await loadNotificationActions();
+    await loadNotification();
   }
 
   Future<Database> initDatabase() async {
     final Directory = await getExternalStorageDirectory();
     final databasePath = join(Directory!.path, "leave_management.db");
-    return await openDatabase(databasePath,
-        version: 1, onCreate: _onCreate,);
+    return await openDatabase(
+      databasePath,
+      version: 1,
+      onCreate: _onCreate,
+    );
   }
-
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
@@ -64,14 +69,21 @@ class DatabaseHelper {
       $userRemainingLeaveColumnEmpId TEXT,
       $userRemainingLeaveColumnRequestTypeId INTEGER,
       $userRemainingLeaveColumnBookedCount INTEGER)''');
-    await db.execute('''CREATE TABLE $notificationTableName (
-      $notificationColumnId INTEGER PRIMARY KEY,
-      $notificationColumnEmpId TEXT NOT NULL,
-      $notificationColumnRequestTitle TEXT NOT NULL,
-      $notificationColumnActions TEXT,
-      $notificationColumnCreatedAt TEXT,
-      $notificationColumnMarkAsRead INTEGER,
-      $notificationColumnMarkAsReadAt TEXT)''');
+    await db.execute('''CREATE TABLE $notificationActionTableName (
+  $notificationActionColumnId INTEGER PRIMARY KEY,
+  $notificationActionColumnActions TEXT)''');
+    await db.execute('''
+CREATE TABLE $notificationTableName (
+  $notificationColumnId INTEGER PRIMARY KEY,
+  $notificationColumnEmpId TEXT NOT NULL,
+  $notificationColumnName TEXT NOT NULL,
+  $notificationColumnRequestTypeId INTEGER NOT NULL,
+  $notificationColumnActionId INTEGER,
+  $notificationColumnReason TEXT,
+  $notificationColumnCreatedAt TEXT,
+  $notificationColumnMarkAsRead INTEGER,
+  $notificationColumnMarkAsReadAt TEXT,
+  FOREIGN KEY ($notificationColumnActionId) REFERENCES $notificationActionTableName($notificationActionColumnId))''');
   }
 }
 
@@ -150,6 +162,26 @@ Future<void> loadUserRemainingLeave() async {
   for (UserRemainingLeave request in userRemainingLeaveData) {
     if (db != null) {
       await db.insert(userRemainingLeaveTableName, request.toJson());
+    }
+  }
+}
+
+Future<void> loadNotificationActions() async {
+  Database? db = DatabaseHelper.database;
+
+  for (NotificationAction request in notificationActionList) {
+    if (db != null) {
+      await db.insert(notificationActionTableName, request.toJson());
+    }
+  }
+}
+
+Future<void> loadNotification() async {
+  Database? db = DatabaseHelper.database;
+
+  for (NotificationModel request in notificationList) {
+    if (db != null) {
+      await db.insert(notificationTableName, request.toJson());
     }
   }
 }
