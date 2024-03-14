@@ -9,6 +9,7 @@ import '../../domain/models/NotificationAction.dart';
 import '../../domain/models/Request.dart';
 import '../../domain/models/holiday.dart';
 import '../../domain/models/holidayType.dart';
+import '../../domain/models/localization.dart';
 import '../../domain/models/notification.dart';
 import '../../domain/models/remainingLeave.dart';
 import '../../domain/models/requestType.dart';
@@ -33,6 +34,7 @@ class DatabaseHelper {
     // await loadUserRemainingLeave();
     // await loadNotificationActions();
     // await loadNotification();
+    // await loadLocalization();
   }
 
   Future<Database> initDatabase() async {
@@ -182,6 +184,23 @@ Future<void> loadNotification() async {
   for (NotificationModel request in notificationList) {
     if (db != null) {
       await db.insert(notificationTableName, request.toJson());
+    }
+  }
+}
+
+List<Localization> localizationList = [
+  Localization(1, "en"),
+  Localization(2, "de")
+];
+
+Future<void> loadLocalization() async {
+  Database? db = DatabaseHelper.database;
+  if (db != null) {
+    db.execute('''CREATE TABLE $localizationTableName (
+  $localizationColumnId INTEGER PRIMARY KEY,
+  $localizationColumnLocale TEXT)''');
+    for (Localization local in localizationList) {
+      db.insert(localizationTableName, local.toJson());
     }
   }
 }

@@ -68,11 +68,17 @@ class _RequestDescriptionPageState
                             fontSize: 25),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Icon(
-                        Icons.info_outline,
-                        color: Colors.white,
+                    GestureDetector(
+                      onTap: () async {
+                        print("object");
+
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                        ),
                       ),
                     )
                   ],
@@ -717,12 +723,12 @@ class _RequestDescriptionPageState
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(snackbar);
                               } else {
-                                var snackbar = customShakingSnackBarWidget(
+                                var snackBar = customShakingSnackBarWidget(
                                   content: const Text("Something Went Wrong"),
                                   backgroundColor: Colors.lightBlue.shade900,
                                 );
                                 ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackbar);
+                                    .showSnackBar(snackBar);
                               }
                             },
                             style: ElevatedButton.styleFrom(

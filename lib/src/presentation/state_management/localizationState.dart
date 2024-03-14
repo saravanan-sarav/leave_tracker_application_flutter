@@ -1,22 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-@immutable
-class Localization {
-  final String locale;
+import '../../domain/models/localization.dart';
 
-  const Localization(this.locale);
-}
+
 
 class LocalizationNotifier extends StateNotifier<Localization> {
   LocalizationNotifier(super.state);
 
-  String getLocale(){
+  String getLocale() {
     return state.locale;
   }
-  void changeLocale(String locale) {
-    state = Localization(locale);
+
+  void changeLocale(Localization localization) {
+    state = localization;
   }
 }
 
-final localizationProvider = StateNotifierProvider((ref) => LocalizationNotifier(const Localization("en")));
+final localizationProvider = StateNotifierProvider(
+    (ref) => LocalizationNotifier(Localization(1, "en")));

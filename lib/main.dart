@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leave_tracker_application/src/data/database/dbHelper.dart';
+import 'package:leave_tracker_application/src/presentation/providers/localizationProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
@@ -24,6 +25,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(localizationsProvider.notifier).getLocalizationData();
     return Builder(
       builder: (context) {
         final isLoading = ref.watch(loadingProvider);

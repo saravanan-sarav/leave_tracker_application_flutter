@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/notification.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
 import 'package:leave_tracker_application/src/utils/constants/dateParser.dart';
@@ -265,41 +264,50 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 10, bottom: 10),
-                          height: MediaQuery.of(context).size.height * 0.08,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: Colors.lightBlue.shade50,
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10.0, top: 13),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Preferences",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Current UnAvailable",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                        GestureDetector(
+                          onTap: () {
+                            _dialogBuilder(context);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 10, bottom: 10),
+                            height: MediaQuery.of(context).size.height * 0.08,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: Colors.lightBlue.shade50,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 10.0,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Language",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // Text(
+                                      //   "Current UnAvailable",
+                                      //   style: TextStyle(
+                                      //       color: Colors.grey,
+                                      //       fontSize: 10,
+                                      //       fontWeight: FontWeight.bold),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.arrow_forward_ios))
-                            ],
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.arrow_forward_ios))
+                              ],
+                            ),
                           ),
                         ),
                         const Padding(
@@ -409,4 +417,49 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       ),
     );
   }
+}
+
+Future<void> _dialogBuilder(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.blue[900],
+        title: Text(
+          "select Language",
+          style: TextStyle(color: Colors.white),
+        ),
+        // Adjust spacing as needed
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.width *
+              0.7, // Ensure content has maximum width
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16), // Adjust spacing as needed
+              Expanded(
+                child: ListView.builder(itemBuilder: )
+              ),
+            ],
+          ),
+        ),
+
+      );
+    },
+  );
 }
