@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:leave_tracker_application/src/data/database/dbHelper.dart';
-import 'package:leave_tracker_application/src/presentation/providers/requestProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
@@ -11,6 +11,9 @@ import 'package:lottie/lottie.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   DatabaseHelper db = DatabaseHelper();
   db.db;
   runApp(const ProviderScope(child: MyApp()));
@@ -30,6 +33,7 @@ class MyApp extends ConsumerWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           title: 'Flutter Demo',
+          themeMode: ThemeMode.system,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)

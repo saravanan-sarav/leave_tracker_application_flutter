@@ -23,16 +23,16 @@ class DatabaseHelper {
     // await deleteDatabase(databasePath);
 
     database = await initDatabase();
-    await loadUserDetails();
-    await loadRequestStatus();
-    await loadRequestType();
-    await loadHolidayType();
-    await loadHolidays();
-    await loadRemainingLeave();
-    await loadRequestDetails();
-    await loadUserRemainingLeave();
-    await loadNotificationActions();
-    await loadNotification();
+    // await loadUserDetails();
+    // await loadRequestStatus();
+    // await loadRequestType();
+    // await loadHolidayType();
+    // await loadHolidays();
+    // await loadRemainingLeave();
+    // await loadRequestDetails();
+    // await loadUserRemainingLeave();
+    // await loadNotificationActions();
+    // await loadNotification();
   }
 
   Future<Database> initDatabase() async {

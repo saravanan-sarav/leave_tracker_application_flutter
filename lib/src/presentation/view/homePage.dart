@@ -20,7 +20,6 @@ class HomePage extends ConsumerWidget {
           Container(
             height: double.infinity,
             width: double.infinity,
-            color: Colors.white,
           ),
           Container(
             height: 155,
