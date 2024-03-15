@@ -86,6 +86,17 @@ CREATE TABLE $notificationTableName (
   $notificationColumnMarkAsRead INTEGER,
   $notificationColumnMarkAsReadAt TEXT,
   FOREIGN KEY ($notificationColumnActionId) REFERENCES $notificationActionTableName($notificationActionColumnId))''');
+    await loadUserDetails();
+    await loadRequestStatus();
+    await loadRequestType();
+    await loadHolidayType();
+    await loadHolidays();
+    await loadRemainingLeave();
+    await loadRequestDetails();
+    await loadUserRemainingLeave();
+    await loadNotificationActions();
+    await loadNotification();
+    await loadLocalization();
   }
 }
 
