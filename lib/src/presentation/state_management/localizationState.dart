@@ -3,19 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/models/localization.dart';
 
+class LocalizationNotifier extends ChangeNotifier {
+  Localization _state;
 
-
-class LocalizationNotifier extends StateNotifier<Localization> {
-  LocalizationNotifier(super.state);
+  LocalizationNotifier(this._state);
 
   String getLocale() {
-    return state.locale;
+    return _state.locale;
   }
 
   void changeLocale(Localization localization) {
-    state = localization;
+    _state = localization;
+    notifyListeners();
   }
 }
 
-final localizationProvider = StateNotifierProvider(
+final localizationProvider = ChangeNotifierProvider(
     (ref) => LocalizationNotifier(Localization(1, "en")));

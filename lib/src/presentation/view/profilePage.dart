@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/providers/localizationProvider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/userProvider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
 import 'package:leave_tracker_application/src/utils/constants/dateParser.dart';
 
+import '../../domain/models/localization.dart';
 import '../../utils/constants/TimeParser.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -26,6 +29,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Localization> localizationData =
+        ref.read(localizationsProvider.notifier).getLocalizations();
     final currentLoggedInUser =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
     final currentUserReportingUserDetail =
@@ -265,8 +270,89 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            _dialogBuilder(context);
+                          onTap: () async {
+                            bool value = false;
+                            Future<bool?> _dialogBuilder(
+                                BuildContext context,
+                                List<Localization> localizations,
+                                WidgetRef ref) {
+                              return showDialog<bool>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.blue[900],
+                                    title: Text(
+                                      "select Language",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    // Adjust spacing as needed
+                                    content: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.7,
+                                      // Ensure content has maximum width
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                hintText: 'Search...',
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 16),
+                                          // Adjust spacing as needed
+                                          Expanded(
+                                              child: ListView.builder(
+                                                  itemCount:
+                                                      localizations.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return ListTile(
+                                                      onTap: () async {
+                                                        print(
+                                                            localizations[index]
+                                                                .locale);
+                                                        ref
+                                                            .read(
+                                                                localizationProvider
+                                                                    .notifier)
+                                                            .changeLocale(
+                                                                localizations[
+                                                                    index]);
+                                                        Navigator.pop(context);
+                                                        setState(() {});
+                                                      },
+                                                      title: Text(
+                                                          localizations[index]
+                                                              .locale),
+                                                    );
+                                                  })),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+
+                            await _dialogBuilder(
+                                context, localizationData, ref);
+                            setState(() {});
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 10, bottom: 10),
@@ -417,49 +503,4 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       ),
     );
   }
-}
-
-Future<void> _dialogBuilder(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.blue[900],
-        title: Text(
-          "select Language",
-          style: TextStyle(color: Colors.white),
-        ),
-        // Adjust spacing as needed
-        content: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.width *
-              0.7, // Ensure content has maximum width
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16), // Adjust spacing as needed
-              Expanded(
-                child: ListView.builder(itemBuilder: )
-              ),
-            ],
-          ),
-        ),
-
-      );
-    },
-  );
 }

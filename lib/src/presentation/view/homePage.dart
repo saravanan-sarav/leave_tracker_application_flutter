@@ -57,19 +57,23 @@ class HomePage extends ConsumerWidget {
                   ),
                   GestureDetector(
                     onTap: () {
+                      print("object");
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const ProfilePage()));
                     },
-                    child: const CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          AssetImage('assets/images/profile_picture.jpeg'),
-                      // Background color of the avatar
-                      foregroundImage: AssetImage(
-                          'assets/images/profile_picture.jpeg'), // Path to your image asset
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            image: AssetImage(
+                                'assets/images/profile_picture.jpeg'),
+                            // Provide your image path here
+                          ),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100)),
                     ),
                   ),
                 ],
