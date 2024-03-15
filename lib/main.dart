@@ -17,6 +17,7 @@ void main() {
   ]);
   DatabaseHelper db = DatabaseHelper();
   db.db;
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
