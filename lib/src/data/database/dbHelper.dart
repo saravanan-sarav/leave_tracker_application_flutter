@@ -2,7 +2,6 @@ import 'package:leave_tracker_application/src/domain/models/holidayListModelDumm
 import 'package:leave_tracker_application/src/domain/models/requestStatus.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../domain/models/NotificationAction.dart';
@@ -19,27 +18,15 @@ class DatabaseHelper {
   static Database? database;
 
   Future<void> get db async {
-    // final Directory = await getExternalStorageDirectory();
-    // final databasePath = join(Directory!.path, "leave_management.db");
+    // final path = await getDatabasesPath();
+    // final databasePath = join(path, "leave_management.db");
     // await deleteDatabase(databasePath);
-
     database = await initDatabase();
-    // await loadUserDetails();
-    // await loadRequestStatus();
-    // await loadRequestType();
-    // await loadHolidayType();
-    // await loadHolidays();
-    // await loadRemainingLeave();
-    // await loadRequestDetails();
-    // await loadUserRemainingLeave();
-    // await loadNotificationActions();
-    // await loadNotification();
-    // await loadLocalization();
   }
 
   Future<Database> initDatabase() async {
-    final Directory = await getExternalStorageDirectory();
-    final databasePath = join(Directory!.path, "leave_management.db");
+    final path = await getDatabasesPath();
+    final databasePath = join(path, "leave_management.db");
     return await openDatabase(
       databasePath,
       version: 1,
@@ -48,6 +35,7 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+    database = db;
     await db.execute(
         '''CREATE TABLE $userTableName ($userColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$userColumnEmpId TEXT,$userColumnName TEXT,$userColumnDomain TEXT,$userColumnDesignation TEXT,$userColumnJoiningDate TEXT,$userColumnEmail TEXT,$userColumnPassword TEXT,$userColumnDateOfBirth TEXT,$userColumnTeamId INTEGER,$userColumnReportingTo TEXT);''');
     await db.execute(
@@ -86,6 +74,9 @@ CREATE TABLE $notificationTableName (
   $notificationColumnMarkAsRead INTEGER,
   $notificationColumnMarkAsReadAt TEXT,
   FOREIGN KEY ($notificationColumnActionId) REFERENCES $notificationActionTableName($notificationActionColumnId))''');
+    await db.execute('''CREATE TABLE $localizationTableName (
+  $localizationColumnId INTEGER PRIMARY KEY,
+  $localizationColumnLocale TEXT)''');
     await loadUserDetails();
     await loadRequestStatus();
     await loadRequestType();
@@ -96,11 +87,13 @@ CREATE TABLE $notificationTableName (
     await loadUserRemainingLeave();
     await loadNotificationActions();
     await loadNotification();
+    print("Data Loaded");
     await loadLocalization();
   }
 }
 
 Future<void> loadUserDetails() async {
+  print("Called");
   Database? db = DatabaseHelper.database;
   for (UserData user in userDetails) {
     if (db != null) {
@@ -207,9 +200,6 @@ List<Localization> localizationList = [
 Future<void> loadLocalization() async {
   Database? db = DatabaseHelper.database;
   if (db != null) {
-    db.execute('''CREATE TABLE $localizationTableName (
-  $localizationColumnId INTEGER PRIMARY KEY,
-  $localizationColumnLocale TEXT)''');
     for (Localization local in localizationList) {
       db.insert(localizationTableName, local.toJson());
     }

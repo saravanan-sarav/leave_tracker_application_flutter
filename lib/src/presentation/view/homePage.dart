@@ -70,6 +70,7 @@ class HomePage extends ConsumerWidget {
                           image: const DecorationImage(
                             image: AssetImage(
                                 'assets/images/profile_picture.jpeg'),
+                            fit: BoxFit.fill
                             // Provide your image path here
                           ),
                           color: Colors.white,

@@ -10,13 +10,13 @@ import 'package:leave_tracker_application/src/presentation/state_management/loca
 import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
 import 'package:lottie/lottie.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
   DatabaseHelper db = DatabaseHelper();
-  db.db;
+  await db.db;
 
   runApp(const ProviderScope(child: MyApp()));
 }

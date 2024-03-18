@@ -281,7 +281,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     backgroundColor: Colors.blue[900],
-                                    title: Text(
+                                    title: const Text(
                                       "select Language",
                                       style: TextStyle(color: Colors.white),
                                     ),
