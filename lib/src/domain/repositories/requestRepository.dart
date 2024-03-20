@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:leave_tracker_application/src/domain/models/Request.dart';
-import 'package:leave_tracker_application/src/domain/models/custom_models/RequestDescriptionDetail.dart';
-import 'package:leave_tracker_application/src/domain/models/requestType.dart';
-import 'package:leave_tracker_application/src/utils/exceptions/dataNotFoundException.dart';
+import 'package:leave_tracker_application/src/domain/models/request.dart';
+import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
+import 'package:leave_tracker_application/src/domain/models/request_type.dart';
+import 'package:leave_tracker_application/src/utils/exceptions/data_not_found_exception.dart';
 
 abstract class RequestRepository {
   Future<Either<List<RequestData>, DataNotFoundException>>

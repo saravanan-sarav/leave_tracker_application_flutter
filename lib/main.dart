@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:leave_tracker_application/src/data/database/dbHelper.dart';
-import 'package:leave_tracker_application/src/presentation/providers/localizationProvider.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/loadingProvider.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/localizationState.dart';
-import 'package:leave_tracker_application/src/presentation/view/loginPage.dart';
+import 'package:leave_tracker_application/src/data/database/db_helper.dart';
+import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
+import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:lottie/lottie.dart';
 
 void main() async {

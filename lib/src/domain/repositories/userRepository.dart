@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
-import '../../utils/exceptions/dataNotFoundException.dart';
-import '../models/ReportingUserDetail.dart';
+import '../../utils/exceptions/data_not_found_exception.dart';
+import '../models/reporting_user_detail.dart';
 import '../models/user.dart';
 
 abstract class UserRepository {

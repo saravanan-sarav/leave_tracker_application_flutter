@@ -1,4 +1,4 @@
-import 'ReportingUserDetail.dart';
+import 'reporting_user_detail.dart';
 
 const String userTableName = "user";
 const String userColumnId = "id";
