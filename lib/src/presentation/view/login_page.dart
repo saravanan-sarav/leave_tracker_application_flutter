@@ -131,6 +131,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     .read(holidaysProvider.notifier)
                                     .getAllHolidays();
                                 await ref
+                                    .read(holidayTypeProvider.notifier)
+                                    .getAllHolidayTypes();
+                                await ref
                                     .read(requestsProvider.notifier)
                                     .getUserRequests(ref);
                                 await ref
@@ -149,12 +152,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 await ref
                                     .read(requestTypesProvider.notifier)
                                     .getRequestType();
-                                if(mounted){
+                                if (mounted) {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          const MyHomePage()));
+                                              const MyHomePage()));
                                 }
                                 ref.read(loadingProvider.notifier).endLoading();
                               } else {
@@ -163,10 +166,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   var snackBar = customShakingSnackBarWidget(
                                     content:
                                         const Text("Enter  Credentials..!!!"),
-                                    backgroundColor: Colors
-                                        .yellow,
+                                    backgroundColor: Colors.yellow,
                                   );
-                                  if(mounted){
+                                  if (mounted) {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
@@ -178,10 +180,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   var snackBar = customShakingSnackBarWidget(
                                     content: Text(
                                         "${ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()}"),
-                                    backgroundColor: Colors
-                                        .red,
+                                    backgroundColor: Colors.red,
                                   );
-                                  if(mounted){
+                                  if (mounted) {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }

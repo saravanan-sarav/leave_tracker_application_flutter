@@ -27,13 +27,13 @@ class Holiday {
       json[holidayColumnId],
       DateTime.parse(json[holidayColumnDate]),
       json[holidayColumnName],
-      json[holidayColumnTypeId],
+      int.parse(json[holidayColumnTypeId]),
     );
   }
 }
 
 final List<Holiday> holidays = [
-  Holiday(1, DateTime(2024, 1, 1), 'New Year Day', 1),
+    Holiday(1, DateTime(2024, 1, 1), 'New Year Day', 1),
   Holiday(2, DateTime(2024, 1, 26), 'Republic Day', 1),
   Holiday(3, DateTime(2024, 1, 15), 'Pongal', 1),
   Holiday(4, DateTime(2024, 5, 1), 'May Day', 1),

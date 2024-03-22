@@ -101,7 +101,7 @@ class HolidayListPage extends ConsumerWidget {
                                 padding: const EdgeInsets.only(left: 4.0),
                                 child: Text(
                                   monthHolidays[index].holidayTypeId == 2
-                                      ? "(${monthHolidays[index].holidayTypeId})"
+                                      ? "(${ref.read(holidayTypeProvider.notifier).getHolidayType(monthHolidays[index].holidayTypeId)})"
                                       : "",
                                   style: const TextStyle(
                                       color: Colors.grey,
