@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/login_page_state.dart';
 
 class LoginEmailTextFieldWidget extends ConsumerStatefulWidget {
   final TextEditingController emailController;
@@ -33,9 +32,6 @@ class _LoginEmailTextFieldWidgetState
           ),
           TextFormField(
             controller: widget.emailController,
-            onChanged: (value) {
-              ref.read(loginPageEmailProvider.notifier).setState(value);
-            },
             decoration: InputDecoration(
               labelText: 'Email',
               labelStyle: TextStyle(color: Colors.blue.shade900),
@@ -105,9 +101,6 @@ class _LoginPasswordTextFieldWidgetState
           ),
           TextFormField(
             controller: widget.passwordController,
-            onChanged: (value) {
-              ref.read(loginPagePasswordProvider.notifier).setState(value);
-            },
             obscureText: true,
             decoration: InputDecoration(
               labelText: 'Password',

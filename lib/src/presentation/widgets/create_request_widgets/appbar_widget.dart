@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../state_management/from_time_to_time_state.dart';
+import '../../state_management/permission_notifier.dart';
 
 class AppBarWidget extends StatefulWidget {
   const AppBarWidget({super.key});

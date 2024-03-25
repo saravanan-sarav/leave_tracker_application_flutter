@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/requests_data_source.dart';
 import 'package:leave_tracker_application/src/data/repositories/request_repository_impl.dart';
-import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
+import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
 import 'package:leave_tracker_application/src/domain/repositories/request_repository.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
@@ -192,6 +192,10 @@ class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
     final requestTypeOrNotFound = await requestRepository.getRequestTypes();
     requestTypeOrNotFound.fold((l) => state = l, (r) => []);
     return true;
+  }
+
+  List<RequestType> getRequestTypes() {
+    return state;
   }
 
   String requestTypeName(int id) {

@@ -73,7 +73,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          ref.watch(requestsProvider.notifier).getCount() != 0
+                          ref.read(requestsProvider.notifier).getCount() != 0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
@@ -83,7 +83,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                   width: 30,
                                   child: Center(
                                       child: Text(
-                                    "${ref.watch(requestsProvider.notifier).getCount()}",
+                                    "${ref.read(requestsProvider.notifier).getCount()}",
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                 )
@@ -146,7 +146,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 color: Colors.grey),
                           ),
                           ref
-                                      .watch(requestSentToMeProvider.notifier)
+                                      .read(requestSentToMeProvider.notifier)
                                       .getCount() !=
                                   0
                               ? Container(
@@ -158,7 +158,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                   width: 30,
                                   child: Center(
                                       child: Text(
-                                    "${ref.watch(requestSentToMeProvider.notifier).getCount()}",
+                                    "${ref.read(requestSentToMeProvider.notifier).getCount()}",
                                     style: const TextStyle(color: Colors.white),
                                   )),
                                 )

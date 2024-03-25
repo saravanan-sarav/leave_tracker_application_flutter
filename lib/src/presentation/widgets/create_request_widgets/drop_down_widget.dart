@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/from_time_to_time_state.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/request_type_state.dart';
+import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
 import '../../../domain/models/request_type.dart';
 
 class DropDownWidget extends ConsumerStatefulWidget {
-  const DropDownWidget({super.key});
+  TextEditingController textEditingController;
+
+  DropDownWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<DropDownWidget> createState() => _DropDownWidgetState();
@@ -25,7 +27,8 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var requestTypes = ref.watch(requestTypeProvider);
+    var requestTypes =
+        ref.read(requestTypesProvider.notifier).getRequestTypes();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,42 +42,42 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(top: 9, left: 10, right: 10),
-          height: 60,
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              // Add border on all sides
-              borderRadius: BorderRadius.circular(10.0)),
-          child: DropdownButtonFormField<int>(
-            enableFeedback: false,
-            hint: const Text('Select'),
-            value: permissionEnabled ? 5 : null,
-            onChanged: (newValue) {
-              if (newValue == 5) {
-                ref.read(permissionNotifyProvider.notifier).updateState();
-              } else {
-                ref.read(permissionNotifyProvider.notifier).setState();
-              }
-              ref
-                  .read(requestTypeValueProvider.notifier)
-                  .changeValue(newValue!);
-              ref.read(requestTypeSelectorProvider.notifier).validate();
-            },
-            items: requestTypes.map<DropdownMenuItem<int>>((RequestType item) {
-              return DropdownMenuItem<int>(
-                value: item.id,
-                child: Text(item.type),
-              );
-            }).toList(),
-            validator: (value) {
-              if (value == null) {
-                return 'Please select Request Type';
-              }
-              return null;
-            },
-            decoration: const InputDecoration(border: InputBorder.none),
+        DropdownButtonFormField<int>(
+          enableFeedback: false,
+          hint: const Text('Request Type'),
+          value: permissionEnabled ? 5 : null,
+          decoration: InputDecoration(
+            labelStyle: const TextStyle(color: Colors.grey),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.green),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
           ),
+          onChanged: (newValue) {
+            if (newValue == 5) {
+              ref.read(permissionNotifyProvider.notifier).updateState();
+            } else {
+              ref.read(permissionNotifyProvider.notifier).setState();
+            }
+            widget.textEditingController.text = "$newValue";
+          },
+          items: requestTypes.map<DropdownMenuItem<int>>((RequestType item) {
+            return DropdownMenuItem<int>(
+              value: item.id,
+              child: Text(item.type),
+            );
+          }).toList(),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value == null) {
+              return 'Please select Request Type';
+            }
+            return null;
+          },
         ),
       ],
     );

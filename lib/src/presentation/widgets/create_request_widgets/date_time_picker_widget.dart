@@ -3,10 +3,12 @@ import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/state_management/date_checker.dart';
+import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 class DatePickerWidget extends ConsumerStatefulWidget {
-  const DatePickerWidget({super.key});
+  TextEditingController textEditingController;
+
+  DatePickerWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -35,7 +37,7 @@ class _DatePickerWidgetState extends ConsumerState<DatePickerWidget> {
             color: Colors.blue,
           ),
           onSubmit: (index) {
-            ref.read(fromDateProvider.notifier).updateFromDate(index);
+            widget.textEditingController.text = formatDateAsNumber(index);
           },
           bottomPickerTheme: BottomPickerTheme.heavyRain,
           buttonStyle: BoxDecoration(
@@ -102,8 +104,11 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
             fontSize: 15,
             color: Colors.blue,
           ),
-          onSubmit: (index) {
-            ref.read(toDateProvider.notifier).updateToDate(index);
+          onSubmit: (index) async {
+            final TimeOfDay? picked = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.now(),
+                barrierLabel: "Select From Time");
           },
           bottomPickerTheme: BottomPickerTheme.heavyRain,
           buttonStyle: BoxDecoration(

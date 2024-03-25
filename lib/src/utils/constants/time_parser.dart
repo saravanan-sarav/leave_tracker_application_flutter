@@ -60,3 +60,24 @@ String formatTimeAgo(DateTime dateTime) {
     return 'Just now';
   }
 }
+
+String convertTimeOfDayToString(TimeOfDay timeOfDay) {
+  final now = DateTime.now();
+  final dateTime = DateTime(
+      now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  final formattedTime = DateFormat.jm().format(dateTime);
+  return formattedTime;
+}
+
+TimeOfDay convertToTimeOfDay(String timeString) {
+  List<String> parts = timeString.split(' ');
+  List<String> timeParts = parts[0].split(':');
+  int hour = int.parse(timeParts[0]);
+  int minute = int.parse(timeParts[1]);
+  if (parts[1] == 'PM' && hour != 12) {
+    hour += 12;
+  } else if (parts[1] == 'AM' && hour == 12) {
+    hour = 0;
+  }
+  return TimeOfDay(hour: hour, minute: minute);
+}

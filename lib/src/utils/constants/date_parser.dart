@@ -15,8 +15,16 @@ String formatDateToDayOfWeek(DateTime? date) {
 
 String formatDateAsNumber(DateTime? date) {
   if (date != null) {
-    final formatter = DateFormat('dd-MM-yyyy');
+    final formatter = DateFormat('dd/MM/yyyy');
     return formatter.format(date);
   }
   return "";
+}
+
+DateTime convertToDate(String input) {
+  List<String> parts = input.split('/');
+  int day = int.parse(parts[0]);
+  int month = int.parse(parts[1]);
+  int year = int.parse(parts[2]);
+  return DateTime(year, month, day);
 }

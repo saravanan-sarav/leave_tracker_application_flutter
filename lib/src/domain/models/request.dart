@@ -56,7 +56,6 @@ class RequestData {
 
   Map<String, dynamic> toJson() {
     return {
-      requestDataColumnEmpId: empId,
       requestDataColumnRequestTitle: requestTitle,
       requestDataColumnRequestTypeId: requestTypeId,
       requestDataColumnProjectName: projectName,
