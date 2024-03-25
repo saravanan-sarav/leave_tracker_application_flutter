@@ -15,7 +15,6 @@ class FromDatePicker extends StateNotifier<DateTime> {
 final fromDateProvider = StateNotifierProvider<FromDatePicker, DateTime>(
     (ref) => FromDatePicker(DateTime.now()));
 
-
 class ToDatePicker extends StateNotifier<DateTime> {
   ToDatePicker(super.state);
 
@@ -29,5 +28,4 @@ class ToDatePicker extends StateNotifier<DateTime> {
 }
 
 final toDateProvider = StateNotifierProvider<ToDatePicker, DateTime>(
-        (ref) => ToDatePicker(DateTime.now()));
-
+    (ref) => ToDatePicker(DateTime.now()));

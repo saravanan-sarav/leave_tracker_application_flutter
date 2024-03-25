@@ -1,5 +1,5 @@
 import 'package:leave_tracker_application/src/data/datasource/local/localization_data_source.dart';
-import 'package:leave_tracker_application/src/domain/repositories/localizationRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/localization_repository.dart';
 
 import '../../domain/models/localization.dart';
 

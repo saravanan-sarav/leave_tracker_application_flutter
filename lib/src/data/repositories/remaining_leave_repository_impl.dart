@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/remaining_leave_data_source.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/remaining_leave_response.dart';
-import 'package:leave_tracker_application/src/domain/repositories/remainingLeaveRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/remaining_leave_repository.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/data_not_found_exception.dart';
 
 class RemainingLeaveImpl implements RemainingLeaveRepository {

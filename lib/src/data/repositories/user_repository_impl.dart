@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/user_details_data_source.dart';
 import 'package:leave_tracker_application/src/domain/models/reporting_user_detail.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
-import 'package:leave_tracker_application/src/domain/repositories/userRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/user_repository.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/data_not_found_exception.dart';
 
 class UserRepositoryImpl extends UserRepository {

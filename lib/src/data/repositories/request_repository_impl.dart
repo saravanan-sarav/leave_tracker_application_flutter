@@ -5,7 +5,7 @@ import 'package:leave_tracker_application/src/domain/models/custom_models/reques
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/data_not_found_exception.dart';
 
-import '../../domain/repositories/requestRepository.dart';
+import '../../domain/repositories/request_repository.dart';
 
 class RequestRepositoryImpl extends RequestRepository {
   final RequestDataSource requestDataSource;

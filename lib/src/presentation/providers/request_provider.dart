@@ -5,7 +5,7 @@ import 'package:leave_tracker_application/src/data/repositories/request_reposito
 import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
-import 'package:leave_tracker_application/src/domain/repositories/requestRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/request_repository.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 
 final requestDataSourceProvider = Provider((ref) => RequestDataSource());

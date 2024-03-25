@@ -3,7 +3,7 @@ import 'package:leave_tracker_application/src/data/datasource/local/localization
 import 'package:leave_tracker_application/src/data/repositories/localization_repository_impl.dart';
 
 import '../../domain/models/localization.dart';
-import '../../domain/repositories/localizationRepository.dart';
+import '../../domain/repositories/localization_repository.dart';
 
 final localizationDataSourceProvider =
     Provider((ref) => LocalizationDataSource());

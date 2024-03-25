@@ -6,7 +6,7 @@ import 'package:leave_tracker_application/src/domain/models/notification.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/notification_badge_state.dart';
 
-import '../../domain/repositories/notificationRepository.dart';
+import '../../domain/repositories/notification_repository.dart';
 
 final notificationDataSourceProvider =
     Provider((ref) => NotificationDataSource());

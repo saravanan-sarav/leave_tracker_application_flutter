@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/remaining_leave_data_source.dart';
 import 'package:leave_tracker_application/src/data/repositories/remaining_leave_repository_impl.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/remaining_leave_response.dart';
-import 'package:leave_tracker_application/src/domain/repositories/remainingLeaveRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/remaining_leave_repository.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 
 final remainingLeaveDataSourceProvider =

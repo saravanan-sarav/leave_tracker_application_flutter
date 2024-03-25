@@ -5,7 +5,7 @@ import 'package:leave_tracker_application/src/domain/models/holiday.dart';
 
 import '../../data/datasource/remote/holiday_list_api.dart';
 import '../../domain/models/holiday_type.dart';
-import '../../domain/repositories/holidayRepository.dart';
+import '../../domain/repositories/holiday_repository.dart';
 
 final holidayDataSourceProvider = Provider((ref) => HolidayDataSource());
 

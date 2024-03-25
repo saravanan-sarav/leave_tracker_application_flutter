@@ -3,7 +3,7 @@ import 'package:leave_tracker_application/src/data/datasource/local/user_details
 import 'package:leave_tracker_application/src/data/repositories/user_repository_impl.dart';
 import 'package:leave_tracker_application/src/domain/models/reporting_user_detail.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
-import 'package:leave_tracker_application/src/domain/repositories/userRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/user_repository.dart';
 
 final userDetailsDataSourceProvider =
     Provider<UserDetailsDataSource>((ref) => UserDetailsDataSource());

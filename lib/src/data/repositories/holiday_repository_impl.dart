@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/holidays_data_source.dart';
 import 'package:leave_tracker_application/src/domain/models/holiday.dart';
 import 'package:leave_tracker_application/src/domain/models/holiday_type.dart';
-import 'package:leave_tracker_application/src/domain/repositories/holidayRepository.dart';
+import 'package:leave_tracker_application/src/domain/repositories/holiday_repository.dart';
 
 import '../../utils/exceptions/data_not_found_exception.dart';
 import '../datasource/remote/holiday_list_api.dart';
