@@ -39,7 +39,6 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
   final TextEditingController _teamIdController = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
 
-  final String originalDateTimeString = "2024-02-22 16:55:25.081174";
   final DateFormat originalDateFormat =
       DateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
   final DateFormat targetDateFormat = DateFormat("dd-MM-yyyy");
@@ -359,6 +358,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
+                      // From date
                       GestureDetector(
                         onTap: () {
                           openFromDatePicker();
