@@ -1,5 +1,3 @@
-import 'reporting_user_detail.dart';
-
 const String userTableName = "user";
 const String userColumnId = "id";
 const String userColumnEmpId = "emp_id";
@@ -74,48 +72,54 @@ class UserData {
 }
 
 List<UserData> userDetails = [
-  UserData(1, "1001", "Saravanan S", "Banking", "Intern", DateTime(2023, 9, 11),
-      "user", "1234", DateTime(2001, 10, 04), 2003, "101"),
+  UserData(
+      1,
+      "1001",
+      "Saravanan S",
+      "Banking",
+      "Intern",
+      DateTime(2023, 9, 11),
+      "saravanan@kumaran.com",
+      "Saravanan@123",
+      DateTime(2001, 10, 04),
+      2003,
+      "101"),
   UserData(
       2,
+      "1002",
+      "Gnanesh",
+      "Banking",
+      "Intern",
+      DateTime(2023, 9, 11),
+      "gnanesh@kumaran.com",
+      "Gnanesh@123",
+      DateTime(2002, 02, 10),
+      2003,
+      "101"),
+  UserData(
+      3,
       "101",
       "SaravanaKumar",
       "Banking",
       "Project Manager",
+      DateTime(2020, 4, 11),
+      "saravanankumar@kumaran.com",
+      "Skumar@123",
+      DateTime(1996, 01, 10),
+      2003,
+      "102"),
+  UserData(
+      4,
+      "102",
+      "Lohith Hariharan",
+      "Banking",
+      "Senior Project Manager",
       DateTime(2021, 9, 11),
-      "user2",
-      "1234",
+      "lohith@kumaran.com",
+      "lohith@123",
       DateTime(1995, 01, 04),
       2003,
       "1"),
-  UserData(3, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11), "admin@",
+  UserData(5, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11), "admin@",
       "1234", DateTime(1995, 01, 04), 2003, "1"),
 ];
-
-// ReportingUserDetail getReportingUserDetailOfCurrentLoggedInUser(String empId) {
-//   UserData loggedInUser =
-//       userDetails.firstWhere((element) => element.empId == empId);
-//   UserData reportingTo = userDetails
-//       .firstWhere((element) => element.empId == loggedInUser.reportingTo);
-//   return ReportingUserDetail(reportingTo.empId, reportingTo.name,
-//       reportingTo.designation, reportingTo.domain);
-// }
-
-// UserData? isUserIsValid(
-//   String email,
-//   String password,
-// ) {
-//   for (UserData user in userDetails) {
-//     if (user.email == email && user.password == password) {
-//       return user;
-//     }
-//   }
-//   return null;
-// }
-
-ReportingUserDetailDummy getRequestReportingToUser(String empId) {
-  UserData reportingUser =
-      userDetails.firstWhere((element) => element.empId == empId);
-  return ReportingUserDetailDummy(reportingUser.empId, reportingUser.name,
-      reportingUser.designation, reportingUser.domain);
-}

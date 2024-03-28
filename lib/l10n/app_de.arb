@@ -1,4 +1,12 @@
 {
   "timesheet": "Stundenzettel",
-  "notifications": "Benachrichtigungen"
+  "notifications": "Benachrichtigungen",
+  "welcome_back": "Willkommen zurück..!!",
+  "welcome_note": "Automatisieren Sie Ihre Urlaubsanträge mit nur einem Klick!",
+  "enter_your_email": "Geben sie ihre E-Mail Adresse ein",
+  "enter_your_password": "Geben Sie Ihr Passwort ein",
+  "email": "email",
+  "password": "Passwort",
+  "login": "Anmeldung",
+  "forget_password": "Passwort vergessen?"
 }

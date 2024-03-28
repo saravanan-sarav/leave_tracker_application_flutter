@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/current_logged_in_user.dart';
+import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/appbar_widget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/drop_down_widget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/text_field_widget.dart';
+import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
+import 'package:leave_tracker_application/src/utils/constants/time_parser.dart';
 
 import '../../domain/models/request.dart';
+import '../widgets/snack_bar_widget.dart';
 
 class CreateRequestPage extends ConsumerStatefulWidget {
   const CreateRequestPage({super.key});
@@ -33,29 +37,57 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
   }
 
   submitRequestData() async {
-    bool validationSuccessful = false;
     RequestData requestData = RequestData(
         0,
-        currentLoggedInUser.empId,
         "",
-        0,
-        "",
-        "",
-        DateTime.now(),
-        null,
-        null,
-        null,
-        "",
+        _requestTextController.text,
+        int.parse(_requestTypeTextController.text),
+        _projectNameController.text,
+        _teamIdController.text,
+        convertToDate(_fromDateTextController.text),
+        _toDateTextController.text.isNotEmpty
+            ? convertToDate(_toDateTextController.text)
+            : null,
+        _fromTimeTextController.text.isNotEmpty
+            ? convertToTimeOfDay(_fromTimeTextController.text)
+            : null,
+        _toTimeTextController.text.isNotEmpty
+            ? convertToTimeOfDay(_toTimeTextController.text)
+            : null,
+        _reasonTextController.text,
         DateTime.now(),
         2,
         null,
-        currentUserReportingUserDetail.empId);
+        "");
+    final result = await ref
+        .read(requestsProvider.notifier)
+        .createRequest(requestData, ref);
+    if (result) {
+      var snackBar = customShakingSnackBarWidget(
+        content: const Text("Request Created Successfully..."),
+        backgroundColor: Colors.green,
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } else {
+      var snackBar = customShakingSnackBarWidget(
+        content: const Text("No Leave Available for this request..."),
+        backgroundColor: Colors.red,
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final permissionClicked = ref.watch(permissionNotifyProvider);
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Stack(
         children: [
@@ -73,7 +105,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -162,8 +194,11 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                 padding: const EdgeInsets.only(right: 40.0, left: 20, top: 10),
                 child: ElevatedButton(
                   onPressed: () {
-                    submitRequestData();
-                    _formKey.currentState!.validate();
+                    if (formKey.currentState!.validate()) {
+                      submitRequestData();
+                    } else {
+                      print("Request Creation failed");
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue.shade900),

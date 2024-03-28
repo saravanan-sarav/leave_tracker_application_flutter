@@ -8,5 +8,5 @@ abstract class UserRepository {
   Future<Either<UserData, DataNotFoundException>> authUser(
       String userEmail, String password);
 
-  Future<ReportingUserDetailDummy?> getReportingToUserDetails(String empId);
+  Future<ReportingUserDetail?> getReportingToUserDetails(String empId);
 }

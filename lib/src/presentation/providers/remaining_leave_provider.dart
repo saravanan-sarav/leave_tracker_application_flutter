@@ -28,17 +28,15 @@ class RemainingLeaveNotifier
     return null;
   }
 
-  Future<bool?> checkSelectedLeaveIsAvailable(
-      int remainingLeaveType, WidgetRef ref) async {
-    final empId =
-        ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
+  Future<bool> checkSelectedLeaveIsAvailable(
+      int remainingLeaveType, String empId, int days) async {
     bool completed = false;
     RemainingLeaveResponse? remainingLeaveResponse = state
         .firstWhere((element) => element.requestTypeId == remainingLeaveType);
     if (remainingLeaveResponse.allocatedLeave >=
-        remainingLeaveResponse.bookedCount + 1) {
+        remainingLeaveResponse.bookedCount + days) {
       final updatedOrFailure = await remainingLeaveRepository
-          .updateRemainingLeave(empId, remainingLeaveType);
+          .updateRemainingLeave(empId, remainingLeaveType,(remainingLeaveResponse.bookedCount + days));
       updatedOrFailure.fold((l) => completed = true, (r) => completed = false);
       return completed;
     } else {

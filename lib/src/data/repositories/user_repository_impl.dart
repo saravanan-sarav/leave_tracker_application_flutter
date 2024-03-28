@@ -23,11 +23,11 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<ReportingUserDetailDummy?> getReportingToUserDetails(String empId) async {
+  Future<ReportingUserDetail?> getReportingToUserDetails(String empId) async {
     UserData? userData =
         await userDetailsDataSource.getReportingToUserDetails(empId);
     if (userData != null) {
-      return ReportingUserDetailDummy(userData.empId, userData.name,
+      return ReportingUserDetail(userData.empId, userData.name,
           userData.designation, userData.designation);
     }
     return null;

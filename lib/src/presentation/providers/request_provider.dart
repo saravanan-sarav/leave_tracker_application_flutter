@@ -6,7 +6,9 @@ import 'package:leave_tracker_application/src/domain/models/custom_models/reques
 import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
 import 'package:leave_tracker_application/src/domain/repositories/request_repository.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remaining_leave_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
 final requestDataSourceProvider = Provider((ref) => RequestDataSource());
 
@@ -24,7 +26,7 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
     final currentUser = ref.read(currentLoggedInUserDetailsProvider.notifier);
     final requestListOrNotFound = await requestRepository
         .getRequestDetailsUsingEmpId(currentUser.getState().empId);
-    requestListOrNotFound.fold((l) => state = l, (r) => []);
+    requestListOrNotFound.fold((l) => state = l, (r) => state = []);
     getCount();
     return true;
   }
@@ -43,15 +45,30 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
     return null;
   }
 
-  Future<bool> createRequest(RequestData requestData) async {
-    int result = await requestRepository.addRequest(requestData);
-    if (result > 0) {
-      state.add(requestData);
-      getCount();
-      return true;
-    } else {
-      return false;
+  Future<bool> createRequest(RequestData requestData, WidgetRef ref) async {
+    final empId =
+        ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
+    final reportingUserId =
+        ref.read(reportingToUserDetailsProvider.notifier).getState().empId;
+    requestData.reportTo = reportingUserId;
+    requestData.empId = empId;
+    int days = !ref.read(permissionNotifyProvider.notifier).getState()
+        ? requestData.toDate!.difference(requestData.fromDate).inDays + 1
+        : 1;
+    print(" Days count $days");
+    if (await ref
+        .read(remainingLeavesProvider.notifier)
+        .checkSelectedLeaveIsAvailable(
+            requestData.requestTypeId, empId, days)) {
+      int result = await requestRepository.addRequest(requestData);
+      if (result > 0) {
+        requestData.id = result;
+        state.add(requestData);
+        getCount();
+        return true;
+      }
     }
+    return false;
   }
 
   Future<RequestDescriptionDetail?> getRequestDescriptionByRequestId(
@@ -83,7 +100,7 @@ class RequestSentToMeNotifier extends StateNotifier<List<RequestData>> {
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
     final requestDataListOrNotFound =
         await requestRepository.getSentToMeRequestData(empId);
-    requestDataListOrNotFound.fold((l) => state = l, (r) => []);
+    requestDataListOrNotFound.fold((l) => state = l, (r) => state = []);
     getCount();
     return true;
   }
@@ -190,7 +207,7 @@ class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
 
   Future<bool> getRequestType() async {
     final requestTypeOrNotFound = await requestRepository.getRequestTypes();
-    requestTypeOrNotFound.fold((l) => state = l, (r) => []);
+    requestTypeOrNotFound.fold((l) => state = l, (r) => state = []);
     return true;
   }
 

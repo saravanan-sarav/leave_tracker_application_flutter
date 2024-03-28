@@ -31,11 +31,11 @@ class RemainingLeaveDataSource {
   }
 
   Future<bool?> updateRemainingLeaveUsingEmpIdAndRequestTypeId(
-      String empId, int requestType) async {
+      String empId, int requestType, int days) async {
     Database? dbClient = DatabaseHelper.database;
     if (dbClient != null) {
       var result = await dbClient.rawUpdate(
-          '''UPDATE $userRemainingLeaveTableName SET $userRemainingLeaveColumnBookedCount=$userRemainingLeaveColumnBookedCount+1 WHERE $userRemainingLeaveColumnRequestTypeId=$requestType AND $userRemainingLeaveColumnEmpId=$empId;''');
+          '''UPDATE $userRemainingLeaveTableName SET $userRemainingLeaveColumnBookedCount=$days WHERE $userRemainingLeaveColumnRequestTypeId=$requestType AND $userRemainingLeaveColumnEmpId=$empId;''');
       if (result > 0) {
         return true;
       } else {
@@ -44,6 +44,4 @@ class RemainingLeaveDataSource {
     }
     return null;
   }
-
-
 }

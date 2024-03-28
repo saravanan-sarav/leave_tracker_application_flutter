@@ -1,8 +1,8 @@
-class ReportingUserDetailDummy {
+class ReportingUserDetail {
   String empId;
   String name;
   String designation;
   String domain;
 
-  ReportingUserDetailDummy(this.empId, this.name, this.designation, this.domain);
+  ReportingUserDetail(this.empId, this.name, this.designation, this.domain);
 }

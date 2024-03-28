@@ -3,13 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/domain/models/history_tabs.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheet_tab_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/request_detail_page.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../domain/models/request.dart';
-import '../../domain/models/user.dart';
 
 class TimesheetPageWidget extends ConsumerStatefulWidget {
   const TimesheetPageWidget({super.key});
@@ -163,6 +163,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () async {
+                                      print(applicationDetails[index].id);
                                       await ref
                                           .read(requestDescriptionDetailProvider
                                               .notifier)
@@ -286,9 +287,9 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                   )
                                                 ],
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 20),
+                                               Padding(
+                                                padding:
+                                                    const EdgeInsets.only(top: 20),
                                                 child: Row(
                                                   children: [
                                                     const Text(
@@ -299,9 +300,8 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                           fontSize: 14),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10.0),
+                                                      padding: const EdgeInsets.only(
+                                                          left: 10.0),
                                                       child: Row(
                                                         children: [
                                                           const CircleAvatar(
@@ -312,8 +312,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .only(
+                                                                const EdgeInsets.only(
                                                                     left: 8.0),
                                                             child: Column(
                                                               crossAxisAlignment:
@@ -321,10 +320,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                       .start,
                                                               children: [
                                                                 Text(
-                                                                  getRequestReportingToUser(
-                                                                          applicationDetails[index]
-                                                                              .reportTo)
-                                                                      .name,
+                                                                  ref.read(reportingToUserDetailsProvider.notifier).getState().name,
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .blue,
@@ -335,10 +331,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                               .bold),
                                                                 ),
                                                                 Text(
-                                                                  getRequestReportingToUser(
-                                                                          applicationDetails[index]
-                                                                              .reportTo)
-                                                                      .designation,
+                                                                  ref.read(reportingToUserDetailsProvider.notifier).getState().designation,
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .grey,

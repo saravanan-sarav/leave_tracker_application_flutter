@@ -1,6 +1,6 @@
 import 'package:leave_tracker_application/src/data/database/db_helper.dart';
-import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
+import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/request_status.dart';
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
@@ -13,7 +13,7 @@ class RequestDataSource {
     Database? dbClient = DatabaseHelper.database;
     if (dbClient != null) {
       List<Map<String, dynamic>> result = await dbClient.rawQuery(
-          '''SELECT * FROM $requestDataTableName WHERE $requestDataColumnEmpId="$empId";''');
+          '''SELECT * FROM $requestDataTableName WHERE $requestDataColumnEmpId=$empId;''');
       for (var res in result) {
         requestDataList.add(RequestData.fromJson(res));
       }
@@ -35,6 +35,7 @@ class RequestDataSource {
   Future<RequestDescriptionDetail?> getRequestDescriptionDetailsByRequestId(
       int requestId) async {
     Database? dbClient = DatabaseHelper.database;
+    print(" Request Data Source $requestId");
     if (dbClient != null) {
       List<Map<String, dynamic>> result = await dbClient.rawQuery('''SELECT
           reqData.$requestDataColumnId,
@@ -67,6 +68,7 @@ class RequestDataSource {
       JOIN
       $userTableName AS reportingTo ON reportingTo.$userColumnEmpId = emp.$userColumnReportingTo
       WHERE reqData.$requestDataColumnId = $requestId;''');
+      print(result.first.toString());
       return RequestDescriptionDetail.fromJson(result.first);
     }
     return null;

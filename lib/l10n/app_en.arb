@@ -1,4 +1,12 @@
 {
   "timesheet": "timesheet",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "welcome_back": "Welcome Back..!!",
+  "welcome_note": "Automate your leave requests with just one click!",
+  "enter_your_email": "Enter Your Email",
+  "enter_your_password": "Enter Your Password",
+  "email": "email",
+  "password": "password",
+  "login": "login",
+  "forget_password": "Forget Password?"
 }

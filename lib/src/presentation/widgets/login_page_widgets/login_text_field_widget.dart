@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LoginEmailTextFieldWidget extends ConsumerStatefulWidget {
   final TextEditingController emailController;
@@ -23,7 +25,7 @@ class _LoginEmailTextFieldWidgetState
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "Enter you email",
+              AppLocalizations.of(context)!.enter_your_email,
               style: TextStyle(
                   color: Colors.blue.shade900,
                   fontSize: 20,
@@ -33,7 +35,7 @@ class _LoginEmailTextFieldWidgetState
           TextFormField(
             controller: widget.emailController,
             decoration: InputDecoration(
-              labelText: 'Email',
+              labelText: AppLocalizations.of(context)!.email,
               labelStyle: TextStyle(color: Colors.blue.shade900),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -92,7 +94,7 @@ class _LoginPasswordTextFieldWidgetState
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              "Enter you Password",
+              AppLocalizations.of(context)!.enter_your_password,
               style: TextStyle(
                   color: Colors.blue.shade900,
                   fontSize: 20,
@@ -103,7 +105,7 @@ class _LoginPasswordTextFieldWidgetState
             controller: widget.passwordController,
             obscureText: true,
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: AppLocalizations.of(context)!.password,
               labelStyle: TextStyle(color: Colors.blue.shade900),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

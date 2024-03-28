@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../../../utils/constants/time_parser.dart';
@@ -272,7 +274,7 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
                 },
               ),
               // errorText: isValid ? "Please enter From Date." : null,
-              hintText: "dd/mm/yyyy",
+              hintText: "dd-mm-yyyy",
               labelStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -290,17 +292,17 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
                 return 'Please enter a date';
               }
               if (value.length == 2 || value.length == 5) {
-                widget.textEditingController.text = "$value/";
+                widget.textEditingController.text = "$value-";
               }
-              final RegExp dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+              final RegExp dateRegex = RegExp(r'^\d{2}-\d{2}-\d{4}$');
 
               if (!dateRegex.hasMatch(value)) {
-                return 'Enter a valid date in MM/DD/YYYY format';
+                return 'Enter a valid date in MM-DD-YYYY format';
               }
 
               try {
                 DateTime parse = convertToDate(value);
-                if (parse.compareTo(DateTime.now()) < 0) {
+                if (checkDateIsGreater(parse, DateTime.now())) {
                   return "Please enter future Date";
                 }
               } catch (e) {
@@ -316,7 +318,7 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
   }
 }
 
-class ToDateTextFieldWidget extends StatefulWidget {
+class ToDateTextFieldWidget extends ConsumerStatefulWidget {
   final String labelText;
   final TextEditingController toDateTextEditingController;
   final TextEditingController fromDateTextEditingController;
@@ -329,10 +331,11 @@ class ToDateTextFieldWidget extends StatefulWidget {
   });
 
   @override
-  State<ToDateTextFieldWidget> createState() => _ToDateTextFieldWidgetState();
+  ConsumerState<ToDateTextFieldWidget> createState() =>
+      _ToDateTextFieldWidgetState();
 }
 
-class _ToDateTextFieldWidgetState extends State<ToDateTextFieldWidget> {
+class _ToDateTextFieldWidgetState extends ConsumerState<ToDateTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -364,7 +367,7 @@ class _ToDateTextFieldWidgetState extends State<ToDateTextFieldWidget> {
                 },
               ),
               // errorText: isValid ? "Please enter From Date." : null,
-              hintText: "dd/mm/yyyy",
+              hintText: "dd-mm-yyyy",
               labelStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -378,29 +381,30 @@ class _ToDateTextFieldWidgetState extends State<ToDateTextFieldWidget> {
             cursorColor: Colors.grey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a date';
-              }
-              if (value.length == 2 || value.length == 5) {
-                widget.toDateTextEditingController.text = "$value/";
-              }
-              final RegExp dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
-
-              if (!dateRegex.hasMatch(value)) {
-                return 'Enter a valid date in MM/DD/YYYY format';
-              }
-
-              try {
-                DateTime parse = convertToDate(value);
-                if (parse.compareTo(convertToDate(
-                        widget.fromDateTextEditingController.text)) <
-                    0) {
-                  return "Please enter correct to Date";
+              if (!ref.read(permissionNotifyProvider.notifier).getState()) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a date';
                 }
-              } catch (e) {
-                return 'Enter a valid date';
-              }
+                if (value.length == 2 || value.length == 5) {
+                  widget.toDateTextEditingController.text = "$value-";
+                }
+                final RegExp dateRegex = RegExp(r'^\d{2}-\d{2}-\d{4}$');
 
+                if (!dateRegex.hasMatch(value)) {
+                  return 'Enter a valid date in MM-DD-YYYY format';
+                }
+
+                try {
+                  DateTime parse = convertToDate(value);
+                  if (parse.compareTo(convertToDate(
+                          widget.fromDateTextEditingController.text)) <
+                      0) {
+                    return "Please enter correct to Date";
+                  }
+                } catch (e) {
+                  return 'Enter a valid date';
+                }
+              }
               return null;
             },
           ),
@@ -410,7 +414,7 @@ class _ToDateTextFieldWidgetState extends State<ToDateTextFieldWidget> {
   }
 }
 
-class FromTimeTextFieldWidget extends StatefulWidget {
+class FromTimeTextFieldWidget extends ConsumerStatefulWidget {
   final String labelText;
   final TextEditingController textEditingController;
 
@@ -421,11 +425,12 @@ class FromTimeTextFieldWidget extends StatefulWidget {
   });
 
   @override
-  State<FromTimeTextFieldWidget> createState() =>
+  ConsumerState<FromTimeTextFieldWidget> createState() =>
       _FromTimeTextFieldWidgetState();
 }
 
-class _FromTimeTextFieldWidgetState extends State<FromTimeTextFieldWidget> {
+class _FromTimeTextFieldWidgetState
+    extends ConsumerState<FromTimeTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -469,14 +474,16 @@ class _FromTimeTextFieldWidgetState extends State<FromTimeTextFieldWidget> {
             cursorColor: Colors.grey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter Time';
-              } else {
-                if (value.length == 2) {
-                  widget.textEditingController.text = "$value:";
-                }
-                if (value.length == 5) {
-                  widget.textEditingController.text = "$value ";
+              if (ref.read(permissionNotifyProvider.notifier).getState()) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Time';
+                } else {
+                  if (value.length == 2) {
+                    widget.textEditingController.text = "$value:";
+                  }
+                  if (value.length == 5) {
+                    widget.textEditingController.text = "$value ";
+                  }
                 }
               }
               return null;
@@ -488,7 +495,7 @@ class _FromTimeTextFieldWidgetState extends State<FromTimeTextFieldWidget> {
   }
 }
 
-class ToTimeTextFieldWidget extends StatefulWidget {
+class ToTimeTextFieldWidget extends ConsumerStatefulWidget {
   final String labelText;
   final TextEditingController fromTimeTextEditingController;
   final TextEditingController toTimeTextEditingController;
@@ -501,10 +508,10 @@ class ToTimeTextFieldWidget extends StatefulWidget {
   });
 
   @override
-  State<ToTimeTextFieldWidget> createState() => _ToTimeTextFieldWidgetState();
+  ConsumerState<ToTimeTextFieldWidget> createState() => _ToTimeTextFieldWidgetState();
 }
 
-class _ToTimeTextFieldWidgetState extends State<ToTimeTextFieldWidget> {
+class _ToTimeTextFieldWidgetState extends ConsumerState<ToTimeTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -548,28 +555,30 @@ class _ToTimeTextFieldWidgetState extends State<ToTimeTextFieldWidget> {
             cursorColor: Colors.grey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a time';
-              }
+             if(ref.read(permissionNotifyProvider.notifier).getState()){
+               if (value == null || value.isEmpty) {
+                 return 'Please enter a time';
+               }
 
-              final RegExp timeRegex =
-                  RegExp(r'^([01]?[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$');
+               final RegExp timeRegex =
+               RegExp(r'^([01]?[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$');
 
-              if (!timeRegex.hasMatch(value)) {
-                return 'Enter a valid time in HH:MM AM/PM format';
-              }
-              try {
-                TimeOfDay parse = convertToTimeOfDay(value);
-                if (!isToTimeIsGreater(
-                    parse,
-                    convertToTimeOfDay(
-                        widget.fromTimeTextEditingController.text))) {
-                  return "To Time must be greater than From Time";
-                }
-              } catch (e) {
-                return "Enter correct time";
-              }
+               if (!timeRegex.hasMatch(value)) {
+                 return 'Enter a valid time in HH:MM AM/PM format';
+               }
+               try {
+                 TimeOfDay parse = convertToTimeOfDay(value);
+                 if (!isToTimeIsGreater(
+                     parse,
+                     convertToTimeOfDay(
+                         widget.fromTimeTextEditingController.text))) {
+                   return "To Time must be greater than From Time";
+                 }
+               } catch (e) {
+                 return "Enter correct time";
+               }
 
+             }
               return null;
             },
           ),

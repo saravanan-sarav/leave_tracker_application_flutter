@@ -3,13 +3,13 @@ import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../domain/models/notification_action.dart';
-import '../../domain/models/request.dart';
 import '../../domain/models/holiday.dart';
 import '../../domain/models/holiday_type.dart';
 import '../../domain/models/localization.dart';
 import '../../domain/models/notification.dart';
+import '../../domain/models/notification_action.dart';
 import '../../domain/models/remaining_leave.dart';
+import '../../domain/models/request.dart';
 import '../../domain/models/request_type.dart';
 import '../../domain/models/user_remaining_leave.dart';
 
@@ -17,6 +17,9 @@ class DatabaseHelper {
   static Database? database;
 
   Future<void> get db async {
+    // final path = await getDatabasesPath();
+    // final databasePath = join(path, "leave_management.db");
+    // await deleteDatabase(databasePath);
     database = await initDatabase();
   }
 
@@ -72,7 +75,8 @@ CREATE TABLE $notificationTableName (
   FOREIGN KEY ($notificationColumnActionId) REFERENCES $notificationActionTableName($notificationActionColumnId))''');
     await db.execute('''CREATE TABLE $localizationTableName (
   $localizationColumnId INTEGER PRIMARY KEY,
-  $localizationColumnLocale TEXT)''');
+  $localizationColumnLocale TEXT,
+  $localizationColumnLanguage TEXT)''');
     await loadUserDetails();
     await loadRequestStatus();
     await loadRequestType();
@@ -187,8 +191,8 @@ Future<void> loadNotification() async {
 }
 
 List<Localization> localizationList = [
-  Localization(1, "en"),
-  Localization(2, "de")
+  Localization(1, "en", "English"),
+  Localization(2, "de", "German")
 ];
 
 Future<void> loadLocalization() async {

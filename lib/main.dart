@@ -68,7 +68,7 @@ class MyApp extends ConsumerWidget {
                 ),
             ],
           ),
-          locale: Locale(ref.watch(localizationProvider.notifier).getLocale()),
+          locale: Locale(ref.watch(localizationProvider).locale),
         );
       },
     );
