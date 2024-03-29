@@ -5,6 +5,7 @@ import 'package:leave_tracker_application/app.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/login_page_widgets/login_text_field_widget.dart';
+import 'package:leave_tracker_application/src/utils/extensions/connectivity.dart';
 
 import '../../domain/models/localization.dart';
 import '../providers/localization_provider.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loader = ref.read(loadingProvider.notifier);
     List<Localization> localizationData =
         ref.read(localizationsProvider.notifier).getLocalizations();
-    final loginFormKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: Stack(
         children: [
@@ -72,13 +73,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 child: Column(
                   children: [
                     Form(
-                        // key: loginFormKey,
+                        key: loginFormKey,
                         child: Column(
-                      children: [
-                        LoginEmailTextFieldWidget(emailTextController),
-                        LoginPasswordTextFieldWidget(passwordTextController),
-                      ],
-                    )),
+                          children: [
+                            LoginEmailTextFieldWidget(emailTextController),
+                            LoginPasswordTextFieldWidget(
+                                passwordTextController),
+                          ],
+                        )),
                     Row(
                       children: [
                         GestureDetector(
@@ -111,40 +113,54 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         width: 140,
                         child: ElevatedButton(
                             onPressed: () async {
-                              if (loginFormKey.currentState!.validate()) {
-                                loader.startLoading();
-                                final result = await ref
-                                    .read(authUserDetailsProvider.notifier)
-                                    .authUserDetails(emailTextController.text,
-                                        passwordTextController.text, ref);
-                                if (result) {
-                                  if (context.mounted) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const MyHomePage()));
+                              if (emailTextController.text.isEmpty &&
+                                  passwordTextController.text.isEmpty) {
+                                var snackBar = customShakingSnackBarWidget(
+                                  content: const Text("Enter Credentials..."),
+                                  backgroundColor: Colors.red,
+                                );
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              } else {
+                                if (await checkUserConnection()) {
+                                  loader.startLoading();
+                                  final result = await ref
+                                      .read(authUserDetailsProvider.notifier)
+                                      .authUserDetails(emailTextController.text,
+                                          passwordTextController.text, ref);
+                                  if (result) {
+                                    if (context.mounted) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MyHomePage()));
+                                    }
+                                    loader.endLoading();
+                                  } else {
+                                    loader.endLoading();
+                                    var snackBar = customShakingSnackBarWidget(
+                                      content:
+                                          const Text("Invalid Credentials..."),
+                                      backgroundColor: Colors.red,
+                                    );
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   }
-                                  loader.endLoading();
                                 } else {
                                   var snackBar = customShakingSnackBarWidget(
-                                    content:
-                                        const Text("Invalid Credentials..."),
+                                    content: const Text(
+                                        "Check Internet connection..."),
                                     backgroundColor: Colors.red,
                                   );
                                   if (context.mounted) {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
                                   }
-                                }
-                              } else {
-                                var snackBar = customShakingSnackBarWidget(
-                                  content: const Text("Enter Credentials..."),
-                                  backgroundColor: Colors.red,
-                                );
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                               }
                             },

@@ -56,16 +56,15 @@ class _LoginEmailTextFieldWidgetState
             style: const TextStyle(color: Colors.lightBlue),
             cursorColor: Colors.lightBlue,
             keyboardType: TextInputType.emailAddress,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (!value!.isNotEmpty) {
                 return 'Please enter your email';
               } else {
-                // final RegExp emailRegex =
-                //     RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                // if (!emailRegex.hasMatch(value)) {
-                //   return "Enter Correct email format..";
-                // }
+                final RegExp emailRegex =
+                    RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                if (!emailRegex.hasMatch(value)) {
+                  return "Enter Correct email format..";
+                }
               }
               return null;
             },
@@ -129,7 +128,6 @@ class _LoginPasswordTextFieldWidgetState
                 borderSide: const BorderSide(color: Colors.red),
               ),
             ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please enter your Password';

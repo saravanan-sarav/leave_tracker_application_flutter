@@ -101,12 +101,7 @@ class CreateRequestWidget extends ConsumerWidget {
                     ref.read(permissionNotifyProvider.notifier).updateState();
                     if (ref
                         .read(permissionNotifyProvider.notifier)
-                        .getState()) {
-                      // ref
-                      //     .read(requestTypeValueProvider.notifier)
-                      //     .changeValue(5);
-                      // ref.read(requestTypeSelectorProvider.notifier).validate();
-                    }
+                        .getState()) {}
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -190,11 +185,13 @@ class CreateRequestWidget extends ConsumerWidget {
                       await ref
                           .read(remainingLeavesProvider.notifier)
                           .getAllRemainingLeave(ref);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RemainingLeavePage()),
-                      );
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RemainingLeavePage()),
+                        );
+                      }
                     },
                     child: Stack(
                       children: [

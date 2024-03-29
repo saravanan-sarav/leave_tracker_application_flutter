@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:leave_tracker_application/src/data/database/db_helper.dart';
 import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
@@ -17,7 +16,6 @@ void main() async {
   ]);
   DatabaseHelper db = DatabaseHelper();
   await db.db;
-
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -41,7 +39,7 @@ class MyApp extends ConsumerWidget {
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
                 .copyWith(background: Colors.white),
-            fontFamily: GoogleFonts.karla().fontFamily,
+            fontFamily: "Karla",
           ),
           home: Stack(
             children: [
