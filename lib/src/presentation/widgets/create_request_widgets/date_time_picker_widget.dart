@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 class DatePickerWidget extends ConsumerStatefulWidget {
-  TextEditingController textEditingController;
+ final TextEditingController textEditingController;
 
-  DatePickerWidget(this.textEditingController, {super.key});
+  const DatePickerWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -105,7 +105,7 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
             color: Colors.blue,
           ),
           onSubmit: (index) async {
-            final TimeOfDay? picked = await showTimePicker(
+            await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
                 barrierLabel: "Select From Time");

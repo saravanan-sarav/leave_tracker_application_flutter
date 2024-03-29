@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheet_page.dart';
 
+import '../../providers/request_providers/request_sent_to_me_provider.dart';
 import '../../state_management/loading_provider.dart';
 
 class ListOfRequestWidget extends ConsumerStatefulWidget {
@@ -106,11 +107,13 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
               await ref
                   .read(requestSentToMeProvider.notifier)
                   .getSentToMeRequestList(ref);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const TimesheetPageWidget()),
-              ).then((value) => setState(() {}));
+              if(context.mounted){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TimesheetPageWidget()),
+                ).then((value) => setState(() {}));
+              }
               ref.read(loadingProvider.notifier).endLoading();
             },
             child: Padding(

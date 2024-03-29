@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
-import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../../domain/models/localization.dart';
 import '../../utils/constants/time_parser.dart';
+import '../providers/user_providers/current_logged_in_provider.dart';
+import '../providers/user_providers/reporting_to_user_provider.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});

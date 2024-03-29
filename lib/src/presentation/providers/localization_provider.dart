@@ -31,7 +31,8 @@ class LocalizationsNotifier extends StateNotifier<List<Localization>> {
   LocalizationsNotifier(super.state, this.localizationRepository);
 }
 
-final localizationsProvider = StateNotifierProvider((ref) {
+final localizationsProvider =
+    StateNotifierProvider<LocalizationsNotifier, List<Localization>>((ref) {
   final localizationRepository = ref.read(localizationRepositoryProvider);
   return LocalizationsNotifier([], localizationRepository);
 });

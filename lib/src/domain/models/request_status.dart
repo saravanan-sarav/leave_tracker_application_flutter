@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:leave_tracker_application/src/domain/models/request_type.dart';
-import 'package:leave_tracker_application/src/domain/models/user.dart';
 
 import 'request.dart';
 

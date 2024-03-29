@@ -3,7 +3,8 @@ import 'package:leave_tracker_application/src/data/datasource/local/remaining_le
 import 'package:leave_tracker_application/src/data/repositories/remaining_leave_repository_impl.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/remaining_leave_response.dart';
 import 'package:leave_tracker_application/src/domain/repositories/remaining_leave_repository.dart';
-import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
+
+import 'user_providers/current_logged_in_provider.dart';
 
 final remainingLeaveDataSourceProvider =
     Provider((ref) => RemainingLeaveDataSource());
@@ -35,8 +36,9 @@ class RemainingLeaveNotifier
         .firstWhere((element) => element.requestTypeId == remainingLeaveType);
     if (remainingLeaveResponse.allocatedLeave >=
         remainingLeaveResponse.bookedCount + days) {
-      final updatedOrFailure = await remainingLeaveRepository
-          .updateRemainingLeave(empId, remainingLeaveType,(remainingLeaveResponse.bookedCount + days));
+      final updatedOrFailure =
+          await remainingLeaveRepository.updateRemainingLeave(empId,
+              remainingLeaveType, (remainingLeaveResponse.bookedCount + days));
       updatedOrFailure.fold((l) => completed = true, (r) => completed = false);
       return completed;
     } else {
@@ -49,7 +51,9 @@ class RemainingLeaveNotifier
   }
 }
 
-final remainingLeavesProvider = StateNotifierProvider((ref) {
+final remainingLeavesProvider =
+    StateNotifierProvider<RemainingLeaveNotifier, List<RemainingLeaveResponse>>(
+        (ref) {
   final remainingLeaveRepository = ref.read(remainingLeaveRepositoryProvider);
   return RemainingLeaveNotifier([], remainingLeaveRepository);
 });

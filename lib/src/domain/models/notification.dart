@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:intl/intl.dart';
 
 const String notificationTableName = "notification";
 const String notificationColumnId = "id";

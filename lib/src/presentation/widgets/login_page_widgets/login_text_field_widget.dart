@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginEmailTextFieldWidget extends ConsumerStatefulWidget {
   final TextEditingController emailController;
@@ -59,8 +58,14 @@ class _LoginEmailTextFieldWidgetState
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (value!.isEmpty) {
+              if (!value!.isNotEmpty) {
                 return 'Please enter your email';
+              } else {
+                // final RegExp emailRegex =
+                //     RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                // if (!emailRegex.hasMatch(value)) {
+                //   return "Enter Correct email format..";
+                // }
               }
               return null;
             },
@@ -124,6 +129,13 @@ class _LoginPasswordTextFieldWidgetState
                 borderSide: const BorderSide(color: Colors.red),
               ),
             ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter your Password';
+              }
+              return null;
+            },
             style: TextStyle(color: Colors.lightBlue.shade300),
             cursorColor: Colors.lightBlue,
           ),

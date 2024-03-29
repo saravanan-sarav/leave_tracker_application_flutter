@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
 import '../../../domain/models/request_type.dart';
+import '../../providers/request_providers/request_type_provider.dart';
 
 class DropDownWidget extends ConsumerStatefulWidget {
-  TextEditingController textEditingController;
+ final TextEditingController textEditingController;
 
-  DropDownWidget(this.textEditingController, {super.key});
+ const DropDownWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<DropDownWidget> createState() => _DropDownWidgetState();

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:leave_tracker_application/src/presentation/providers/holidays_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/holiday_providers/holidays_provider.dart';
 
 import '../../domain/models/holiday.dart';
+import '../providers/holiday_providers/holiday_type_provider.dart';
 
 class HolidayListPage extends ConsumerWidget {
   const HolidayListPage({super.key});

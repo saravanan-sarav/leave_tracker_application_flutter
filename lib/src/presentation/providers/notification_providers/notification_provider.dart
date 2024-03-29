@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/notification_data_source.dart';
 import 'package:leave_tracker_application/src/data/repositories/notification_repository_impl.dart';
-import 'package:leave_tracker_application/src/domain/models/notification_action.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
-import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/notification_badge_state.dart';
 
-import '../../domain/repositories/notification_repository.dart';
+import '../../../domain/repositories/notification_repository.dart';
+import '../user_providers/current_logged_in_provider.dart';
 
 final notificationDataSourceProvider =
     Provider((ref) => NotificationDataSource());
@@ -69,29 +68,9 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   }
 }
 
-final notificationsProvider = StateNotifierProvider((ref) {
+final notificationsProvider = StateNotifierProvider<NotificationsNotifier,List<NotificationModel>>((ref) {
   final notificationRepository = ref.read(notificationRepositoryProvider);
   return NotificationsNotifier([], notificationRepository);
 });
 
-class NotificationActionNotifier
-    extends StateNotifier<List<NotificationAction>> {
-  final NotificationRepository notificationRepository;
 
-  NotificationActionNotifier(super.state, this.notificationRepository);
-
-  String getNotificationAction(int id) {
-    return state.firstWhere((element) => element.id == id).actions;
-  }
-
-  Future<void> getNotificationActions() async {
-    final notificationActionListOrNotFound =
-        await notificationRepository.getAllNotificationAction();
-    notificationActionListOrNotFound.fold((l) => state = l, (r) => null);
-  }
-}
-
-final notificationActionProvider = StateNotifierProvider((ref) {
-  final notificationRepository = ref.read(notificationRepositoryProvider);
-  return NotificationActionNotifier([], notificationRepository);
-});

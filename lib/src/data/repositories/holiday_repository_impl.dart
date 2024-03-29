@@ -17,7 +17,7 @@ class HolidayRepositoryImpl extends HolidayRepository {
   Future<Either<List<Holiday>, DataNotFoundException>> getAllHolidays() async {
     List<Holiday>? holidays =
         await holidayListDataSourceApi.getHolidaysFromApi();
-    if (holidays!.isNotEmpty) {
+    if (holidays.isNotEmpty) {
       return Left(holidays);
     } else {
       return Right(DataNotFoundException("No Holidays Found"));

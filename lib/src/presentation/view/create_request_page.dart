@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:leave_tracker_application/src/domain/models/current_logged_in_user.dart';
-import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/appbar_widget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/drop_down_widget.dart';
@@ -69,8 +68,6 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-      if (mounted) {
         Navigator.of(context).pop();
       }
     } else {
@@ -197,7 +194,12 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                     if (formKey.currentState!.validate()) {
                       submitRequestData();
                     } else {
-                      print("Request Creation failed");
+                      var snackBar = customShakingSnackBarWidget(
+                        content: const Text(
+                            "Complete All Fields to submit.."),
+                        backgroundColor: Colors.lightBlue,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
                   },
                   style: ElevatedButton.styleFrom(

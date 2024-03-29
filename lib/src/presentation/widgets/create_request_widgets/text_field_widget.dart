@@ -355,7 +355,6 @@ class _ToDateTextFieldWidgetState extends ConsumerState<ToDateTextFieldWidget> {
               suffixIcon: IconButton(
                 icon: const Icon(Icons.calendar_month_outlined),
                 onPressed: () {
-                  print("Date Open Called");
                   showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {

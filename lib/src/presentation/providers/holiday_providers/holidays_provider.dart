@@ -3,21 +3,21 @@ import 'package:leave_tracker_application/src/data/datasource/local/holidays_dat
 import 'package:leave_tracker_application/src/data/repositories/holiday_repository_impl.dart';
 import 'package:leave_tracker_application/src/domain/models/holiday.dart';
 
-import '../../data/datasource/remote/holiday_list_api.dart';
-import '../../domain/models/holiday_type.dart';
-import '../../domain/repositories/holiday_repository.dart';
+import '../../../data/datasource/remote/holiday_list_api.dart';
+import '../../../domain/repositories/holiday_repository.dart';
 
 final holidayDataSourceProvider = Provider((ref) => HolidayDataSource());
 
 final holidayDataSourceApiProvider =
     Provider((ref) => HolidayListDataSourceApi());
+
 final holidayRepositoryProvider = Provider((ref) {
   final holidayDataSource = ref.read(holidayDataSourceProvider);
   final holidayApiDataSource = ref.read(holidayDataSourceApiProvider);
   return HolidayRepositoryImpl(holidayDataSource, holidayApiDataSource);
 });
 
-final holidaysProvider = StateNotifierProvider((ref) {
+final holidaysProvider = StateNotifierProvider<HolidaysNotifier,List<Holiday>>((ref) {
   final holidayRepository = ref.read(holidayRepositoryProvider);
   return HolidaysNotifier([], holidayRepository);
 });
@@ -48,23 +48,3 @@ class HolidaysNotifier extends StateNotifier<List<Holiday>> {
   }
 }
 
-final holidayTypeProvider = StateNotifierProvider((ref) {
-  final holidayRepository = ref.read(holidayRepositoryProvider);
-  return HolidayTypeNotifier([], holidayRepository);
-});
-
-class HolidayTypeNotifier extends StateNotifier<List<HolidayType>> {
-  final HolidayRepository holidayRepository;
-
-  HolidayTypeNotifier(super.state, this.holidayRepository);
-
-  Future<bool> getAllHolidayTypes() async {
-    final holidaysOrNotFound = await holidayRepository.getHolidayTypes();
-    holidaysOrNotFound.fold((l) => state = l, (r) => []);
-    return true;
-  }
-
-  String getHolidayType(int id) {
-    return state.firstWhere((element) => element.id == id).type;
-  }
-}

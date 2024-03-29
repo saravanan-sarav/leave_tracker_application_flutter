@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
-import 'package:leave_tracker_application/src/presentation/providers/notification_provider.dart';
-import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 
-import '../../utils/constants/time_parser.dart';
 import '../../utils/constants/date_parser.dart';
+import '../../utils/constants/time_parser.dart';
+import '../providers/request_providers/request_description_provider.dart';
+import '../providers/request_providers/request_sent_to_me_provider.dart';
 import '../widgets/snack_bar_widget.dart';
 
 class RequestDescriptionPage extends ConsumerStatefulWidget {
@@ -548,7 +549,7 @@ class _RequestDescriptionPageState
                                   const Text("Status Changed Successfully"),
                               backgroundColor: Colors.blue.shade900,
                             );
-                            if (mounted) {
+                            if (context.mounted) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
                             }
@@ -557,8 +558,10 @@ class _RequestDescriptionPageState
                               content: const Text("Something Went Wrong"),
                               backgroundColor: Colors.lightBlue.shade900,
                             );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -602,15 +605,19 @@ class _RequestDescriptionPageState
                                     const Text("Status Changed Successfully"),
                                 backgroundColor: Colors.blue.shade900,
                               );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
                             } else {
                               var snackBar = customShakingSnackBarWidget(
                                 content: const Text("Something Went Wrong"),
                                 backgroundColor: Colors.lightBlue.shade900,
                               );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
                             }
                           }
                         },
@@ -660,15 +667,19 @@ class _RequestDescriptionPageState
                                       const Text("Status Changed Successfully"),
                                   backgroundColor: Colors.blue.shade900,
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               } else {
                                 var snackBar = customShakingSnackBarWidget(
                                   content: const Text("Something Went Wrong"),
                                   backgroundColor: Colors.lightBlue.shade900,
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -711,15 +722,19 @@ class _RequestDescriptionPageState
                                       const Text("Status Changed Successfully"),
                                   backgroundColor: Colors.blue.shade900,
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               } else {
                                 var snackBar = customShakingSnackBarWidget(
                                   content: const Text("Something Went Wrong"),
                                   backgroundColor: Colors.lightBlue.shade900,
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -769,8 +784,10 @@ class _RequestDescriptionPageState
                                           "Status Changed Successfully"),
                                       backgroundColor: Colors.blue.shade900,
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   } else {
                                     var snackBar = customShakingSnackBarWidget(
                                       content:
@@ -778,8 +795,10 @@ class _RequestDescriptionPageState
                                       backgroundColor:
                                           Colors.lightBlue.shade900,
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -823,8 +842,10 @@ class _RequestDescriptionPageState
                                           "Status Changed Successfully"),
                                       backgroundColor: Colors.blue.shade900,
                                     );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar);
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   } else {
                                     var snackBar = customShakingSnackBarWidget(
                                       content:
@@ -832,7 +853,7 @@ class _RequestDescriptionPageState
                                       backgroundColor:
                                           Colors.lightBlue.shade900,
                                     );
-                                    if (mounted) {
+                                    if (context.mounted) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     }

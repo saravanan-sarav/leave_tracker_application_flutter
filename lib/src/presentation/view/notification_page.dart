@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
-import 'package:leave_tracker_application/src/presentation/providers/notification_provider.dart';
-import 'package:leave_tracker_application/src/presentation/providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../../utils/constants/time_parser.dart';
+import '../providers/notification_providers/notification_action_provider.dart';
+import '../providers/request_providers/request_type_provider.dart';
 import '../state_management/notification_badge_state.dart';
 
 class NotificationPageWidget extends ConsumerStatefulWidget {

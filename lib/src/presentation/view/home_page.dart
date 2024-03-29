@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
-import 'package:leave_tracker_application/src/presentation/providers/user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/view/profile_page.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/create_request.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/list_of_request.dart';
+
+import '../providers/user_providers/current_logged_in_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
