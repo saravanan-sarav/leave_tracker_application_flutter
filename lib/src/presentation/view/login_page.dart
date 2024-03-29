@@ -28,7 +28,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loader = ref.read(loadingProvider.notifier);
     List<Localization> localizationData =
         ref.read(localizationsProvider.notifier).getLocalizations();
-    final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+    // final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
     return Scaffold(
       body: Stack(
         children: [
@@ -73,7 +73,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 child: Column(
                   children: [
                     Form(
-                        key: loginFormKey,
+                        // key: loginFormKey,
                         child: Column(
                           children: [
                             LoginEmailTextFieldWidget(emailTextController),

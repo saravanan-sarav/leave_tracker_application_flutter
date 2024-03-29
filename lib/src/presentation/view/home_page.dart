@@ -14,7 +14,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final UserData currentLoggedInUser =
-        ref.watch(currentLoggedInUserDetailsProvider.notifier).getState();
+        ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
     return Scaffold(
       body: Stack(
         children: [
