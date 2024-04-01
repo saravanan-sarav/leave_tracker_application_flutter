@@ -64,6 +64,7 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
         requestData.id = result;
         state.add(requestData);
         getCount();
+        ref.read(permissionNotifyProvider.notifier).setState();
         return true;
       }
     }

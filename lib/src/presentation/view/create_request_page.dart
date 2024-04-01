@@ -69,7 +69,6 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        ref.read(permissionNotifyProvider.notifier).setState();
         Navigator.of(context).pop();
       }
     } else {
