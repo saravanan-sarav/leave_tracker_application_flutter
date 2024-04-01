@@ -66,8 +66,10 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         content: const Text("Request Created Successfully..."),
         backgroundColor: Colors.green,
       );
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        ref.read(permissionNotifyProvider.notifier).setState();
         Navigator.of(context).pop();
       }
     } else {
