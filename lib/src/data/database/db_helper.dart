@@ -12,11 +12,16 @@ import '../../domain/models/remaining_leave.dart';
 import '../../domain/models/request.dart';
 import '../../domain/models/request_type.dart';
 import '../../domain/models/user_remaining_leave.dart';
+import '../../utils/constants/default_values.dart';
 
 class DatabaseHelper {
   static Database? database;
 
-  Future<void> get db async {
+  DatabaseHelper(){
+    db();
+  }
+
+  Future<void> db() async {
     // final path = await getDatabasesPath();
     // final databasePath = join(path, "leave_management.db");
     // await deleteDatabase(databasePath);

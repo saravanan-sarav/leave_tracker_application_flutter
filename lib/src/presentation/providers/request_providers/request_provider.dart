@@ -4,10 +4,12 @@ import 'package:leave_tracker_application/src/data/repositories/request_reposito
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
 import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/repositories/request_repository.dart';
+import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/remaining_leave_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_providers/reporting_to_user_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
+import '../../../domain/models/notification.dart';
 import '../user_providers/current_logged_in_provider.dart';
 
 final requestDataSourceProvider = Provider((ref) => RequestDataSource());
@@ -46,22 +48,33 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
   }
 
   Future<bool> createRequest(RequestData requestData, WidgetRef ref) async {
-    final empId =
-        ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
+    final currentUser =
+        ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
     final reportingUserId =
         ref.read(reportingToUserDetailsProvider.notifier).getState().empId;
     requestData.reportTo = reportingUserId;
-    requestData.empId = empId;
+    requestData.empId = currentUser.empId;
     int days = !ref.read(permissionNotifyProvider.notifier).getState()
         ? requestData.toDate!.difference(requestData.fromDate).inDays + 1
         : 1;
     if (await ref
         .read(remainingLeavesProvider.notifier)
         .checkSelectedLeaveIsAvailable(
-            requestData.requestTypeId, empId, days)) {
+            requestData.requestTypeId, currentUser.empId, days)) {
       int result = await requestRepository.addRequest(requestData);
       if (result > 0) {
         requestData.id = result;
+        await ref.read(notificationsProvider.notifier).createNotification(
+            NotificationModel(
+                1,
+                currentUser.empId,
+                currentUser.name,
+                requestData.requestTypeId,
+                1,
+                requestData.reason,
+                DateTime.now(),
+                false,
+                null));
         state.add(requestData);
         getCount();
         ref.read(permissionNotifyProvider.notifier).setState();
@@ -85,9 +98,8 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
   }
 }
 
-final requestsProvider = StateNotifierProvider<RequestsNotifier,List<RequestData>>((ref) {
+final requestsProvider =
+    StateNotifierProvider<RequestsNotifier, List<RequestData>>((ref) {
   final requestRepository = ref.read(requestRepositoryProvider);
   return RequestsNotifier(requestRepository);
 });
-
-

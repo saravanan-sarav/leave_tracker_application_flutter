@@ -23,11 +23,3 @@ class RequestType {
   }
 }
 
-final List<RequestType> requestTypes = [
-  RequestType(1, "Compensatory Off"),
-  RequestType(2, "Cyclone Leave"),
-  RequestType(3, "Leave Without Pay"),
-  RequestType(4, "Leave with Pay"),
-  RequestType(5, "Permission"),
-  RequestType(6, "Work From Home")
-];

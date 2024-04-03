@@ -64,6 +64,7 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   Future<bool> createNotification(NotificationModel notificationModel) async {
     bool result =
         await notificationRepository.createNotification(notificationModel);
+    state.add(notificationModel);
     return result;
   }
 }

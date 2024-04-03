@@ -4,10 +4,3 @@ class HistoryTab {
 
   HistoryTab(this.id, this.type);
 }
-
-List<HistoryTab> historyTabs = [
-  HistoryTab(1, "All"),
-  HistoryTab(2, "Approved"),
-  HistoryTab(3, "Pending"),
-  HistoryTab(4, "Rejected"),
-];

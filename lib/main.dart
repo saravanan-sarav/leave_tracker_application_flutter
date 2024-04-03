@@ -15,7 +15,6 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   DatabaseHelper db = DatabaseHelper();
-  await db.db;
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -23,12 +22,11 @@ class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref){
     ref.read(localizationsProvider.notifier).getLocalizationData();
     return Builder(
       builder: (context) {
         final isLoading = ref.watch(loadingProvider);
-
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           localizationsDelegates: AppLocalizations.localizationsDelegates,

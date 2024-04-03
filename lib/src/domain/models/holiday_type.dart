@@ -22,12 +22,3 @@ class HolidayType {
     );
   }
 }
-
-List<HolidayType> holidayTypeList = [
-  HolidayType(1, "Holiday"),
-  HolidayType(2, "Restricted Holiday")
-];
-
-HolidayType findHolidayTypeById(int value) {
-  return holidayTypeList.firstWhere((element) => element.id == value);
-}

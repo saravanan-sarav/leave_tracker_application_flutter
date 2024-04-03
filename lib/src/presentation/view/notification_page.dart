@@ -24,13 +24,13 @@ class _NotificationPageWidgetState
 
   @override
   void initState() {
-    notificationData =
-        ref.read(notificationsProvider.notifier).getNotifications();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    notificationData = ref.watch(notificationsProvider);
+    notificationData.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     final notificationAction = ref.read(notificationActionProvider.notifier);
     final requestType = ref.read(requestTypesProvider.notifier);
 
@@ -66,10 +66,6 @@ class _NotificationPageWidgetState
                   await ref
                       .read(notificationsProvider.notifier)
                       .getAllNotifications(ref);
-                  notificationData = ref
-                      .read(notificationsProvider.notifier)
-                      .getNotifications();
-                  setState(() {});
                 },
                 child: ListView.builder(
                   itemCount: notificationData.length,
@@ -115,7 +111,10 @@ class _NotificationPageWidgetState
                                     Row(
                                       children: [
                                         Text(
-                                          notificationAction.getNotificationAction(notificationData[index].actionId),
+                                          notificationAction
+                                              .getNotificationAction(
+                                                  notificationData[index]
+                                                      .actionId),
                                           style: TextStyle(
                                               color: notificationData[index]
                                                           .actionId ==
@@ -230,26 +229,29 @@ class _NotificationPageWidgetState
                                           .read(notificationsProvider.notifier)
                                           .markAsReadNotification(
                                               notificationData[index].id,
-                                              notificationData[index].markAsRead);
+                                              notificationData[index]
+                                                  .markAsRead);
                                       setState(() {});
                                     },
                                   ),
                                   notificationData[index].markAsRead == true
                                       ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Text("Read By",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 11)),
-                                          Text(
-                                              formatTimeAgo(notificationData[index].markAsReadAt!),
-                                              style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 11)),
-                                        ],
-                                      )
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text("Read By",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 11)),
+                                            Text(
+                                                formatTimeAgo(
+                                                    notificationData[index]
+                                                        .markAsReadAt!),
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 11)),
+                                          ],
+                                        )
                                       : const SizedBox(),
                                 ],
                               ),

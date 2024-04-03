@@ -32,14 +32,6 @@ class RemainingLeave {
   }
 }
 
-List<RemainingLeave> remainingLeaves = [
-  RemainingLeave(1, 2, 1),
-  RemainingLeave(2, 2, 2),
-  RemainingLeave(3, 3, 3),
-  RemainingLeave(4, 3, 4),
-  RemainingLeave(5, 6, 5),
-  RemainingLeave(6, 15, 6),
-];
 
 class UserRemainingLeaveDataDummy {
   final int id;

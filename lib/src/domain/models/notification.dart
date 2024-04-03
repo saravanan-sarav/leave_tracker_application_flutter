@@ -65,32 +65,4 @@ class NotificationModel {
   }
 }
 
-List<NotificationModel> notificationList = [
-  NotificationModel(1, "1001", "Saravanan", 1, 1, "I am Suffering From Fever",
-      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
-  NotificationModel(
-      2,
-      "1001",
-      "Saravanakumar",
-      3,
-      2,
-      "I am going to take compensatory Leave",
-      DateTime(2023, 10, 03),
-      true,
-      DateTime(2023, 10, 04)),
-  NotificationModel(3, "1001", "Saravanakumar", 2, 4, "I am going to temple",
-      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
-  NotificationModel(
-      4,
-      "1001",
-      "Saravanakumar",
-      4,
-      2,
-      "I am Not feeling well so going to take rest..",
-      DateTime(2023, 10, 03),
-      true,
-      DateTime(2023, 10, 04)),
-  NotificationModel(5, "1001", "Sick Leave", 5, 1, "Comensatory Off",
-      DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
-];
 

@@ -23,9 +23,4 @@ class NotificationAction {
   }
 }
 
-List<NotificationAction> notificationActionList = [
-  NotificationAction(1, "Created a Request"),
-  NotificationAction(2, "Request Accepted"),
-  NotificationAction(3, "Request Pending"),
-  NotificationAction(4, "Request Rejected"),
-];
+

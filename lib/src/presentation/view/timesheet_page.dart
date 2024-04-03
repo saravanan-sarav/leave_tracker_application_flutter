@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:leave_tracker_application/src/domain/models/history_tabs.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/timesheet_tab_state.dart';
@@ -9,6 +8,7 @@ import 'package:leave_tracker_application/src/presentation/view/request_detail_p
 import 'package:lottie/lottie.dart';
 
 import '../../domain/models/request.dart';
+import '../../utils/constants/default_values.dart';
 import '../providers/user_providers/current_logged_in_provider.dart';
 import '../providers/user_providers/reporting_to_user_provider.dart';
 import '../providers/request_providers/request_description_provider.dart';
