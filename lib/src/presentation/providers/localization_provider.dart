@@ -18,6 +18,7 @@ class LocalizationsNotifier extends StateNotifier<List<Localization>> {
 
   Future<void> getLocalizationData() async {
     state = await localizationRepository.getAllLocalizationData();
+    print(state.toString());
   }
 
   Localization getLocalization(int localeId) {

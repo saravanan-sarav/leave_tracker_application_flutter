@@ -20,11 +20,6 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
 
   NotificationsNotifier(super.state, this.notificationRepository);
 
-  List<NotificationModel> getNotifications() {
-    state.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    return state;
-  }
-
   Future<void> getAllNotifications(WidgetRef ref) async {
     int count = 0;
     String empId =

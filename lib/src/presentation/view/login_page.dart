@@ -26,9 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loader = ref.read(loadingProvider.notifier);
-    List<Localization> localizationData =
-        ref.read(localizationsProvider.notifier).getLocalizations();
-    // final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+    List<Localization> localizationData = ref.watch(localizationsProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -75,12 +73,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Form(
                         // key: loginFormKey,
                         child: Column(
-                          children: [
-                            LoginEmailTextFieldWidget(emailTextController),
-                            LoginPasswordTextFieldWidget(
-                                passwordTextController),
-                          ],
-                        )),
+                      children: [
+                        LoginEmailTextFieldWidget(emailTextController),
+                        LoginPasswordTextFieldWidget(passwordTextController),
+                      ],
+                    )),
                     Row(
                       children: [
                         GestureDetector(
@@ -129,7 +126,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   final result = await ref
                                       .read(authUserDetailsProvider.notifier)
                                       .authUserDetails(emailTextController.text,
-                                          passwordTextController.text,ref);
+                                          passwordTextController.text, ref);
                                   if (result) {
                                     if (context.mounted) {
                                       Navigator.pushReplacement(
@@ -249,6 +246,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 },
               );
             }
+
             await dialogBuilder(context, localizationData, ref);
             setState(() {});
           },
