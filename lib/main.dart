@@ -35,8 +35,6 @@ class MyApp extends ConsumerWidget {
           themeMode: ThemeMode.system,
           theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)
-                .copyWith(background: Colors.white),
             fontFamily: "Karla",
           ),
           home: Stack(

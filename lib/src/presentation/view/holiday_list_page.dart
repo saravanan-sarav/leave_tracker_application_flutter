@@ -57,8 +57,8 @@ class HolidayListPage extends ConsumerWidget {
               )),
           Container(
             padding: const EdgeInsets.only(left: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
               color: Colors.white,
             ),
             margin: const EdgeInsets.only(top: 80),
