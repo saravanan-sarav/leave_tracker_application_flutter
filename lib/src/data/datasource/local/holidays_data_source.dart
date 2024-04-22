@@ -24,7 +24,7 @@ class HolidayDataSource {
     Database? dbClient = DatabaseHelper.database;
     if (dbClient != null) {
       List<Map<String, dynamic>> result =
-      await dbClient.rawQuery("select * from $holidayTypeTableName");
+          await dbClient.rawQuery("select * from $holidayTypeTableName");
       for (var res in result) {
         holidayTypeList.add(HolidayType.fromJson(res));
       }

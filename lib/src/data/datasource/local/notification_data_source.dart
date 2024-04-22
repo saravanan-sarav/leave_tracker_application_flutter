@@ -1,6 +1,6 @@
 import 'package:leave_tracker_application/src/data/database/db_helper.dart';
-import 'package:leave_tracker_application/src/domain/models/notification_action.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
+import 'package:leave_tracker_application/src/domain/models/notification_action.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../../utils/exceptions/data_not_found_exception.dart';

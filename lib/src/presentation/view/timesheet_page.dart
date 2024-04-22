@@ -108,7 +108,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                       scrollDirection: Axis.horizontal,
                       itemCount: historyTabs.length, // Number of tabs
                       itemBuilder: (context, index) {
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () {
                             ref
                                 .read(timesheetFilterValueProvider.notifier)
@@ -117,6 +117,13 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                             setState(() {});
                           },
                           child: Container(
+                            margin: EdgeInsets.only(top: 10,bottom: 10),
+                            decoration: ref.watch(
+                                timesheetFilterValueProvider) ==
+                                index? BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.blue
+                            ) : null,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
@@ -127,8 +134,8 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                 color: ref.watch(
                                             timesheetFilterValueProvider) ==
                                         index
-                                    ? Colors.black
-                                    : Colors.grey, // Highlight the selected tab
+                                    ? Colors.white
+                                    : Colors.black, // Highlight the selected tab
                               ),
                             ),
                           ),

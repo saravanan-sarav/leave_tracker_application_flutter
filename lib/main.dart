@@ -34,6 +34,8 @@ class MyApp extends ConsumerWidget {
           title: 'Flutter Demo',
           themeMode: ThemeMode.system,
           theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
+                ,
             useMaterial3: true,
             fontFamily: "Karla",
           ),

@@ -156,7 +156,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                     fontSize: 15),
                               ),
                               Text(
-                                formatDateAsNumber(currentLoggedInUser.joiningDate),
+                                formatDateAsNumber(
+                                    currentLoggedInUser.joiningDate),
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -273,14 +274,16 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         GestureDetector(
                           onTap: () async {
                             Future<bool?> dialogBuilder(
-                                BuildContext context,
-                                List<Localization> localizations,
-                                WidgetRef ref) {
+                                BuildContext context, WidgetRef ref) {
+                              List<Localization> localizations = ref
+                                  .read(localizationsProvider.notifier)
+                                  .getFilteredLocalization(null);
+
                               return showDialog<bool>(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    backgroundColor: Colors.blue[900],
+                                    backgroundColor: Colors.blue[700],
                                     title: const Text(
                                       "select Language",
                                       style: TextStyle(color: Colors.white),
@@ -291,8 +294,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                           0.8,
                                       height:
                                           MediaQuery.of(context).size.width *
-                                              0.7,
-                                      // Ensure content has maximum width
+                                              0.5,
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment:
@@ -303,18 +305,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                 color: Colors.white,
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                hintText: 'Search...',
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                            ),
                                           ),
                                           const SizedBox(height: 16),
-                                          // Adjust spacing as needed
                                           Expanded(
                                               child: ListView.builder(
                                                   itemCount:
@@ -332,11 +324,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                                                 localizations[
                                                                     index]);
                                                         Navigator.pop(context);
-                                                        setState(() {});
                                                       },
                                                       title: Text(
-                                                          localizations[index]
-                                                              .locale),
+                                                        localizations[index]
+                                                            .language,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
                                                     );
                                                   })),
                                         ],
@@ -347,8 +342,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               );
                             }
 
-                            await dialogBuilder(
-                                context, localizationData, ref);
+                            await dialogBuilder(context, ref);
                             setState(() {});
                           },
                           child: Container(

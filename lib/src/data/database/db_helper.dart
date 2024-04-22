@@ -17,7 +17,7 @@ import '../../utils/constants/default_values.dart';
 class DatabaseHelper {
   static Database? database;
 
-  DatabaseHelper(){
+  DatabaseHelper() {
     db();
   }
 

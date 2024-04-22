@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/notification_data_source.dart';
-import 'package:leave_tracker_application/src/domain/models/notification_action.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
+import 'package:leave_tracker_application/src/domain/models/notification_action.dart';
 import 'package:leave_tracker_application/src/domain/repositories/notification_repository.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {

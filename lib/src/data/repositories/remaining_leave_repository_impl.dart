@@ -22,9 +22,10 @@ class RemainingLeaveImpl implements RemainingLeaveRepository {
 
   @override
   Future<Either<bool, bool>> updateRemainingLeave(
-      String empId, int requestType,int days) async {
+      String empId, int requestType, int days) async {
     bool? result = await remainingLeaveDataSource
-        .updateRemainingLeaveUsingEmpIdAndRequestTypeId(empId, requestType,days);
+        .updateRemainingLeaveUsingEmpIdAndRequestTypeId(
+            empId, requestType, days);
     if (result!) {
       return const Left(true);
     } else {

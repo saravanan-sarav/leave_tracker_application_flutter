@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/datasource/local/requests_data_source.dart';
-import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/custom_models/request_description_detail.dart';
+import 'package:leave_tracker_application/src/domain/models/request.dart';
 import 'package:leave_tracker_application/src/domain/models/request_type.dart';
 import 'package:leave_tracker_application/src/utils/exceptions/data_not_found_exception.dart';
 

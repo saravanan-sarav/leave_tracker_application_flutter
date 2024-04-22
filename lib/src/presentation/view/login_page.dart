@@ -26,7 +26,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loader = ref.read(loadingProvider.notifier);
-    List<Localization> localizationData = ref.watch(localizationsProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -186,13 +185,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           backgroundColor: Colors.white,
           shape: const StadiumBorder(),
           onPressed: () async {
-            Future<bool?> dialogBuilder(BuildContext context,
-                List<Localization> localizations, WidgetRef ref) {
+            Future<bool?> dialogBuilder(BuildContext context, WidgetRef ref) {
+              List<Localization> localizations = ref
+                  .read(localizationsProvider.notifier)
+                  .getFilteredLocalization(null);
+
               return showDialog<bool>(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    backgroundColor: Colors.blue[900],
+                    backgroundColor: Colors.blue[700],
                     title: const Text(
                       "select Language",
                       style: TextStyle(color: Colors.white),
@@ -200,7 +202,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     // Adjust spacing as needed
                     content: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.width * 0.5,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -209,15 +211,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: TextField(
-                              onChanged: (value) {},
-                              decoration: InputDecoration(
-                                hintText: 'Search...',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
                           ),
                           const SizedBox(height: 16),
                           Expanded(
@@ -247,7 +240,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               );
             }
 
-            await dialogBuilder(context, localizationData, ref);
+            await dialogBuilder(context, ref);
             setState(() {});
           },
           child: const Icon(
@@ -258,20 +251,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
-  }
-}
-
-
-class Sample extends StatefulWidget {
-  const Sample({super.key});
-
-  @override
-  State<Sample> createState() => _SampleState();
-}
-
-class _SampleState extends State<Sample> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

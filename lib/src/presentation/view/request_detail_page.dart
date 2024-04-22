@@ -4,6 +4,7 @@ import 'package:leave_tracker_application/src/domain/models/custom_models/reques
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
 import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 
 import '../../utils/constants/date_parser.dart';
 import '../../utils/constants/time_parser.dart';
@@ -37,7 +38,7 @@ class _RequestDescriptionPageState
   Widget build(BuildContext context) {
     final sentToMe = ref.read(requestSentToMeProvider.notifier);
     requestDescriptionDetail =
-        ref.read(requestDescriptionDetailProvider.notifier).getState();
+        ref.watch(requestDescriptionDetailProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -822,6 +823,7 @@ class _RequestDescriptionPageState
                                 onPressed: () async {
                                   if (await sentToMe.requestStatusChange(
                                       requestDescriptionDetail.id, 1)) {
+                                    ref.read(loadingProvider.notifier).endLoading();
                                     updateRequest(requestDescriptionDetail.id);
                                     ref
                                         .read(notificationsProvider.notifier)
@@ -837,6 +839,7 @@ class _RequestDescriptionPageState
                                             DateTime.now(),
                                             false,
                                             null));
+
                                     var snackBar = customShakingSnackBarWidget(
                                       content: const Text(
                                           "Status Changed Successfully"),

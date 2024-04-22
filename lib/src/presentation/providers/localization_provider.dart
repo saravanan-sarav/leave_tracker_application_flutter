@@ -20,12 +20,23 @@ class LocalizationsNotifier extends StateNotifier<List<Localization>> {
     state = await localizationRepository.getAllLocalizationData();
   }
 
-  Localization getLocalization(int localeId) {
-    return state.firstWhere((element) => element.id == localeId);
-  }
-
   List<Localization> getLocalizations() {
     return state;
+  }
+
+  List<Localization> getFilteredLocalization(String? value) {
+    print("object");
+    List<Localization> localization = [];
+    if (value == null) {
+      return state;
+    } else {
+      for (Localization l in state) {
+        if (l.language.contains(value)) {
+          localization.add(l);
+        }
+      }
+    }
+    return localization;
   }
 
   LocalizationsNotifier(super.state, this.localizationRepository);
