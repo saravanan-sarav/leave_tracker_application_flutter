@@ -8,13 +8,17 @@ import 'package:leave_tracker_application/src/presentation/state_management/load
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  DatabaseHelper db = DatabaseHelper();
+
+
+  DatabaseHelper();
   runApp(const ProviderScope(child: MyApp()));
 }
 
