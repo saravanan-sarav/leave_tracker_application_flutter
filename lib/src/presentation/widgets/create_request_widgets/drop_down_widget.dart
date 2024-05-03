@@ -21,6 +21,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
   void initState() {
     if (ref.read(permissionNotifyProvider.notifier).getState()) {
       permissionEnabled = true;
+      widget.textEditingController.text = "5";
     }
     super.initState();
   }
@@ -43,7 +44,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
           ),
         ),
         DropdownButtonFormField<int>(
-          enableFeedback: false,
+          // enableFeedback: false,
           hint: const Text('Request Type'),
           value: permissionEnabled ? 5 : null,
           decoration: InputDecoration(

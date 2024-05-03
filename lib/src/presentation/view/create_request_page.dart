@@ -58,9 +58,8 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
         2,
         null,
         "");
-    final result = await ref
-        .read(requestsProvider.notifier)
-        .createRequest(requestData, ref);
+    final result =
+        await ref.read(requestsProvider.notifier).createRequest(requestData);
     if (result) {
       var snackBar = customShakingSnackBarWidget(
         content: const Text("Request Created Successfully..."),
@@ -196,8 +195,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                       submitRequestData();
                     } else {
                       var snackBar = customShakingSnackBarWidget(
-                        content: const Text(
-                            "Complete All Fields to submit.."),
+                        content: const Text("Complete All Fields to submit.."),
                         backgroundColor: Colors.lightBlue,
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);

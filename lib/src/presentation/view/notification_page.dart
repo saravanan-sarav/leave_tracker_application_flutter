@@ -65,7 +65,7 @@ class _NotificationPageWidgetState
                 onRefresh: () async {
                   await ref
                       .read(notificationsProvider.notifier)
-                      .getAllNotifications(ref);
+                      .getAllNotifications();
                 },
                 child: ListView.builder(
                   itemCount: notificationData.length,

@@ -17,10 +17,11 @@ final remainingLeaveRepositoryProvider = Provider((ref) {
 class RemainingLeaveNotifier
     extends StateNotifier<List<RemainingLeaveResponse>> {
   final RemainingLeaveRepository remainingLeaveRepository;
+  final StateNotifierProviderRef ref;
 
-  RemainingLeaveNotifier(super.state, this.remainingLeaveRepository);
+  RemainingLeaveNotifier(super.state, this.remainingLeaveRepository, this.ref);
 
-  Future<bool?> getAllRemainingLeave(WidgetRef ref) async {
+  Future<bool?> getAllRemainingLeave() async {
     final empId =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
     final remainingLeaveOrNotFound =
@@ -55,5 +56,5 @@ final remainingLeavesProvider =
     StateNotifierProvider<RemainingLeaveNotifier, List<RemainingLeaveResponse>>(
         (ref) {
   final remainingLeaveRepository = ref.read(remainingLeaveRepositoryProvider);
-  return RemainingLeaveNotifier([], remainingLeaveRepository);
+  return RemainingLeaveNotifier([], remainingLeaveRepository, ref);
 });

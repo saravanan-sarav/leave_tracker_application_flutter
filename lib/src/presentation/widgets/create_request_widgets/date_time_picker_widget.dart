@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
-class DatePickerWidget extends ConsumerStatefulWidget {
- final TextEditingController textEditingController;
+class FromDatePickerWidget extends ConsumerStatefulWidget {
+  final TextEditingController textEditingController;
 
-  const DatePickerWidget(this.textEditingController, {super.key});
+  const FromDatePickerWidget(this.textEditingController, {super.key});
 
   @override
-  ConsumerState<DatePickerWidget> createState() => _DatePickerWidgetState();
+  ConsumerState<FromDatePickerWidget> createState() =>
+      _FromDatePickerWidgetState();
 }
 
-class _DatePickerWidgetState extends ConsumerState<DatePickerWidget> {
+class _FromDatePickerWidgetState extends ConsumerState<FromDatePickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,9 +24,11 @@ class _DatePickerWidgetState extends ConsumerState<DatePickerWidget> {
         BottomPicker.date(
           title: 'Select From Date',
           dateOrder: DatePickerDateOrder.dmy,
-          initialDateTime: DateTime.now(),
-          maxDateTime: DateTime(2030),
-          minDateTime: DateTime(2023),
+          initialDateTime: widget.textEditingController.text.isEmpty
+              ? DateTime.now()
+              : convertToDate(widget.textEditingController.text),
+          maxDateTime: DateTime(DateTime.now().year + 10),
+          minDateTime: DateTime(DateTime.now().year - 10),
           pickerTextStyle: const TextStyle(
             color: Colors.blue,
             fontWeight: FontWeight.bold,
@@ -76,7 +79,9 @@ class _DatePickerWidgetState extends ConsumerState<DatePickerWidget> {
 }
 
 class ToDatePickerWidget extends ConsumerStatefulWidget {
-  const ToDatePickerWidget({super.key});
+  final TextEditingController textEditingController;
+
+  const ToDatePickerWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<ToDatePickerWidget> createState() => _ToDatePickerWidgetState();
@@ -91,9 +96,11 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
         BottomPicker.date(
           title: 'Select To Date',
           dateOrder: DatePickerDateOrder.dmy,
-          initialDateTime: DateTime.now(),
-          maxDateTime: DateTime(2030),
-          minDateTime: DateTime(2023),
+          initialDateTime: widget.textEditingController.text.isEmpty
+              ? DateTime.now()
+              : convertToDate(widget.textEditingController.text),
+          maxDateTime: DateTime(DateTime.now().year + 10),
+          minDateTime: DateTime(DateTime.now().year - 10),
           pickerTextStyle: const TextStyle(
             color: Colors.blue,
             fontWeight: FontWeight.bold,
@@ -104,13 +111,10 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
             fontSize: 15,
             color: Colors.blue,
           ),
-          onSubmit: (index) async {
-            await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-                barrierLabel: "Select From Time");
-          },
           bottomPickerTheme: BottomPickerTheme.heavyRain,
+          onSubmit: (index) {
+            widget.textEditingController.text = formatDateAsNumber(index);
+          },
           buttonStyle: BoxDecoration(
             color: Colors.blue[900],
             borderRadius: BorderRadius.circular(20),

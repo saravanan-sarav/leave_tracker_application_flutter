@@ -269,7 +269,7 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
                         return SizedBox(
                             height: 320,
                             child:
-                                DatePickerWidget(widget.textEditingController));
+                                FromDatePickerWidget(widget.textEditingController));
                       });
                 },
               ),
@@ -301,9 +301,14 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
               }
 
               try {
-                DateTime parse = convertToDate(value);
-                if (checkDateIsGreater(parse, DateTime.now())) {
-                  return "Please enter future Date";
+                if (checkDateIsGreater(convertToDate(value),
+                    DateTime.now().subtract(const Duration(days: 7)))) {
+                  return "Enter date on or after ${formatDateAsNumber(DateTime.now().subtract(const Duration(days: 7)))} (Past 7 days).";
+                }
+                if (checkDateIsGreater(
+                    DateTime.now().add(const Duration(days: 7)),
+                    convertToDate(value))) {
+                  return "Enter date on or Before ${formatDateAsNumber(DateTime.now().add(const Duration(days: 7)))} (Next 7 days).";
                 }
               } catch (e) {
                 return 'Enter a valid date';
@@ -360,7 +365,7 @@ class _ToDateTextFieldWidgetState extends ConsumerState<ToDateTextFieldWidget> {
                       builder: (BuildContext context) {
                         return SizedBox(
                             height: 320,
-                            child: DatePickerWidget(
+                            child: ToDatePickerWidget(
                                 widget.toDateTextEditingController));
                       });
                 },
@@ -507,7 +512,8 @@ class ToTimeTextFieldWidget extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ToTimeTextFieldWidget> createState() => _ToTimeTextFieldWidgetState();
+  ConsumerState<ToTimeTextFieldWidget> createState() =>
+      _ToTimeTextFieldWidgetState();
 }
 
 class _ToTimeTextFieldWidgetState extends ConsumerState<ToTimeTextFieldWidget> {
@@ -554,30 +560,29 @@ class _ToTimeTextFieldWidgetState extends ConsumerState<ToTimeTextFieldWidget> {
             cursorColor: Colors.grey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-             if(ref.read(permissionNotifyProvider.notifier).getState()){
-               if (value == null || value.isEmpty) {
-                 return 'Please enter a time';
-               }
+              if (ref.read(permissionNotifyProvider.notifier).getState()) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter a time';
+                }
 
-               final RegExp timeRegex =
-               RegExp(r'^([01]?[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$');
+                final RegExp timeRegex =
+                    RegExp(r'^([01]?[0-9]|2[0-3]):[0-5][0-9] (AM|PM)$');
 
-               if (!timeRegex.hasMatch(value)) {
-                 return 'Enter a valid time in HH:MM AM/PM format';
-               }
-               try {
-                 TimeOfDay parse = convertToTimeOfDay(value);
-                 if (!isToTimeIsGreater(
-                     parse,
-                     convertToTimeOfDay(
-                         widget.fromTimeTextEditingController.text))) {
-                   return "To Time must be greater than From Time";
-                 }
-               } catch (e) {
-                 return "Enter correct time";
-               }
-
-             }
+                if (!timeRegex.hasMatch(value)) {
+                  return 'Enter a valid time in HH:MM AM/PM format';
+                }
+                try {
+                  TimeOfDay parse = convertToTimeOfDay(value);
+                  if (!isToTimeIsGreater(
+                      parse,
+                      convertToTimeOfDay(
+                          widget.fromTimeTextEditingController.text))) {
+                    return "To Time must be greater than From Time";
+                  }
+                } catch (e) {
+                  return "Enter correct time";
+                }
+              }
               return null;
             },
           ),

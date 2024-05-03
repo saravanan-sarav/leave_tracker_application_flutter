@@ -125,7 +125,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   final result = await ref
                                       .read(authUserDetailsProvider.notifier)
                                       .authUserDetails(emailTextController.text,
-                                          passwordTextController.text, ref);
+                                          passwordTextController.text);
                                   if (result) {
                                     if (context.mounted) {
                                       Navigator.pushReplacement(

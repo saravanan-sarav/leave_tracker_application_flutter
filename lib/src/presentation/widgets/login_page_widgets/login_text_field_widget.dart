@@ -56,14 +56,15 @@ class _LoginEmailTextFieldWidgetState
             style: const TextStyle(color: Colors.lightBlue),
             cursorColor: Colors.lightBlue,
             keyboardType: TextInputType.emailAddress,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (!value!.isNotEmpty) {
+              if (value!.isEmpty) {
                 return 'Please enter your email';
               } else {
                 final RegExp emailRegex =
                     RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
                 if (!emailRegex.hasMatch(value)) {
-                  return "Enter Correct email format..";
+                  return "Enter Correct email format...";
                 }
               }
               return null;
@@ -88,6 +89,8 @@ class LoginPasswordTextFieldWidget extends ConsumerStatefulWidget {
 
 class _LoginPasswordTextFieldWidgetState
     extends ConsumerState<LoginPasswordTextFieldWidget> {
+  bool hidePasswordText = true;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,8 +110,23 @@ class _LoginPasswordTextFieldWidgetState
           ),
           TextFormField(
             controller: widget.passwordController,
-            obscureText: true,
+            obscureText: hidePasswordText,
             decoration: InputDecoration(
+              suffixIcon: hidePasswordText
+                  ? IconButton(
+                      icon: const Icon(Icons.visibility),
+                      onPressed: () {
+                        hidePasswordText = !hidePasswordText;
+                        setState(() {});
+                      },
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.visibility_off),
+                      onPressed: () {
+                        hidePasswordText = !hidePasswordText;
+                        setState(() {});
+                      },
+                    ),
               labelText: AppLocalizations.of(context)!.password,
               labelStyle: TextStyle(color: Colors.blue.shade900),
               focusedBorder: OutlineInputBorder(
@@ -128,6 +146,7 @@ class _LoginPasswordTextFieldWidgetState
                 borderSide: const BorderSide(color: Colors.red),
               ),
             ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please enter your Password';

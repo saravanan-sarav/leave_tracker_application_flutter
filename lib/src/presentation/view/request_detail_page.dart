@@ -28,17 +28,14 @@ class _RequestDescriptionPageState
     await ref
         .read(requestDescriptionDetailProvider.notifier)
         .getRequestDescriptionByRequestId(requestId);
-    await ref
-        .read(requestSentToMeProvider.notifier)
-        .getSentToMeRequestList(ref);
+    await ref.read(requestSentToMeProvider.notifier).getSentToMeRequestList();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final sentToMe = ref.read(requestSentToMeProvider.notifier);
-    requestDescriptionDetail =
-        ref.watch(requestDescriptionDetailProvider);
+    requestDescriptionDetail = ref.watch(requestDescriptionDetailProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -823,7 +820,9 @@ class _RequestDescriptionPageState
                                 onPressed: () async {
                                   if (await sentToMe.requestStatusChange(
                                       requestDescriptionDetail.id, 1)) {
-                                    ref.read(loadingProvider.notifier).endLoading();
+                                    ref
+                                        .read(loadingProvider.notifier)
+                                        .endLoading();
                                     updateRequest(requestDescriptionDetail.id);
                                     ref
                                         .read(notificationsProvider.notifier)

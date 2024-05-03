@@ -5,13 +5,20 @@ import 'package:leave_tracker_application/src/presentation/state_management/perm
 import 'package:leave_tracker_application/src/presentation/view/holiday_list_page.dart';
 import 'package:leave_tracker_application/src/presentation/view/remaining_leave_page.dart';
 
+import '../../providers/request_providers/request_provider.dart';
 import '../../view/create_request_page.dart';
 
-class CreateRequestWidget extends ConsumerWidget {
+class CreateRequestWidget extends ConsumerStatefulWidget {
   const CreateRequestWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CreateRequestWidget> createState() =>
+      _CreateRequestWidgetState();
+}
+
+class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
@@ -34,7 +41,9 @@ class CreateRequestWidget extends ConsumerWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateRequestPage()));
+                            builder: (context) =>
+                                const CreateRequestPage())).then((value) =>
+                        ref.read(requestsProvider.notifier).getCount());
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -99,13 +108,12 @@ class CreateRequestWidget extends ConsumerWidget {
                 GestureDetector(
                   onTap: () {
                     ref.read(permissionNotifyProvider.notifier).updateState();
-                    if (ref
-                        .read(permissionNotifyProvider.notifier)
-                        .getState()) {}
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateRequestPage()));
+                            builder: (context) =>
+                                const CreateRequestPage())).then((value) =>
+                        ref.read(requestsProvider.notifier).getCount());
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -184,7 +192,7 @@ class CreateRequestWidget extends ConsumerWidget {
                     onTap: () async {
                       await ref
                           .read(remainingLeavesProvider.notifier)
-                          .getAllRemainingLeave(ref);
+                          .getAllRemainingLeave();
                       if (context.mounted) {
                         Navigator.push(
                           context,

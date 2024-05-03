@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/create_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/sent_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheet_page.dart';
 
 import '../../providers/request_providers/request_sent_to_me_provider.dart';
@@ -74,7 +76,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          ref.read(requestsProvider.notifier).getCount() != 0
+                          ref.watch(createRequestCountProvider) != 0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
@@ -106,13 +108,13 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
               ref.read(requestCreateOrSentTypeProvider.notifier).unValidate();
               await ref
                   .read(requestSentToMeProvider.notifier)
-                  .getSentToMeRequestList(ref);
-              if(context.mounted){
+                  .getSentToMeRequestList();
+              if (context.mounted) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const TimesheetPageWidget()),
-                ).then((value) => setState(() {}));
+                );
               }
               ref.read(loadingProvider.notifier).endLoading();
             },
@@ -148,10 +150,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
                           ),
-                          ref
-                                      .read(requestSentToMeProvider.notifier)
-                                      .getCount() !=
-                                  0
+                          ref.watch(sentRequestCountProvider) != 0
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(

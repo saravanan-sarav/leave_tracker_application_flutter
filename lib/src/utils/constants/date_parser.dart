@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:intl/intl.dart';
 
 String dateTimeToDateFullView(DateTime date) {
@@ -30,9 +32,19 @@ DateTime convertToDate(String input) {
 }
 
 bool checkDateIsGreater(DateTime dateTime1, DateTime dateTime2) {
-  if (dateTime1.year >= dateTime2.year &&
-      dateTime1.month >= dateTime2.month &&
-      dateTime1.day >= dateTime2.day) {
+  // print(dateTime1.toString());
+  // print(dateTime2.toString());
+  // if (dateTime1.year >= dateTime2.year &&
+  //     dateTime1.month >= dateTime2.month &&
+  //     dateTime1.day >= dateTime2.day) {
+  //   return false;
+  // } else {
+  //   return true;
+  // }
+
+  int value = dateTime1.compareTo(dateTime2.copyWith(
+      hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0));
+  if (value == 0 || value == 1) {
     return false;
   } else {
     return true;

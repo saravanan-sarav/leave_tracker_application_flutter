@@ -7,6 +7,7 @@ import 'package:leave_tracker_application/src/domain/repositories/request_reposi
 import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/remaining_leave_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_providers/reporting_to_user_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/create_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
 import '../../../domain/models/notification.dart';
@@ -21,15 +22,16 @@ final requestRepositoryProvider = Provider((ref) {
 
 class RequestsNotifier extends StateNotifier<List<RequestData>> {
   final RequestRepository requestRepository;
+  final StateNotifierProviderRef ref;
 
-  RequestsNotifier(this.requestRepository) : super([]);
+  RequestsNotifier(this.requestRepository, this.ref) : super([]);
 
-  Future<bool> getUserRequests(WidgetRef ref) async {
+  Future<bool> getUserRequests() async {
     final currentUser = ref.read(currentLoggedInUserDetailsProvider.notifier);
     final requestListOrNotFound = await requestRepository
         .getRequestDetailsUsingEmpId(currentUser.getState().empId);
     requestListOrNotFound.fold((l) => state = l, (r) => state = []);
-    getCount();
+    ref.read(createRequestCountProvider.notifier).updateCount();
     return true;
   }
 
@@ -47,7 +49,7 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
     return null;
   }
 
-  Future<bool> createRequest(RequestData requestData, WidgetRef ref) async {
+  Future<bool> createRequest(RequestData requestData) async {
     final currentUser =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
     final reportingUserId =
@@ -76,7 +78,7 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
                 false,
                 null));
         state.add(requestData);
-        getCount();
+        ref.read(createRequestCountProvider.notifier).updateCount();
         ref.read(permissionNotifyProvider.notifier).setState();
         return true;
       }
@@ -101,5 +103,5 @@ class RequestsNotifier extends StateNotifier<List<RequestData>> {
 final requestsProvider =
     StateNotifierProvider<RequestsNotifier, List<RequestData>>((ref) {
   final requestRepository = ref.read(requestRepositoryProvider);
-  return RequestsNotifier(requestRepository);
+  return RequestsNotifier(requestRepository, ref);
 });

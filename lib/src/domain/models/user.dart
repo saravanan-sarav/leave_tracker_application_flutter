@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:leave_tracker_application/src/utils/constants/encyption.dart';
+
 const String userTableName = "user";
 const String userColumnId = "id";
 const String userColumnEmpId = "emp_id";
@@ -46,7 +50,7 @@ class UserData {
       userColumnDesignation: designation,
       userColumnJoiningDate: joiningDate.toString(),
       userColumnEmail: email,
-      userColumnPassword: password,
+      userColumnPassword: encryptPassword(password),
       userColumnDateOfBirth: dateOfBirth.toString(),
       userColumnTeamId: teamId,
       userColumnReportingTo: reportingTo

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+// import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,15 +11,13 @@ import 'package:leave_tracker_application/src/presentation/state_management/load
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
 
   DatabaseHelper();
   runApp(const ProviderScope(child: MyApp()));
@@ -26,7 +27,7 @@ class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref){
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.read(localizationsProvider.notifier).getLocalizationData();
     return Builder(
       builder: (context) {
@@ -38,8 +39,7 @@ class MyApp extends ConsumerWidget {
           title: 'Flutter Demo',
           themeMode: ThemeMode.system,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
-                ,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
             fontFamily: "Karla",
           ),

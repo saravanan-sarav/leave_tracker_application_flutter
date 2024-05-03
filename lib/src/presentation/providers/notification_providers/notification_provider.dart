@@ -17,10 +17,11 @@ final notificationRepositoryProvider = Provider((ref) {
 
 class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   final NotificationRepository notificationRepository;
+  final StateNotifierProviderRef ref;
 
-  NotificationsNotifier(super.state, this.notificationRepository);
+  NotificationsNotifier(super.state, this.notificationRepository, this.ref);
 
-  Future<void> getAllNotifications(WidgetRef ref) async {
+  Future<void> getAllNotifications() async {
     int count = 0;
     String empId =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
@@ -64,9 +65,9 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   }
 }
 
-final notificationsProvider = StateNotifierProvider<NotificationsNotifier,List<NotificationModel>>((ref) {
+final notificationsProvider =
+    StateNotifierProvider<NotificationsNotifier, List<NotificationModel>>(
+        (ref) {
   final notificationRepository = ref.read(notificationRepositoryProvider);
-  return NotificationsNotifier([], notificationRepository);
+  return NotificationsNotifier([], notificationRepository, ref);
 });
-
-
