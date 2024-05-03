@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
@@ -9,10 +10,10 @@ import 'package:lottie/lottie.dart';
 
 import '../../domain/models/request.dart';
 import '../../utils/constants/default_values.dart';
-import '../providers/user_providers/current_logged_in_provider.dart';
-import '../providers/user_providers/reporting_to_user_provider.dart';
 import '../providers/request_providers/request_description_provider.dart';
 import '../providers/request_providers/request_sent_to_me_provider.dart';
+import '../providers/user_providers/current_logged_in_provider.dart';
+import '../providers/user_providers/reporting_to_user_provider.dart';
 
 class TimesheetPageWidget extends ConsumerStatefulWidget {
   const TimesheetPageWidget({super.key});
@@ -27,27 +28,16 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
 
   @override
   void initState() {
-    applicationDetails = ref.read(requestsProvider.notifier).getState(0)!;
-    bool createOrSent = ref.read(requestCreateOrSentTypeProvider);
-    if (createOrSent) {
-      applicationDetails = ref.read(requestsProvider.notifier).getState(0)!;
-    } else {
-      applicationDetails =
-          ref.read(requestSentToMeProvider.notifier).getState(0)!;
-    }
     super.initState();
+    _onStateChange();
   }
 
   void _onStateChange() {
     if (ref.read(requestCreateOrSentTypeProvider)) {
-      applicationDetails = ref
-          .read(requestsProvider.notifier)
-          .getState(ref.read(timesheetFilterValueProvider))!;
-      setState(() {});
+      applicationDetails = ref.read(requestsProvider.notifier).getState();
     } else {
-      applicationDetails = ref
-          .read(requestSentToMeProvider.notifier)
-          .getState(ref.read(timesheetFilterValueProvider))!;
+      applicationDetails =
+          ref.read(requestSentToMeProvider.notifier).getState();
       setState(() {});
     }
   }
@@ -81,9 +71,9 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                       Icons.arrow_back_ios,
                       color: Colors.white,
                     )),
-                const Text(
-                  "Requests",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.request_page_title,
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 25),
@@ -117,13 +107,13 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                             setState(() {});
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 10,bottom: 10),
-                            decoration: ref.watch(
-                                timesheetFilterValueProvider) ==
-                                index? BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.blue
-                            ) : null,
+                            margin: const EdgeInsets.only(top: 10, bottom: 10),
+                            decoration:
+                                ref.watch(timesheetFilterValueProvider) == index
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.blue)
+                                    : null,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
@@ -135,7 +125,8 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                             timesheetFilterValueProvider) ==
                                         index
                                     ? Colors.white
-                                    : Colors.black, // Highlight the selected tab
+                                    : Colors
+                                        .black, // Highlight the selected tab
                               ),
                             ),
                           ),
@@ -176,14 +167,14 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                               .notifier)
                                           .getRequestDescriptionByRequestId(
                                               applicationDetails[index].id);
-                                      if(context.mounted){
+                                      if (context.mounted) {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const RequestDescriptionPage()),
-                                        ).then((value) async {
-                                          setState(() {});
+                                                  const RequestDescriptionPage()),
+                                        ).then((_) {
+                                          _onStateChange();
                                         });
                                       }
                                     },
@@ -226,7 +217,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        "Requested ${applicationDetails[index].requestTitle}",
+                                                        "${AppLocalizations.of(context)!.requested} ${applicationDetails[index].requestTitle}",
                                                         style: const TextStyle(
                                                             color: Colors.black,
                                                             fontWeight:
@@ -243,7 +234,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                   .spaceAround,
                                                           children: [
                                                             Text(
-                                                              "Time : ${targetDateFormat.format(applicationDetails[index].fromDate)}",
+                                                              "${AppLocalizations.of(context)!.time} : ${targetDateFormat.format(applicationDetails[index].fromDate)}",
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .grey,
@@ -258,7 +249,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                       left:
                                                                           20.0),
                                                               child: Text(
-                                                                  "Reasons : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
+                                                                  "${AppLocalizations.of(context)!.reasons} : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .grey,
@@ -301,8 +292,8 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                     top: 20),
                                                 child: Row(
                                                   children: [
-                                                    const Text(
-                                                      "Reported To : ",
+                                                    Text(
+                                                      "${AppLocalizations.of(context)!.reporting_to} : ",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,

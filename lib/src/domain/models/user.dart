@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:leave_tracker_application/src/utils/constants/encyption.dart';
+import 'package:leave_tracker_application/src/utils/constants/encryption.dart';
 
 const String userTableName = "user";
 const String userColumnId = "id";
@@ -74,4 +74,3 @@ class UserData {
     );
   }
 }
-

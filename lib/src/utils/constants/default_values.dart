@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../domain/models/history_tabs.dart';
@@ -46,7 +45,7 @@ List<HolidayType> holidayTypeList = [
 ];
 
 List<NotificationModel> notificationList = [
-  NotificationModel(1, "1001", "Saravanan", 1, 1, "I am Suffering From Fever",
+  NotificationModel(1, "1001", "Saravanan S", 1, 1, "I am Suffering From Fever",
       DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
   NotificationModel(
       2,
@@ -70,7 +69,7 @@ List<NotificationModel> notificationList = [
       DateTime(2023, 10, 03),
       true,
       DateTime(2023, 10, 04)),
-  NotificationModel(5, "1001", "Sick Leave", 5, 1, "Comensatory Off",
+  NotificationModel(5, "1001", "Saravanan S", 5, 1, "Comensatory Off",
       DateTime(2023, 10, 03), true, DateTime(2023, 10, 04)),
 ];
 
@@ -95,7 +94,6 @@ List<RequestStatus> requestStatusList = [
   RequestStatus(2, "Pending"),
   RequestStatus(3, "Rejected")
 ];
-
 
 List<RequestData> applicationDetails = [
   RequestData(
@@ -144,7 +142,7 @@ List<RequestData> applicationDetails = [
       "I worked last week sunday.",
       DateTime.now(),
       1,
-      DateTime(2023,10,09),
+      DateTime(2023, 10, 09),
       "1"),
   RequestData(
       4,

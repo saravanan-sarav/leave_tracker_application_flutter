@@ -49,15 +49,15 @@ class NotificationDataSource {
     return null;
   }
 
-  Future<bool> createNotification(NotificationModel notificationModel) async {
+  Future<int> createNotification(NotificationModel notificationModel) async {
     Database? dbClient = DatabaseHelper.database;
     if (dbClient != null) {
       int result = await dbClient.insert(
           notificationTableName, notificationModel.toJson());
       if (result > 0) {
-        return true;
+        return result;
       } else {
-        return false;
+        return 0;
       }
     }
     throw DataNotFoundException("No Data Found in request Data");

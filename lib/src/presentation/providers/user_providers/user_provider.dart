@@ -5,7 +5,8 @@ import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:leave_tracker_application/src/domain/repositories/user_repository.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_type_provider.dart';
 import 'package:leave_tracker_application/src/presentation/providers/user_providers/reporting_to_user_provider.dart';
-import 'package:leave_tracker_application/src/utils/constants/encyption.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/notification_badge_state.dart';
+import 'package:leave_tracker_application/src/utils/constants/encryption.dart';
 
 import '../holiday_providers/holiday_type_provider.dart';
 import '../holiday_providers/holidays_provider.dart';
@@ -50,7 +51,6 @@ class AuthUserDetailsNotifier extends StateNotifier<dynamic> {
               currentLoggedInUserDetails.getState().reportingTo);
       clearAuthData();
       await ref.read(holidaysProvider.notifier).getAllHolidays();
-      await ref.read(holidaysProvider.notifier).getAllHolidays();
       await ref.read(holidayTypeProvider.notifier).getAllHolidayTypes();
       await ref.read(requestsProvider.notifier).getUserRequests();
       await ref.read(requestSentToMeProvider.notifier).getSentToMeRequestList();
@@ -63,6 +63,21 @@ class AuthUserDetailsNotifier extends StateNotifier<dynamic> {
       return true;
     }
     return false;
+  }
+
+  bool logoutUser() {
+    ref
+        .read(currentLoggedInUserDetailsProvider.notifier)
+        .removeLoggedInDetails();
+    ref
+        .read(reportingToUserDetailsProvider.notifier)
+        .removeReportingToUserDetails();
+    ref.read(requestsProvider.notifier).clearRequestData();
+    ref.read(requestSentToMeProvider.notifier).clearRequestData();
+    ref.read(remainingLeavesProvider.notifier).clearLeaveData();
+    ref.read(notificationsProvider.notifier).clearNotifications();
+    ref.read(notificationBadgeProvider.notifier).updateNotificationCount();
+    return true;
   }
 
   dynamic getAuthUserDetails() {

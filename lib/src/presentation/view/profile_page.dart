@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/user_providers/user_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
@@ -277,7 +279,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 BuildContext context, WidgetRef ref) {
                               List<Localization> localizations = ref
                                   .read(localizationsProvider.notifier)
-                                  .getFilteredLocalization(null);
+                                  .getLocalizations();
 
                               return showDialog<bool>(
                                 context: context,
@@ -440,11 +442,18 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         Center(
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
-                              );
+                              ref.read(loadingProvider.notifier).startLoading();
+                              bool success = ref
+                                  .read(authUserDetailsProvider.notifier)
+                                  .logoutUser();
+                              if (success) {
+                                ref.read(loadingProvider.notifier).endLoading();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LoginPage()),
+                                );
+                              }
                             },
                             onTapDown: (_) {
                               _changeBackgroundColor(true);

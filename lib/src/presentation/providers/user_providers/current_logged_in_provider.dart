@@ -13,8 +13,15 @@ class CurrentLoggedInUserDetailsNotifier extends StateNotifier<UserData> {
   void setState(UserData userData) {
     state = userData;
   }
+
+  Future<bool> removeLoggedInDetails() async {
+    state = UserData(
+        0, "", "", "", "", DateTime.now(), "", "", DateTime.now(), 2, "");
+    return true;
+  }
 }
 
-final currentLoggedInUserDetailsProvider = StateNotifierProvider<CurrentLoggedInUserDetailsNotifier,UserData>((ref) =>
-    CurrentLoggedInUserDetailsNotifier(
-        ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()));
+final currentLoggedInUserDetailsProvider =
+    StateNotifierProvider<CurrentLoggedInUserDetailsNotifier, UserData>((ref) =>
+        CurrentLoggedInUserDetailsNotifier(
+            ref.read(authUserDetailsProvider.notifier).getAuthUserDetails()));

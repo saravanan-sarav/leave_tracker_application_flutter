@@ -12,7 +12,7 @@ class ReportingToUserDetailsNotifier
 
   Future<void> getReportingToUserDetails(String empId) async {
     ReportingUserDetail? reportingUserDetail =
-    await userRepository.getReportingToUserDetails(empId);
+        await userRepository.getReportingToUserDetails(empId);
     if (reportingUserDetail != null) {
       state = reportingUserDetail;
     }
@@ -21,9 +21,15 @@ class ReportingToUserDetailsNotifier
   ReportingUserDetail getState() {
     return state;
   }
+
+  void removeReportingToUserDetails() {
+    state = ReportingUserDetail("", "", "", "");
+  }
 }
 
-final reportingToUserDetailsProvider = StateNotifierProvider<ReportingToUserDetailsNotifier,ReportingUserDetail>((ref) {
+final reportingToUserDetailsProvider =
+    StateNotifierProvider<ReportingToUserDetailsNotifier, ReportingUserDetail>(
+        (ref) {
   UserRepository userRepository = ref.read(userRepositoryProvider);
   return ReportingToUserDetailsNotifier(
       userRepository, ReportingUserDetail("", "", "", ""));

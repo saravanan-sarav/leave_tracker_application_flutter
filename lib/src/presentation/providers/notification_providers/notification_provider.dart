@@ -22,18 +22,22 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   NotificationsNotifier(super.state, this.notificationRepository, this.ref);
 
   Future<void> getAllNotifications() async {
-    int count = 0;
     String empId =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState().empId;
     final notificationListOrNotFound =
         await notificationRepository.getAllNotificationByEmpId(empId);
     notificationListOrNotFound.fold((l) => state = l, (r) => null);
+    ref.read(notificationBadgeProvider.notifier).updateNotificationCount();
+  }
+
+  int getUnReadNotificationCount() {
+    int count = 0;
     for (NotificationModel notify in state) {
       if (notify.markAsRead == false) {
         count++;
       }
     }
-    ref.read(notificationBadgeProvider.notifier).setNotificationCount(count);
+    return count;
   }
 
   Future<bool> markAsReadNotification(
@@ -57,11 +61,23 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
     return result;
   }
 
-  Future<bool> createNotification(NotificationModel notificationModel) async {
-    bool result =
+  Future<int> createNotification(NotificationModel notificationModel) async {
+    int result =
         await notificationRepository.createNotification(notificationModel);
-    state.add(notificationModel);
+    notificationModel.id = result;
+    if (notificationModel.empId ==
+        ref
+            .read(currentLoggedInUserDetailsProvider.notifier)
+            .getState()
+            .empId) {
+      state.add(notificationModel);
+    }
+    ref.read(notificationBadgeProvider.notifier).updateNotificationCount();
     return result;
+  }
+
+  void clearNotifications() {
+    state = [];
   }
 }
 

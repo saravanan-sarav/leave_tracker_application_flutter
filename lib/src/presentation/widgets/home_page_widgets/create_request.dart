@@ -7,6 +7,7 @@ import 'package:leave_tracker_application/src/presentation/view/remaining_leave_
 
 import '../../providers/request_providers/request_provider.dart';
 import '../../view/create_request_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateRequestWidget extends ConsumerStatefulWidget {
   const CreateRequestWidget({super.key});
@@ -26,9 +27,9 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Create Request",
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.create_request,
+            style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           Padding(
@@ -67,9 +68,9 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                           decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(20)),
-                          child: const Column(
+                          child: Column(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                     top: 10.0, right: 20, left: 20),
                                 child: Row(
@@ -90,10 +91,11 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 20.0),
+                                padding: const EdgeInsets.only(top: 20.0),
                                 child: Text(
-                                  "Leave Of Absence",
-                                  style: TextStyle(
+                                  AppLocalizations.of(context)!
+                                      .leave_of_absence,
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -137,10 +139,10 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                           decoration: BoxDecoration(
                               color: Colors.cyan,
                               borderRadius: BorderRadius.circular(20)),
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                     top: 10.0, right: 20, left: 20),
                                 child: Row(
@@ -161,10 +163,12 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 16.0, left: 20),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, left: 20),
                                 child: Text(
-                                  "Arrive Late/\nLeave Early",
-                                  style: TextStyle(
+                                  "${AppLocalizations.of(context)!.arrive_late}"
+                                  "${AppLocalizations.of(context)!.leave_early}",
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -219,9 +223,9 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                           decoration: BoxDecoration(
                               color: Colors.cyan,
                               borderRadius: BorderRadius.circular(20)),
-                          child: const Column(
+                          child: Column(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                     top: 10.0, right: 20, left: 20),
                                 child: Row(
@@ -242,10 +246,10 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 20.0),
+                                padding: const EdgeInsets.only(top: 20.0),
                                 child: Text(
-                                  "Remaining Leaves",
-                                  style: TextStyle(
+                                  AppLocalizations.of(context)!.remaining_leave,
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -287,10 +291,10 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                           decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(20)),
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(
                                     top: 10.0, right: 20, left: 20),
                                 child: Row(
@@ -311,10 +315,11 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 16.0, left: 20),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, left: 20),
                                 child: Text(
-                                  "Holiday List",
-                                  style: TextStyle(
+                                  AppLocalizations.of(context)!.holiday_list,
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),

@@ -68,11 +68,11 @@ class HomePage extends ConsumerWidget {
                       width: 50,
                       decoration: BoxDecoration(
                           image: const DecorationImage(
-                            image: AssetImage(
-                                'assets/images/profile_picture.jpeg'),
-                            fit: BoxFit.fill
-                            // Provide your image path here
-                          ),
+                              image: AssetImage(
+                                  'assets/images/profile_picture.jpeg'),
+                              fit: BoxFit.fill
+                              // Provide your image path here
+                              ),
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(100)),
                     ),
@@ -94,7 +94,9 @@ class HomePage extends ConsumerWidget {
                         color: Colors.white,
                         borderRadius: BorderRadiusDirectional.only(
                             topStart: Radius.circular(20),
-                            topEnd: Radius.circular(20)),
+                            topEnd: Radius.circular(20),
+                            bottomEnd: Radius.circular(20),
+                            bottomStart: Radius.circular(20)),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(right: 15, left: 15),
@@ -125,9 +127,10 @@ class HomePage extends ConsumerWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17),
                                   ),
-                                  const Text(
-                                    "Follow Up,Check Attendance Details,...",
-                                    style: TextStyle(
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .time_sheet_note,
+                                    style: const TextStyle(
                                         color: Colors.grey,
                                         fontWeight: FontWeight.bold),
                                   ),

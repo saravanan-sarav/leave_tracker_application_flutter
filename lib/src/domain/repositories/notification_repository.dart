@@ -10,5 +10,5 @@ abstract class NotificationRepository {
 
   Future<Either<List<NotificationAction>, String>> getAllNotificationAction();
 
-  Future<bool> createNotification(NotificationModel notificationModel);
+  Future<int> createNotification(NotificationModel notificationModel);
 }

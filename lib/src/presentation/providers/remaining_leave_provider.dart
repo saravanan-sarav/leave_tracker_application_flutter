@@ -50,6 +50,10 @@ class RemainingLeaveNotifier
   List<RemainingLeaveResponse> getLeaveData() {
     return state;
   }
+
+  void clearLeaveData() {
+    state = [];
+  }
 }
 
 final remainingLeavesProvider =

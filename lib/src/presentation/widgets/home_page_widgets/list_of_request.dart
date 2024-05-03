@@ -5,6 +5,7 @@ import 'package:leave_tracker_application/src/presentation/state_management/crea
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/sent_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/view/timesheet_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/request_providers/request_sent_to_me_provider.dart';
 import '../../state_management/loading_provider.dart';
@@ -28,9 +29,9 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "List Of Requests",
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.list_of_requests,
+            style: const TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
           GestureDetector(
@@ -69,9 +70,9 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            "Created By Me...",
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.created_by_me,
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),
@@ -143,9 +144,9 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            "Sent To Me..",
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.sent_to_me,
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey),

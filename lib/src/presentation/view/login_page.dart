@@ -29,35 +29,57 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              color: Colors.blue.shade900,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 200.0, left: 10),
-                    child: Text(
-                      AppLocalizations.of(context)!.welcome_back,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35),
+          SingleChildScrollView(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                color: Colors.blue.shade900,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 120.0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 200,
+                          child: Image(
+                              image: AssetImage(
+                                  "assets/images/kumaran-systems-logo.png")),
+                        ),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5.0, left: 14),
-                    child: Text(
-                      AppLocalizations.of(context)!.welcome_note,
-                      style: TextStyle(
-                          color: Colors.lightBlue.shade200,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0, left: 10),
+                      child: Text(
+                        AppLocalizations.of(context)!.welcome_back,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 35),
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0, left: 14),
+                      child: Text(
+                        AppLocalizations.of(context)!.welcome_note,
+                        style: TextStyle(
+                            color: Colors.lightBlue.shade200,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 570.0, left: 14),
+                      child: Text(
+                        "Copyright © 2024 Kumaran Systems Pvt Ltd"
+                        ". All rights reserved.",
+                        style: TextStyle(
+                            color: Colors.lightBlue.shade200, fontSize: 15),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
           SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.only(top: 20),
@@ -186,10 +208,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           shape: const StadiumBorder(),
           onPressed: () async {
             Future<bool?> dialogBuilder(BuildContext context, WidgetRef ref) {
-              List<Localization> localizations = ref
-                  .read(localizationsProvider.notifier)
-                  .getFilteredLocalization(null);
-
+              List<Localization> localizations =
+                  ref.read(localizationsProvider.notifier).getLocalizations();
               return showDialog<bool>(
                 context: context,
                 builder: (BuildContext context) {

@@ -46,8 +46,8 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<bool> createNotification(NotificationModel notificationModel) async {
-    bool result =
+  Future<int> createNotification(NotificationModel notificationModel) async {
+    int result =
         await notificationDataSource.createNotification(notificationModel);
     return result;
   }

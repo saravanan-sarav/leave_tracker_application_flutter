@@ -1,6 +1,5 @@
 import 'dart:core';
 
-
 const String notificationTableName = "notification";
 const String notificationColumnId = "id";
 const String notificationColumnEmpId = "emp_id";
@@ -13,7 +12,7 @@ const String notificationColumnMarkAsRead = "mark_as_read";
 const String notificationColumnMarkAsReadAt = "mark_as_read_at";
 
 class NotificationModel {
-  final int id;
+  int id;
   final String empId;
   final String name;
   final int requestTypeId;
@@ -64,5 +63,3 @@ class NotificationModel {
     };
   }
 }
-
-

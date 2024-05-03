@@ -4,6 +4,7 @@ import 'package:leave_tracker_application/src/presentation/state_management/sent
 
 import '../../../domain/models/request.dart';
 import '../../../domain/repositories/request_repository.dart';
+import '../../state_management/timesheet_tab_state.dart';
 import '../user_providers/current_logged_in_provider.dart';
 
 class RequestSentToMeNotifier extends StateNotifier<List<RequestData>> {
@@ -22,18 +23,19 @@ class RequestSentToMeNotifier extends StateNotifier<List<RequestData>> {
     return true;
   }
 
-  List<RequestData>? getState(int value) {
-    if (value == 0) {
+  List<RequestData> getState() {
+    if (ref.read(timesheetFilterValueProvider.notifier).state == 0) {
       state.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
       return state;
-    }
-    if (value > 0) {
-      final filteredData =
-          state.where((element) => element.requestStatusId == value).toList();
+    } else {
+      final filteredData = state
+          .where((element) =>
+              element.requestStatusId ==
+              ref.read(timesheetFilterValueProvider.notifier).state)
+          .toList();
       filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
       return filteredData;
     }
-    return null;
   }
 
   Future<bool> requestStatusChange(int requestId, int statusId) async {
@@ -56,6 +58,10 @@ class RequestSentToMeNotifier extends StateNotifier<List<RequestData>> {
         state.where((element) => element.requestStatusId == 2).toList();
     filteredData.sort((a, b) => b.appliedDate.compareTo(a.appliedDate));
     return filteredData.length;
+  }
+
+  void clearRequestData() {
+    state = [];
   }
 }
 

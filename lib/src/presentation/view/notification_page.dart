@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
 import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
+import 'package:leave_tracker_application/src/presentation/providers/user_providers/current_logged_in_provider.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../../utils/constants/time_parser.dart';
@@ -31,7 +32,7 @@ class _NotificationPageWidgetState
   Widget build(BuildContext context) {
     notificationData = ref.watch(notificationsProvider);
     notificationData.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-    final notificationAction = ref.read(notificationActionProvider.notifier);
+    final notificationAction = ref.watch(notificationActionProvider.notifier);
     final requestType = ref.read(requestTypesProvider.notifier);
 
     return Stack(
@@ -141,7 +142,7 @@ class _NotificationPageWidgetState
                                           padding: const EdgeInsets.only(
                                               left: 6.0, top: 3),
                                           child: Text(
-                                            "by - ${notificationData[index].name}",
+                                            "by - ${notificationData[index].name == ref.read(currentLoggedInUserDetailsProvider.notifier).getState().name ? "You" : notificationData[index].name}",
                                             style: const TextStyle(
                                               fontSize: 13,
                                               color: Colors.grey,

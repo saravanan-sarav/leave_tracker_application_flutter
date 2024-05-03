@@ -24,20 +24,19 @@ class LocalizationsNotifier extends StateNotifier<List<Localization>> {
     return state;
   }
 
-  List<Localization> getFilteredLocalization(String? value) {
-    print("object");
-    List<Localization> localization = [];
-    if (value == null) {
-      return state;
-    } else {
-      for (Localization l in state) {
-        if (l.language.contains(value)) {
-          localization.add(l);
-        }
-      }
-    }
-    return localization;
-  }
+  // List<Localization> getFilteredLocalization(String? value) {
+  //   List<Localization> localization = [];
+  //   if (value == null) {
+  //     return state;
+  //   } else {
+  //     for (Localization l in state) {
+  //       if (l.language.contains(value)) {
+  //         localization.add(l);
+  //       }
+  //     }
+  //   }
+  //   return localization;
+  // }
 
   LocalizationsNotifier(super.state, this.localizationRepository);
 }

@@ -62,9 +62,9 @@ class _LoginEmailTextFieldWidgetState
                 return 'Please enter your email';
               } else {
                 final RegExp emailRegex =
-                    RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+                    RegExp(r'''^[a-zA-Z.!#$%&'*+/=?^_`{|}~-]+@kumaran\.com$''');
                 if (!emailRegex.hasMatch(value)) {
-                  return "Enter Correct email format...";
+                  return "Enter Correct organization mail...";
                 }
               }
               return null;
@@ -114,14 +114,20 @@ class _LoginPasswordTextFieldWidgetState
             decoration: InputDecoration(
               suffixIcon: hidePasswordText
                   ? IconButton(
-                      icon: const Icon(Icons.visibility),
+                      icon: const Icon(
+                        Icons.visibility,
+                        color: Colors.blue,
+                      ),
                       onPressed: () {
                         hidePasswordText = !hidePasswordText;
                         setState(() {});
                       },
                     )
                   : IconButton(
-                      icon: const Icon(Icons.visibility_off),
+                      icon: const Icon(
+                        Icons.visibility_off,
+                        color: Colors.blue,
+                      ),
                       onPressed: () {
                         hidePasswordText = !hidePasswordText;
                         setState(() {});
