@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/others_notifier.dart';
 
 import '../../state_management/permission_notifier.dart';
 
@@ -14,7 +15,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 100),
+      margin: const EdgeInsets.only(top: 90),
       height: double.infinity,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -44,12 +45,14 @@ class MainAppBarWidget extends ConsumerStatefulWidget {
 class _MainAppBarWidgetState extends ConsumerState<MainAppBarWidget> {
   @override
   Widget build(BuildContext context) {
+    bool permissionEnabled =
+        ref.read(permissionNotifyProvider.notifier).getState();
     return Container(
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
       color: Colors.blue.shade900,
       child: Padding(
-        padding: const EdgeInsets.only(top: 45.0, right: 20, left: 20),
+        padding: const EdgeInsets.only(top: 30.0, right: 20, left: 20),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +60,8 @@ class _MainAppBarWidgetState extends ConsumerState<MainAppBarWidget> {
             IconButton(
               onPressed: () {
                 ref.read(permissionNotifyProvider.notifier).setState();
-                Navigator.pop(context);
+                ref.read(othersNotifyProvider.notifier).setState();
+                Navigator.of(context).pop();
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -65,11 +69,11 @@ class _MainAppBarWidgetState extends ConsumerState<MainAppBarWidget> {
                 size: 25,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                "Apply Leave",
-                style: TextStyle(
+                permissionEnabled ? "Apply Permission" : "Apply Leave",
+                style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 23),

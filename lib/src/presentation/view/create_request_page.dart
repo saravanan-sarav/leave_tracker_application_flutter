@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/others_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/appbar_widget.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/drop_down_widget.dart';
@@ -19,9 +20,8 @@ class CreateRequestPage extends ConsumerStatefulWidget {
 }
 
 class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
-  final TextEditingController _requestTextController = TextEditingController();
+  final TextEditingController _othersTextController = TextEditingController();
   final TextEditingController _projectNameController = TextEditingController();
-  final TextEditingController _teamIdController = TextEditingController();
   final TextEditingController _reasonTextController = TextEditingController();
   final TextEditingController _fromDateTextController = TextEditingController();
   final TextEditingController _toDateTextController = TextEditingController();
@@ -39,10 +39,9 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
     RequestData requestData = RequestData(
         0,
         "",
-        _requestTextController.text,
+        _othersTextController.text,
         int.parse(_requestTypeTextController.text),
         _projectNameController.text,
-        _teamIdController.text,
         convertToDate(_fromDateTextController.text),
         _toDateTextController.text.isNotEmpty
             ? convertToDate(_toDateTextController.text)
@@ -84,6 +83,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
   @override
   Widget build(BuildContext context) {
     final permissionClicked = ref.watch(permissionNotifyProvider);
+    final othersClicked = ref.watch(othersNotifyProvider);
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Stack(
@@ -91,7 +91,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
           const MainAppBarWidget(),
           const AppBarWidget(),
           Container(
-            margin: const EdgeInsets.only(top: 145),
+            margin: const EdgeInsets.only(top: 135),
             height: double.infinity,
             width: double.infinity,
             decoration: const BoxDecoration(
@@ -108,18 +108,16 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      RequestTitleTextFieldWidget(
-                        labelText: "Request Title",
-                        textEditingController: _requestTextController,
-                      ),
                       DropDownWidget(_requestTypeTextController),
+                      othersClicked
+                          ? OthersTextFieldWidget(
+                              labelText: "Others",
+                              textEditingController: _othersTextController,
+                            )
+                          : const SizedBox(),
                       ProjectNameTextFieldWidget(
                         labelText: "Project Name",
                         textEditingController: _projectNameController,
-                      ),
-                      TeamIdTextFieldWidget(
-                        labelText: "Team ID",
-                        textEditingController: _teamIdController,
                       ),
                       // From date
                       FromDateTextFieldWidget(
@@ -154,7 +152,7 @@ class _CreateRequestPageState extends ConsumerState<CreateRequestPage> {
                           : const SizedBox(),
                       TextAreaWidget(
                         textEditingController: _reasonTextController,
-                      )
+                      ),
                     ],
                   ),
                 ),

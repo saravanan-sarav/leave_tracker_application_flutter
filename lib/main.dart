@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-// import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,11 +7,15 @@ import 'package:leave_tracker_application/src/presentation/providers/localizatio
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
+import 'package:leave_tracker_application/src/utils/extensions/notifications_handler.dart';
 import 'package:lottie/lottie.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
+  tz.initializeTimeZones();
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationManager.initializeNotifications();
+  NotificationManager.showNotification(fileName: "fileName");
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

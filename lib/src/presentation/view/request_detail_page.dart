@@ -102,7 +102,7 @@ class _RequestDescriptionPageState
                   Container(
                     margin: const EdgeInsets.only(top: 10),
                     height: MediaQuery.of(context).size.height * 0.04,
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    width: MediaQuery.of(context).size.width * 0.40,
                     decoration: BoxDecoration(
                         color: requestDescriptionDetail.requestStatusId == 1
                             ? Colors.green
@@ -118,7 +118,7 @@ class _RequestDescriptionPageState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Status : ",
+                            "Status: ",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -137,7 +137,7 @@ class _RequestDescriptionPageState
                                   ? const Icon(
                                       Icons.warning_amber,
                                       color: Colors.white,
-                                      size: 15,
+                                      size: 18,
                                     )
                                   : requestDescriptionDetail.requestStatusId ==
                                           3
@@ -684,7 +684,7 @@ class _RequestDescriptionPageState
                                 backgroundColor: Colors.yellow.shade900),
                             child: const Center(
                                 child: Text(
-                              "Pending",
+                              "Review",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -803,7 +803,7 @@ class _RequestDescriptionPageState
                                     backgroundColor: Colors.yellow.shade900),
                                 child: const Center(
                                     child: Text(
-                                  "Pending",
+                                  "Review",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,

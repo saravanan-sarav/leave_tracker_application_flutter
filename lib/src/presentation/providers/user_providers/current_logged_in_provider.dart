@@ -16,7 +16,7 @@ class CurrentLoggedInUserDetailsNotifier extends StateNotifier<UserData> {
 
   Future<bool> removeLoggedInDetails() async {
     state = UserData(
-        0, "", "", "", "", DateTime.now(), "", "", DateTime.now(), 2, "");
+        0, "", "", "", "", "", DateTime.now(), "", "", DateTime.now(), 2, "");
     return true;
   }
 }

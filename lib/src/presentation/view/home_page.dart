@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:leave_tracker_application/src/presentation/view/profile_page.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/create_request.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/home_page_widgets/list_of_request.dart';
+import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../providers/user_providers/current_logged_in_provider.dart';
 
@@ -23,11 +25,11 @@ class HomePage extends ConsumerWidget {
             width: double.infinity,
           ),
           Container(
-            height: 155,
+            height: 110,
             width: double.infinity,
             color: Colors.blue[900],
             child: Padding(
-              padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
+              padding: const EdgeInsets.only(top: 30, right: 20, left: 20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,63 +85,58 @@ class HomePage extends ConsumerWidget {
           ),
           SingleChildScrollView(
             child: Container(
-              margin: const EdgeInsets.only(top: 120),
+              margin: const EdgeInsets.only(top: 130),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 100,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadiusDirectional.only(
-                            topStart: Radius.circular(20),
-                            topEnd: Radius.circular(20),
-                            bottomEnd: Radius.circular(20),
-                            bottomStart: Radius.circular(20)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15, left: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 13),
-                              child: CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.cyan,
-                                child: Icon(
-                                  Icons.calendar_month,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20.0, top: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.timesheet,
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .time_sheet_note,
-                                    style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            "Hi",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue.shade900),
+                          ),
                         ),
-                      )),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: Text(
+                            "${currentLoggedInUser.name},",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.blue.shade900),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 3.0),
+                          child: Text(
+                            "Good ${getTimeOfDayPeriod(DateTime.now())} . . .",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.blue.shade900),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0, bottom: 20),
+                      child: Text(
+                        "Have a nice day...",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            color: Colors.grey),
+                      ),
+                    ),
+                  ),
                   const CreateRequestWidget(),
                   const ListOfRequestWidget()
                 ],

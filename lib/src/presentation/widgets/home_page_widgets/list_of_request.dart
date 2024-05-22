@@ -4,7 +4,7 @@ import 'package:leave_tracker_application/src/presentation/providers/request_pro
 import 'package:leave_tracker_application/src/presentation/state_management/create_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/sent_request_count.dart';
-import 'package:leave_tracker_application/src/presentation/view/timesheet_page.dart';
+import 'package:leave_tracker_application/src/presentation/view/request_history_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../providers/request_providers/request_sent_to_me_provider.dart';
@@ -25,7 +25,7 @@ class _ListOfRequestWidgetState extends ConsumerState<ListOfRequestWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.25,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -32,8 +32,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Localization> localizationData =
-        ref.read(localizationsProvider.notifier).getLocalizations();
+    ref.read(localizationsProvider.notifier).getLocalizations();
     final currentLoggedInUser =
         ref.read(currentLoggedInUserDetailsProvider.notifier).getState();
     final currentUserReportingUserDetail =
@@ -45,44 +44,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               color: Colors.blue.shade900,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          // Navigator.pop(context);
-                        },
-                        icon: const Padding(
-                          padding: EdgeInsets.only(top: 8.0),
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                          ),
-                        )),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10.0),
-                      child: Icon(
-                        Icons.info_outline,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    )
-                  ],
-                ),
-              )),
+              child: const Padding(
+                  padding: EdgeInsets.only(top: 40.0, left: 170),
+                  child: Text(
+                    "Profile",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white),
+                  ))),
           Container(
             margin: const EdgeInsets.only(top: 90),
             padding: const EdgeInsets.only(right: 10, left: 10),
@@ -138,7 +108,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                       style: TextStyle(
                                           color: Colors.blue.shade200,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 15),
+                                          fontSize: 12),
                                     ),
                                   ],
                                 ),
@@ -185,14 +155,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                 style: TextStyle(
                                     color: Colors.blue.shade200,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15),
+                                    fontSize: 12),
                               ),
                               Text(
                                 "@${currentLoggedInUser.designation} - ${currentLoggedInUser.domain}",
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15),
+                                    fontSize: 12),
                               ),
                             ],
                           ),

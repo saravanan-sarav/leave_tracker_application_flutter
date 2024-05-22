@@ -69,7 +69,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 570.0, left: 14),
+                      padding: const EdgeInsets.only(top: 500.0, left: 14),
                       child: Text(
                         "Copyright © 2024 Kumaran Systems Pvt Ltd"
                         ". All rights reserved.",
@@ -83,8 +83,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.only(top: 20),
-                margin: const EdgeInsets.only(top: 290, right: 10, left: 10),
-                height: 400,
+                margin: const EdgeInsets.only(top: 300, right: 10, left: 10),
+                height: 360,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -99,31 +99,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         LoginPasswordTextFieldWidget(passwordTextController),
                       ],
                     )),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            var snackBar = customShakingSnackBarWidget(
-                              content:
-                                  const Text("Please Contact Admin Team..!!!"),
-                              backgroundColor: Colors
-                                  .red, // Background color of the snackBar
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: Text(
-                              AppLocalizations.of(context)!.forget_password,
-                              style: const TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     GestureDetector(
+                    //       onTap: () {
+                    //         var snackBar = customShakingSnackBarWidget(
+                    //           content:
+                    //               const Text("Please Contact Admin Team..!!!"),
+                    //           backgroundColor: Colors
+                    //               .red, // Background color of the snackBar
+                    //         );
+                    //         ScaffoldMessenger.of(context)
+                    //             .showSnackBar(snackBar);
+                    //       },
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.only(left: 15.0),
+                    //         child: Text(
+                    //           AppLocalizations.of(context)!.forget_password,
+                    //           style: const TextStyle(
+                    //               color: Colors.red,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: SizedBox(

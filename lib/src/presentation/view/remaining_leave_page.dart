@@ -68,7 +68,8 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
               itemCount: remainingLeaves.length,
               itemBuilder: (context, index) {
                 return Container(
-                    margin: const EdgeInsets.only(right: 10, left: 10, bottom: 10),
+                    margin:
+                        const EdgeInsets.only(right: 10, left: 10, bottom: 10),
                     height: MediaQuery.of(context).size.height * 0.15,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -90,7 +91,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                             child: Text(
                               remainingLeaves[index].requestType,
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontWeight: FontWeight.bold, fontSize: 17),
                             ),
                           ),
                           Padding(
@@ -103,7 +104,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                                   style: TextStyle(
                                       color: Colors.green.shade900,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: 17),
                                 ),
                                 Text(
                                   "${remainingLeaves[index].allocatedLeave}",
@@ -125,7 +126,7 @@ class _RemainingLeavePageState extends ConsumerState<RemainingLeavePage> {
                                   style: TextStyle(
                                       color: Colors.red.shade900,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: 17),
                                 ),
                                 Text(
                                   "${remainingLeaves[index].bookedCount}",

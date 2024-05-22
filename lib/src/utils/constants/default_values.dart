@@ -80,13 +80,30 @@ List<NotificationAction> notificationActionList = [
   NotificationAction(4, "Request Rejected"),
 ];
 
+final List<RequestType> requestTypes = [
+  RequestType(1, "Bereavement Leave"),
+  RequestType(2, "Casual Leave"),
+  RequestType(3, "Earned Leave"),
+  RequestType(4, "Leave Without Pay"),
+  RequestType(5, "Permission"),
+  RequestType(6, "Paternity Leave"),
+  RequestType(7, "Maternal Leave"),
+  RequestType(8, "Sick Leave"),
+  RequestType(9, "Work From Home"),
+  RequestType(10, "Others")
+];
+
 List<RemainingLeave> remainingLeaves = [
-  RemainingLeave(1, 2, 1),
-  RemainingLeave(2, 2, 2),
-  RemainingLeave(3, 3, 3),
-  RemainingLeave(4, 3, 4),
+  RemainingLeave(1, 6, 1),
+  RemainingLeave(2, 6, 2),
+  RemainingLeave(3, 12, 3),
+  RemainingLeave(4, 6, 4),
   RemainingLeave(5, 6, 5),
-  RemainingLeave(6, 15, 6),
+  RemainingLeave(6, 3, 6),
+  RemainingLeave(7, 180, 7),
+  RemainingLeave(8, 6, 8),
+  RemainingLeave(9, 15, 9),
+  RemainingLeave(10, 365, 10),
 ];
 
 List<RequestStatus> requestStatusList = [
@@ -99,10 +116,9 @@ List<RequestData> applicationDetails = [
   RequestData(
       1,
       "1001",
-      "Sick Leave",
+      "",
       3,
       "CIBC",
-      "102",
       DateTime.now(),
       DateTime.now(),
       null,
@@ -115,10 +131,9 @@ List<RequestData> applicationDetails = [
   RequestData(
       2,
       "1001",
-      "Compensatory Leave",
+      "",
       1,
       "Sen benth",
-      "152",
       DateTime.now(),
       DateTime.now(),
       null,
@@ -131,10 +146,9 @@ List<RequestData> applicationDetails = [
   RequestData(
       3,
       "1001",
-      "Permission",
+      "",
       5,
       "Sen benth",
-      "152",
       DateTime.now(),
       null,
       TimeOfDay.now(),
@@ -147,10 +161,9 @@ List<RequestData> applicationDetails = [
   RequestData(
       4,
       "101",
-      "Permission",
+      "",
       5,
       "Sen benth",
-      "152",
       DateTime.now(),
       null,
       TimeOfDay.now(),
@@ -163,10 +176,9 @@ List<RequestData> applicationDetails = [
   RequestData(
       5,
       "101",
-      "Permission",
+      "",
       5,
       "Sen benth",
-      "152",
       DateTime.now(),
       null,
       TimeOfDay.now(),
@@ -178,20 +190,12 @@ List<RequestData> applicationDetails = [
       "1"),
 ];
 
-final List<RequestType> requestTypes = [
-  RequestType(1, "Compensatory Off"),
-  RequestType(2, "Cyclone Leave"),
-  RequestType(3, "Leave Without Pay"),
-  RequestType(4, "Leave with Pay"),
-  RequestType(5, "Permission"),
-  RequestType(6, "Work From Home")
-];
-
 List<UserData> userDetails = [
   UserData(
       1,
       "1001",
       "Saravanan S",
+      "male",
       "Banking",
       "Intern",
       DateTime(2023, 9, 11),
@@ -204,6 +208,7 @@ List<UserData> userDetails = [
       2,
       "1002",
       "Gnanesh",
+      "male",
       "Banking",
       "Intern",
       DateTime(2023, 9, 11),
@@ -216,6 +221,7 @@ List<UserData> userDetails = [
       3,
       "101",
       "SaravanaKumar",
+      "male",
       "Banking",
       "Project Manager",
       DateTime(2020, 4, 11),
@@ -228,6 +234,7 @@ List<UserData> userDetails = [
       4,
       "102",
       "Lohith Hariharan",
+      "male",
       "Banking",
       "Senior Project Manager",
       DateTime(2021, 9, 11),
@@ -236,8 +243,8 @@ List<UserData> userDetails = [
       DateTime(1995, 01, 04),
       2003,
       "1"),
-  UserData(5, "1", "Admin", "Banking", "Admin", DateTime(2021, 9, 11), "admin@",
-      "1234", DateTime(1995, 01, 04), 2003, "1"),
+  UserData(5, "1", "Admin", "male", "Banking", "Admin", DateTime(2021, 9, 11),
+      "admin@", "1234", DateTime(1995, 01, 04), 2003, "1"),
 ];
 
 List<UserRemainingLeave> userRemainingLeaveData = [
@@ -247,22 +254,34 @@ List<UserRemainingLeave> userRemainingLeaveData = [
   UserRemainingLeave(4, "1001", 1, 2),
   UserRemainingLeave(5, "1001", 5, 3),
   UserRemainingLeave(6, "1001", 6, 8),
+  UserRemainingLeave(8, "1001", 8, 0),
+  UserRemainingLeave(8, "1001", 9, 0),
+  UserRemainingLeave(8, "1001", 10, 0),
   UserRemainingLeave(1, "101", 2, 0),
   UserRemainingLeave(2, "101", 4, 0),
   UserRemainingLeave(3, "101", 3, 1),
   UserRemainingLeave(4, "101", 1, 2),
   UserRemainingLeave(5, "101", 5, 2),
   UserRemainingLeave(6, "101", 6, 4),
+  UserRemainingLeave(8, "101", 8, 0),
+  UserRemainingLeave(8, "101", 9, 0),
+  UserRemainingLeave(8, "101", 10, 0),
   UserRemainingLeave(1, "1002", 2, 0),
   UserRemainingLeave(2, "1002", 4, 0),
   UserRemainingLeave(3, "1002", 3, 0),
   UserRemainingLeave(4, "1002", 1, 0),
   UserRemainingLeave(5, "1002", 5, 0),
   UserRemainingLeave(6, "1002", 6, 0),
+  UserRemainingLeave(8, "1002", 8, 0),
+  UserRemainingLeave(8, "1002", 9, 0),
+  UserRemainingLeave(8, "1002", 10, 0),
   UserRemainingLeave(1, "102", 2, 0),
   UserRemainingLeave(2, "102", 4, 0),
   UserRemainingLeave(3, "102", 3, 0),
   UserRemainingLeave(4, "102", 1, 0),
   UserRemainingLeave(5, "102", 5, 0),
   UserRemainingLeave(6, "102", 6, 0),
+  UserRemainingLeave(8, "102", 8, 0),
+  UserRemainingLeave(8, "102", 9, 0),
+  UserRemainingLeave(8, "102", 10, 0),
 ];

@@ -22,9 +22,9 @@ class DatabaseHelper {
   }
 
   Future<void> db() async {
-    // final path = await getDatabasesPath();
-    // final databasePath = join(path, "leave_management.db");
-    // await deleteDatabase(databasePath);
+    final path = await getDatabasesPath();
+    final databasePath = join(path, "leave_management.db");
+    await deleteDatabase(databasePath);
     database = await initDatabase();
   }
 
@@ -41,13 +41,13 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     database = db;
     await db.execute(
-        '''CREATE TABLE $userTableName ($userColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$userColumnEmpId TEXT,$userColumnName TEXT,$userColumnDomain TEXT,$userColumnDesignation TEXT,$userColumnJoiningDate TEXT,$userColumnEmail TEXT,$userColumnPassword TEXT,$userColumnDateOfBirth TEXT,$userColumnTeamId INTEGER,$userColumnReportingTo TEXT);''');
+        '''CREATE TABLE $userTableName ($userColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$userColumnEmpId TEXT,$userColumnName TEXT,$userColumnGender TEXT,$userColumnDomain TEXT,$userColumnDesignation TEXT,$userColumnJoiningDate TEXT,$userColumnEmail TEXT,$userColumnPassword TEXT,$userColumnDateOfBirth TEXT,$userColumnTeamId INTEGER,$userColumnReportingTo TEXT);''');
     await db.execute(
         '''CREATE TABLE $requestStatusTableName ($requestStatusColumnId INTEGER PRIMARY KEY AUTOINCREMENT, $requestStatusColumnRequestStatus TEXT)''');
     await db.execute(
         '''CREATE TABLE $requestTypeTableName ($requestTypeColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$requestTypeColumnType TEXT)''');
     await db.execute(
-        '''CREATE TABLE $requestDataTableName ($requestDataColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$requestDataColumnEmpId TEXT,$requestDataColumnRequestTitle TEXT,$requestDataColumnRequestTypeId INTEGER,$requestDataColumnProjectName TEXT,$requestDataColumnTeamId TEXT,$requestDataColumnFromDate TEXT,$requestDataColumnToDate TEXT,$requestDataColumnFromTime TEXT,$requestDataColumnToTime TEXT,$requestDataColumnReason TEXT,$requestDataColumnAppliedDate TEXT,$requestDataColumnRequestStatusId INTEGER,$requestDataColumnApprovedAt TEXT,$requestDataColumnReportTo TEXT, FOREIGN KEY ($requestDataColumnRequestStatusId) REFERENCES $requestStatusTableName($requestStatusColumnId),FOREIGN KEY ($requestDataColumnRequestTypeId) REFERENCES $requestTypeTableName($requestTypeColumnId))''');
+        '''CREATE TABLE $requestDataTableName ($requestDataColumnId INTEGER PRIMARY KEY AUTOINCREMENT,$requestDataColumnEmpId TEXT,$requestDataColumnOthers TEXT,$requestDataColumnRequestTypeId INTEGER,$requestDataColumnProjectName TEXT,$requestDataColumnFromDate TEXT,$requestDataColumnToDate TEXT,$requestDataColumnFromTime TEXT,$requestDataColumnToTime TEXT,$requestDataColumnReason TEXT,$requestDataColumnAppliedDate TEXT,$requestDataColumnRequestStatusId INTEGER,$requestDataColumnApprovedAt TEXT,$requestDataColumnReportTo TEXT, FOREIGN KEY ($requestDataColumnRequestStatusId) REFERENCES $requestStatusTableName($requestStatusColumnId),FOREIGN KEY ($requestDataColumnRequestTypeId) REFERENCES $requestTypeTableName($requestTypeColumnId))''');
     await db.execute(
         '''CREATE TABLE $holidayTypeTableName ($holidayTypeColumnId INTEGER PRIMARY KEY,$holidayTypeColumnType TEXT)''');
     await db.execute(

@@ -54,3 +54,15 @@ bool checkDateIsGreater(DateTime dateTime1, DateTime dateTime2) {
 int daysCountBetweenTwoDays(DateTime dateTime1, DateTime dateTime2) {
   return dateTime1.difference(dateTime2).inDays;
 }
+
+String getTimeOfDayPeriod(DateTime dateTime) {
+  int hour = dateTime.hour;
+
+  if (hour >= 5 && hour < 12) {
+    return "Morning";
+  } else if (hour >= 12 && hour < 17) {
+    return "Afternoon";
+  } else {
+    return "Evening";
+  }
+}

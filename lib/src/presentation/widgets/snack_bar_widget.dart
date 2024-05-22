@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 SnackBar customShakingSnackBarWidget({
   required Widget content,
@@ -8,14 +6,15 @@ SnackBar customShakingSnackBarWidget({
 }) {
   return SnackBar(
     behavior: SnackBarBehavior.floating,
-    duration: const Duration(seconds: 2), // Adjust the duration as needed
+    duration: const Duration(seconds: 2),
+    // Adjust the duration as needed
     backgroundColor: Colors.transparent,
     elevation: 0,
     content: CustomShakingSnackBar(
       content: content,
       backgroundColor: backgroundColor,
     ),
-    margin: const EdgeInsets.only(bottom: 710),
+    margin: const EdgeInsets.only(bottom: 650),
   );
 }
 
@@ -23,10 +22,11 @@ class CustomShakingSnackBar extends StatefulWidget {
   final Widget content;
   final Color backgroundColor;
 
-  const CustomShakingSnackBar({super.key, required this.content, required this.backgroundColor});
+  const CustomShakingSnackBar(
+      {super.key, required this.content, required this.backgroundColor});
 
   @override
-   CustomShakingSnackBarState createState() => CustomShakingSnackBarState();
+  CustomShakingSnackBarState createState() => CustomShakingSnackBarState();
 }
 
 class CustomShakingSnackBarState extends State<CustomShakingSnackBar>
@@ -68,14 +68,14 @@ class CustomShakingSnackBarState extends State<CustomShakingSnackBar>
               borderRadius: BorderRadius.circular(4.0),
               color: widget.backgroundColor,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10.0),
                 child: Center(
                   child: DefaultTextStyle(
                     style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                    ),
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                     child: widget.content,
                   ),
                 ),

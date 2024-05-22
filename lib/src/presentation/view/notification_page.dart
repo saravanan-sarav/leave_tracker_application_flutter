@@ -136,7 +136,7 @@ class _NotificationPageWidgetState
                                                               ? Colors.red
                                                               : null,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                                              fontSize: 14),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -144,7 +144,7 @@ class _NotificationPageWidgetState
                                           child: Text(
                                             "by - ${notificationData[index].name == ref.read(currentLoggedInUserDetailsProvider.notifier).getState().name ? "You" : notificationData[index].name}",
                                             style: const TextStyle(
-                                              fontSize: 13,
+                                              fontSize: 10,
                                               color: Colors.grey,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -172,17 +172,20 @@ class _NotificationPageWidgetState
                                                   notificationData[index]
                                                               .reason
                                                               .length >
-                                                          30
-                                                      ? 30
+                                                          25
+                                                      ? 25
                                                       : notificationData[index]
                                                           .reason
                                                           .length),
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 14),
+                                              color: Colors.grey, fontSize: 12),
                                         ),
                                         notificationData[index].reason.length >
                                                 30
-                                            ? const Text("...")
+                                            ? const Text("...",
+                                                style: const TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12))
                                             : const Text("")
                                       ],
                                     ),
@@ -250,7 +253,7 @@ class _NotificationPageWidgetState
                                                         .markAsReadAt!),
                                                 style: const TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 11)),
+                                                    fontSize: 9)),
                                           ],
                                         )
                                       : const SizedBox(),

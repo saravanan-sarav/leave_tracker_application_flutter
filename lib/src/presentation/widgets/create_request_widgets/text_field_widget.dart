@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/others_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 import 'package:leave_tracker_application/src/utils/constants/date_parser.dart';
 
 import '../../../utils/constants/time_parser.dart';
 import 'date_time_picker_widget.dart';
 
-class RequestTitleTextFieldWidget extends StatefulWidget {
+class OthersTextFieldWidget extends ConsumerStatefulWidget {
   final String labelText;
   final TextEditingController textEditingController;
 
-  const RequestTitleTextFieldWidget(
+  const OthersTextFieldWidget(
       {super.key,
       required this.labelText,
       required this.textEditingController});
 
   @override
-  State<RequestTitleTextFieldWidget> createState() =>
-      _RequestTitleTextFieldWidgetState();
+  ConsumerState<OthersTextFieldWidget> createState() =>
+      _OthersTextFieldWidgetState();
 }
 
-class _RequestTitleTextFieldWidgetState
-    extends State<RequestTitleTextFieldWidget> {
+class _OthersTextFieldWidgetState extends ConsumerState<OthersTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,8 +51,10 @@ class _RequestTitleTextFieldWidgetState
             cursorColor: Colors.grey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Please enter request Tittle";
+              if (value == null ||
+                  value.isEmpty &&
+                      ref.read(othersNotifyProvider.notifier).getState()) {
+                return "Please enter other reason";
               }
               return null;
             },
@@ -176,16 +178,16 @@ class _TeamIdTextFieldWidgetState extends State<TeamIdTextFieldWidget> {
 }
 
 // Text Area Widget
-class TextAreaWidget extends StatefulWidget {
+class TextAreaWidget extends ConsumerStatefulWidget {
   final TextEditingController textEditingController;
 
   const TextAreaWidget({super.key, required this.textEditingController});
 
   @override
-  State<TextAreaWidget> createState() => _TextAreaWidgetState();
+  ConsumerState<TextAreaWidget> createState() => _TextAreaWidgetState();
 }
 
-class _TextAreaWidgetState extends State<TextAreaWidget> {
+class _TextAreaWidgetState extends ConsumerState<TextAreaWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -217,8 +219,14 @@ class _TextAreaWidgetState extends State<TextAreaWidget> {
           cursorColor: Colors.grey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Please enter Team ID";
+            if (ref.read(othersNotifyProvider.notifier).getState() &&
+                (value == null || value.isEmpty)) {
+              return "Please enter reason";
+            }
+            final RegExp regExp =
+                RegExp(r"^(?!(?:.*[^a-zA-Z0-9\s])+.*$)(?:\b\w+\b\s*){0,250}$");
+            if (!regExp.hasMatch(value!)) {
+              return "Special characters not allowed and ensure below 250 characters";
             }
             return null;
           },
@@ -268,8 +276,8 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
                       builder: (BuildContext context) {
                         return SizedBox(
                             height: 320,
-                            child:
-                                FromDatePickerWidget(widget.textEditingController));
+                            child: FromDatePickerWidget(
+                                widget.textEditingController));
                       });
                 },
               ),
@@ -302,13 +310,13 @@ class _FromDateTextFieldWidgetState extends State<FromDateTextFieldWidget> {
 
               try {
                 if (checkDateIsGreater(convertToDate(value),
-                    DateTime.now().subtract(const Duration(days: 7)))) {
-                  return "Enter date on or after ${formatDateAsNumber(DateTime.now().subtract(const Duration(days: 7)))} (Past 7 days).";
+                    DateTime.now().subtract(const Duration(days: 90)))) {
+                  return "Enter date on or after ${formatDateAsNumber(DateTime.now().subtract(const Duration(days: 90)))} (Past 90 days).";
                 }
                 if (checkDateIsGreater(
-                    DateTime.now().add(const Duration(days: 7)),
+                    DateTime.now().add(const Duration(days: 90)),
                     convertToDate(value))) {
-                  return "Enter date on or Before ${formatDateAsNumber(DateTime.now().add(const Duration(days: 7)))} (Next 7 days).";
+                  return "Enter date on or Before ${formatDateAsNumber(DateTime.now().add(const Duration(days: 90)))} (Next 90 days).";
                 }
               } catch (e) {
                 return 'Enter a valid date';

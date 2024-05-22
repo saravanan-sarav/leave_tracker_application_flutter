@@ -6,6 +6,7 @@ const String userTableName = "user";
 const String userColumnId = "id";
 const String userColumnEmpId = "emp_id";
 const String userColumnName = "name";
+const String userColumnGender = "gender";
 const String userColumnDomain = "domain";
 const String userColumnDesignation = "designation";
 const String userColumnJoiningDate = "joining_date";
@@ -19,6 +20,7 @@ class UserData {
   int id;
   String empId;
   String name;
+  String gender;
   String domain;
   String designation;
   DateTime joiningDate;
@@ -32,6 +34,7 @@ class UserData {
       this.id,
       this.empId,
       this.name,
+      this.gender,
       this.domain,
       this.designation,
       this.joiningDate,
@@ -46,6 +49,7 @@ class UserData {
       userColumnId: id,
       userColumnEmpId: empId,
       userColumnName: name,
+      userColumnGender: gender,
       userColumnDomain: domain,
       userColumnDesignation: designation,
       userColumnJoiningDate: joiningDate.toString(),
@@ -63,6 +67,7 @@ class UserData {
       json[userColumnId],
       json[userColumnEmpId] as String,
       json[userColumnName] as String,
+      json[userColumnGender] as String,
       json[userColumnDomain] as String,
       json[userColumnDesignation] as String,
       DateTime.parse(json[userColumnJoiningDate]),

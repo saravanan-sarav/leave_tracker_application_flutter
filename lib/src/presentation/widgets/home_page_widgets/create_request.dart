@@ -23,7 +23,7 @@ class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.37,
+      height: MediaQuery.of(context).size.height * 0.40,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

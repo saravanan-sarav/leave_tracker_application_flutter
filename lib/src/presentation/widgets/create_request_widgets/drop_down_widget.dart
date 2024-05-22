@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/others_notifier.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
 
 import '../../../domain/models/request_type.dart';
 import '../../providers/request_providers/request_type_provider.dart';
 
 class DropDownWidget extends ConsumerStatefulWidget {
- final TextEditingController textEditingController;
+  final TextEditingController textEditingController;
 
- const DropDownWidget(this.textEditingController, {super.key});
+  const DropDownWidget(this.textEditingController, {super.key});
 
   @override
   ConsumerState<DropDownWidget> createState() => _DropDownWidgetState();
@@ -16,12 +17,17 @@ class DropDownWidget extends ConsumerStatefulWidget {
 
 class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
   bool permissionEnabled = false;
+  bool othersEnabled = false;
 
   @override
   void initState() {
     if (ref.read(permissionNotifyProvider.notifier).getState()) {
       permissionEnabled = true;
       widget.textEditingController.text = "5";
+    }
+    if (ref.read(othersNotifyProvider.notifier).getState()) {
+      othersEnabled = true;
+      widget.textEditingController.text = "7";
     }
     super.initState();
   }
@@ -30,6 +36,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
   Widget build(BuildContext context) {
     var requestTypes =
         ref.read(requestTypesProvider.notifier).getRequestTypes();
+    int? value;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,7 +53,11 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         DropdownButtonFormField<int>(
           // enableFeedback: false,
           hint: const Text('Request Type'),
-          value: permissionEnabled ? 5 : null,
+          value: permissionEnabled
+              ? 5
+              : othersEnabled
+                  ? 7
+                  : value,
           decoration: InputDecoration(
             labelStyle: const TextStyle(color: Colors.grey),
             border: OutlineInputBorder(
@@ -59,10 +70,17 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
             ),
           ),
           onChanged: (newValue) {
+            value = newValue!;
+            print(value);
             if (newValue == 5) {
               ref.read(permissionNotifyProvider.notifier).updateState();
             } else {
               ref.read(permissionNotifyProvider.notifier).setState();
+            }
+            if (newValue == 7) {
+              ref.read(othersNotifyProvider.notifier).updateState();
+            } else {
+              ref.read(othersNotifyProvider.notifier).setState();
             }
             widget.textEditingController.text = "$newValue";
           },

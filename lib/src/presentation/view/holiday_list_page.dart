@@ -42,7 +42,7 @@ class HolidayListPage extends ConsumerWidget {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 25),
+                            fontSize: 20),
                       ),
                     ),
                     const Padding(
@@ -58,7 +58,8 @@ class HolidayListPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.only(left: 10),
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
               color: Colors.white,
             ),
             margin: const EdgeInsets.only(top: 80),
@@ -96,7 +97,7 @@ class HolidayListPage extends ConsumerWidget {
                               Text(
                                 monthHolidays[index].name,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 4.0),
@@ -106,7 +107,8 @@ class HolidayListPage extends ConsumerWidget {
                                       : "",
                                   style: const TextStyle(
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
                                 ),
                               )
                             ],
@@ -117,7 +119,7 @@ class HolidayListPage extends ConsumerWidget {
                             style: const TextStyle(
                                 color: Colors.lightBlue,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                                fontSize: 12),
                           ),
                         );
                       },
