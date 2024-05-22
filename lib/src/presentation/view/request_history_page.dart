@@ -86,7 +86,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 90.0),
+            padding: const EdgeInsets.only(top: 80.0),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.9,
               child: Column(
@@ -135,7 +135,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.77,
+                    height: MediaQuery.of(context).size.height * 0.78,
                     width: MediaQuery.of(context).size.width,
                     child: applicationDetails.isEmpty
                         ? Center(
@@ -222,7 +222,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                             color: Colors.black,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 18),
+                                                            fontSize: 14),
                                                       ),
                                                       Padding(
                                                         padding:
@@ -249,7 +249,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                       left:
                                                                           20.0),
                                                               child: Text(
-                                                                  "${AppLocalizations.of(context)!.reasons} : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 15 ? 15 : applicationDetails[index].reason.length)}",
+                                                                  "${AppLocalizations.of(context)!.reasons} : ${applicationDetails[index].reason.substring(0, applicationDetails[index].reason.length > 13 ? 13 : applicationDetails[index].reason.length)}",
                                                                   style: const TextStyle(
                                                                       color: Colors
                                                                           .grey,
@@ -261,7 +261,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                             index]
                                                                         .reason
                                                                         .length >
-                                                                    15
+                                                                    13
                                                                 ? const Text(
                                                                     "...",
                                                                     style: TextStyle(
@@ -283,7 +283,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                         color: Colors.blue[900],
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 14),
+                                                        fontSize: 10),
                                                   )
                                                 ],
                                               ),
@@ -340,7 +340,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                                       color: Colors
                                                                           .blue,
                                                                       fontSize:
-                                                                          15,
+                                                                          12,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold),
