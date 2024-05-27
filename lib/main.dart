@@ -7,19 +7,23 @@ import 'package:leave_tracker_application/src/presentation/providers/localizatio
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
 import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
+import 'package:leave_tracker_application/src/presentation/view/register_user_page.dart';
 import 'package:leave_tracker_application/src/utils/extensions/notifications_handler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   tz.initializeTimeZones();
   WidgetsFlutterBinding.ensureInitialized();
   NotificationManager.initializeNotifications();
-  NotificationManager.showNotification(fileName: "fileName");
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
+  var status = await Permission.notification.status;
+  if (status.isDenied) {
+    Permission.notification.request();
+  }
   DatabaseHelper();
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -49,7 +53,7 @@ class MyApp extends ConsumerWidget {
               Navigator(
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
+                    builder: (context) => const RegisterPage(),
                   );
                 },
               ),

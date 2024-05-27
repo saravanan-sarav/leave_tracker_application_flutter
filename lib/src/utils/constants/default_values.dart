@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leave_tracker_application/src/utils/constants/models.dart';
 
 import '../../domain/models/history_tabs.dart';
 import '../../domain/models/holiday.dart';
@@ -284,4 +285,28 @@ List<UserRemainingLeave> userRemainingLeaveData = [
   UserRemainingLeave(8, "102", 8, 0),
   UserRemainingLeave(8, "102", 9, 0),
   UserRemainingLeave(8, "102", 10, 0),
+];
+
+List<Gender> gender = [
+  Gender("Male", Icons.male),
+  Gender("Female", Icons.female),
+  Gender("Prefer not to say", Icons.do_not_touch_sharp)
+];
+
+List<Domain> domain = [
+  Domain("Banking", Icons.monetization_on_outlined),
+  Domain("Migration", Icons.change_circle),
+  Domain("Telecom", Icons.phone),
+  Domain("Insurance", Icons.safety_check_outlined),
+];
+
+List<Designation> designations = [
+  Designation("General Manager", Icons.business_center),
+  Designation("Intern", Icons.school),
+  Designation("Module Lead", Icons.view_module),
+  Designation("President", Icons.account_balance),
+  Designation("Project Manager", Icons.assignment),
+  Designation("Senior Project Manager", Icons.assignment_turned_in),
+  Designation("Technical Lead", Icons.leaderboard),
+  Designation("Vice President", Icons.verified_user),
 ];

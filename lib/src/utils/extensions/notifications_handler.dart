@@ -9,7 +9,7 @@ class NotificationManager {
   static Future<void> initializeNotifications() async {
     // Android Initialization
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/leave_application');
+        AndroidInitializationSettings('@mipmap/leave_application_logo');
 
     // iOS Initialization
     const DarwinInitializationSettings initializationSettingsIOS =
