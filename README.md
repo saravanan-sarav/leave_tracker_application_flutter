@@ -22,17 +22,19 @@ A modern, high-performance Flutter application designed to streamline employee l
 
 ## 📸 App Screenshots
 
-````carousel
-![Dashboard](doc/screenshots/dashboard.png)
+```carousel
+![Dashboard](doc/screenshots/dashboard_image.png)
 <!-- slide -->
-![Apply Leave](doc/screenshots/apply_leave.png)
+![Apply Leave](doc/screenshots/apply_leave_image.png)
 <!-- slide -->
-![Leave Summary](doc/screenshots/leave_summary.png)
+![Leave Summary](doc/screenshots/remaining_leave.png)
 <!-- slide -->
-![Request History](doc/screenshots/request_list.png)
+![Request List](doc/screenshots/request_list.png)
 <!-- slide -->
-![Notifications](doc/screenshots/notifications.png)
-````
+![Request Detail](doc/screenshots/request_image.png)
+<!-- slide -->
+![Notifications](doc/screenshots/notifications-1.png)
+```
 
 ---
 
@@ -69,11 +71,13 @@ The project follows a clean architecture pattern within the `lib/src` directory:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/saravanan-sarav/leave_tracker_application_flutter.git
    ```
 
 2. **Install dependencies**
+
    ```bash
    flutter pub get
    ```
@@ -91,6 +95,7 @@ The project follows a clean architecture pattern within the `lib/src` directory:
 ## 👨‍💻 Contributor
 
 **Saravanan S**
+
 - Role: Lead Developer
 - Department: Banking Intern
 
