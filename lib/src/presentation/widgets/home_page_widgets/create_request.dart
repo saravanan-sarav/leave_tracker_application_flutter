@@ -1,0 +1,341 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leave_tracker_application/src/presentation/providers/remaining_leave_provider.dart';
+import 'package:leave_tracker_application/src/presentation/state_management/permission_notifier.dart';
+import 'package:leave_tracker_application/src/presentation/view/holiday_list_page.dart';
+import 'package:leave_tracker_application/src/presentation/view/remaining_leave_page.dart';
+
+import '../../providers/request_providers/request_provider.dart';
+import '../../view/create_request_page.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
+
+class CreateRequestWidget extends ConsumerStatefulWidget {
+  const CreateRequestWidget({super.key});
+
+  @override
+  ConsumerState<CreateRequestWidget> createState() =>
+      _CreateRequestWidgetState();
+}
+
+class _CreateRequestWidgetState extends ConsumerState<CreateRequestWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.40,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.create_request,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateRequestPage())).then((value) =>
+                        ref.read(requestsProvider.notifier).getCount());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 120,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_month_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .leave_of_absence,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    ref.read(permissionNotifyProvider.notifier).updateState();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateRequestPage())).then((value) =>
+                        ref.read(requestsProvider.notifier).getCount());
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 120,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                              color: Colors.cyan,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.timer,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, left: 20),
+                                child: Text(
+                                  "${AppLocalizations.of(context)!.arrive_late}"
+                                  "${AppLocalizations.of(context)!.leave_early}",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  height: 120,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: InkWell(
+                    onTap: () async {
+                      await ref
+                          .read(remainingLeavesProvider.notifier)
+                          .getAllRemainingLeave();
+                      if (context.mounted) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RemainingLeavePage()),
+                        );
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: 160,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                              color: Colors.cyan,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.lock_clock,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20.0),
+                                child: Text(
+                                  AppLocalizations.of(context)!.remaining_leave,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  height: 120,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HolidayListPage()),
+                      );
+                    },
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 120,
+                            width: 160,
+                            decoration: BoxDecoration(
+                                color: Colors.blue[100],
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                        Container(
+                          height: 110,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10.0, right: 20, left: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(
+                                      Icons.format_list_bulleted_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, left: 20),
+                                child: Text(
+                                  AppLocalizations.of(context)!.holiday_list,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
