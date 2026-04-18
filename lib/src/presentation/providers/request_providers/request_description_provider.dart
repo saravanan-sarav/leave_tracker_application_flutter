@@ -31,8 +31,8 @@ class RequestDescriptionDetailNotifier
   }
 }
 
-final requestDescriptionDetailProvider =
-StateNotifierProvider<RequestDescriptionDetailNotifier, RequestDescriptionDetail>((ref) {
+final requestDescriptionDetailProvider = StateNotifierProvider<
+    RequestDescriptionDetailNotifier, RequestDescriptionDetail>((ref) {
   final requestRepository = ref.read(requestRepositoryProvider);
   return RequestDescriptionDetailNotifier(
       RequestDescriptionDetail(

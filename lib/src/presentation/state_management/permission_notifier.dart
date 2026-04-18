@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class PermissionNotifier extends StateNotifier<bool> {
   PermissionNotifier(super.state);
 

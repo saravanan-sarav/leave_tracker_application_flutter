@@ -27,8 +27,8 @@ class UserRepositoryImpl extends UserRepository {
     UserData? userData =
         await userDetailsDataSource.getReportingToUserDetails(empId);
     if (userData != null) {
-      return ReportingUserDetail(userData.empId, userData.name,
-          userData.designation, userData.domain);
+      return ReportingUserDetail(
+          userData.empId, userData.name, userData.designation, userData.domain);
     }
     return null;
   }

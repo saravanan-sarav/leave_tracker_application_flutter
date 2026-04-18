@@ -1,4 +1,3 @@
-
 const String remainingLeaveTableName = "remaining_leave";
 const String remainingLeaveColumnId = "id";
 const String remainingLeaveColumnAllocatedLeave = "allocated_leave";
@@ -31,7 +30,6 @@ class RemainingLeave {
     };
   }
 }
-
 
 class UserRemainingLeaveDataDummy {
   final int id;

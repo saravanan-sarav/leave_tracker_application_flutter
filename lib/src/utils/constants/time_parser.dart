@@ -63,8 +63,8 @@ String formatTimeAgo(DateTime dateTime) {
 
 String convertTimeOfDayToString(TimeOfDay timeOfDay) {
   final now = DateTime.now();
-  final dateTime = DateTime(
-      now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  final dateTime =
+      DateTime(now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
   final formattedTime = DateFormat.jm().format(dateTime);
   return formattedTime;
 }

@@ -1,4 +1,3 @@
-
 import '../models/localization.dart';
 
 abstract class LocalizationRepository {
