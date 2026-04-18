@@ -17,7 +17,7 @@ final remainingLeaveRepositoryProvider = Provider((ref) {
 class RemainingLeaveNotifier
     extends StateNotifier<List<RemainingLeaveResponse>> {
   final RemainingLeaveRepository remainingLeaveRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   RemainingLeaveNotifier(super.state, this.remainingLeaveRepository, this.ref);
 

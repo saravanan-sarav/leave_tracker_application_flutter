@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
 
 class NotificationBadgeCountNotifier extends StateNotifier<int> {
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   NotificationBadgeCountNotifier(super.state, this.ref);
 

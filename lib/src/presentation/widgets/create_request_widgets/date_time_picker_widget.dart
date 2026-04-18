@@ -22,7 +22,14 @@ class _FromDatePickerWidgetState extends ConsumerState<FromDatePickerWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BottomPicker.date(
-          title: 'Select From Date',
+          pickerTitle: const Text(
+            'Select From Date',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Colors.blue,
+            ),
+          ),
           dateOrder: DatePickerDateOrder.dmy,
           initialDateTime: widget.textEditingController.text.isEmpty
               ? DateTime.now()
@@ -33,11 +40,6 @@ class _FromDatePickerWidgetState extends ConsumerState<FromDatePickerWidget> {
             color: Colors.blue,
             fontWeight: FontWeight.bold,
             fontSize: 20,
-          ),
-          titleStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            color: Colors.blue,
           ),
           onSubmit: (index) {
             widget.textEditingController.text = formatDateAsNumber(index);
@@ -94,7 +96,14 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BottomPicker.date(
-          title: 'Select To Date',
+          pickerTitle: const Text(
+            'Select To Date',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: Colors.blue,
+            ),
+          ),
           dateOrder: DatePickerDateOrder.dmy,
           initialDateTime: widget.textEditingController.text.isEmpty
               ? DateTime.now()
@@ -105,11 +114,6 @@ class _ToDatePickerWidgetState extends ConsumerState<ToDatePickerWidget> {
             color: Colors.blue,
             fontWeight: FontWeight.bold,
             fontSize: 20,
-          ),
-          titleStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-            color: Colors.blue,
           ),
           bottomPickerTheme: BottomPickerTheme.heavyRain,
           onSubmit: (index) {
