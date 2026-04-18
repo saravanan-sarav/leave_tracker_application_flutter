@@ -17,7 +17,8 @@ final holidayRepositoryProvider = Provider((ref) {
   return HolidayRepositoryImpl(holidayDataSource, holidayApiDataSource);
 });
 
-final holidaysProvider = StateNotifierProvider<HolidaysNotifier,List<Holiday>>((ref) {
+final holidaysProvider =
+    StateNotifierProvider<HolidaysNotifier, List<Holiday>>((ref) {
   final holidayRepository = ref.read(holidayRepositoryProvider);
   return HolidaysNotifier([], holidayRepository);
 });
@@ -47,4 +48,3 @@ class HolidaysNotifier extends StateNotifier<List<Holiday>> {
     return holidaysByMonth;
   }
 }
-

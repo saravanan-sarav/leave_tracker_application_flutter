@@ -1,4 +1,3 @@
-
 import 'package:leave_tracker_application/src/utils/constants/encryption.dart';
 
 const String userTableName = "user";

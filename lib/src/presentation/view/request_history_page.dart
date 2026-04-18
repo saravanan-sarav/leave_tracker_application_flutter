@@ -307,11 +307,12 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                       children: [
                                                         Text(
                                                           "${AppLocalizations.of(context)!.reporting_to} : ",
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 14),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 14),
                                                         ),
                                                         Padding(
                                                           padding:

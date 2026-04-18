@@ -10,11 +10,12 @@ abstract class RequestRepository {
 
   Future<int> addRequest(RequestData requestData);
 
-  Future<RequestDescriptionDetail?> getRequestDescriptionDetailByRequestId(int requestId);
+  Future<RequestDescriptionDetail?> getRequestDescriptionDetailByRequestId(
+      int requestId);
 
-  Future<Either<List<RequestData>,DataNotFoundException>> getSentToMeRequestData(String empId);
+  Future<Either<List<RequestData>, DataNotFoundException>>
+      getSentToMeRequestData(String empId);
 
   Future<bool> changeRequestStatus(int requestId, int requestStatusId);
-  Future<Either<List<RequestType>, DataNotFoundException>>
-  getRequestTypes();
+  Future<Either<List<RequestType>, DataNotFoundException>> getRequestTypes();
 }
