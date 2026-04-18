@@ -22,19 +22,14 @@ A modern, high-performance Flutter application designed to streamline employee l
 
 ## 📸 App Screenshots
 
-```carousel
-![Dashboard](doc/screenshots/dashboard_image.png)
-<!-- slide -->
-![Apply Leave](doc/screenshots/apply_leave_image.png)
-<!-- slide -->
-![Leave Summary](doc/screenshots/remaining_leave.png)
-<!-- slide -->
-![Request List](doc/screenshots/request_list.png)
-<!-- slide -->
-![Request Detail](doc/screenshots/request_image.png)
-<!-- slide -->
-![Notifications](doc/screenshots/notifications-1.png)
-```
+| Dashboard | Apply Leave | Leave Summary |
+|:---:|:---:|:---:|
+| ![Dashboard](doc/screenshots/dashboard_image.png) | ![Apply Leave](doc/screenshots/apply_leave_image.png) | ![Leave Summary](doc/screenshots/remaining_leave.png) |
+
+| Request List | Request Detail | Notifications |
+|:---:|:---:|:---:|
+| ![Request List](doc/screenshots/request_list.png) | ![Request Detail](doc/screenshots/request_image.png) | ![Notifications](doc/screenshots/notifications-1.png) |
+
 
 ---
 
