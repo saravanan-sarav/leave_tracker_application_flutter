@@ -17,7 +17,7 @@ final notificationRepositoryProvider = Provider((ref) {
 
 class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
   final NotificationRepository notificationRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   NotificationsNotifier(super.state, this.notificationRepository, this.ref);
 

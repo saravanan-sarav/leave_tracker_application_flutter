@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
 
 class CreateRequestCount extends StateNotifier<int> {
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   CreateRequestCount(super.state, this.ref);
 

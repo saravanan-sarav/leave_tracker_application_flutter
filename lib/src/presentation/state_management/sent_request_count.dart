@@ -5,7 +5,7 @@ import '../providers/request_providers/request_sent_to_me_provider.dart';
 class SentRequestCount extends StateNotifier<int> {
   SentRequestCount(super.state, this.ref);
 
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   void updateCount() {
     state = ref.read(requestSentToMeProvider.notifier).getCount();

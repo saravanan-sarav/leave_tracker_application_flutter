@@ -23,7 +23,7 @@ final requestRepositoryProvider = Provider((ref) {
 
 class RequestsNotifier extends StateNotifier<List<RequestData>> {
   final RequestRepository requestRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   RequestsNotifier(this.requestRepository, this.ref) : super([]);
 

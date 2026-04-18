@@ -9,7 +9,7 @@ import '../user_providers/current_logged_in_provider.dart';
 
 class RequestSentToMeNotifier extends StateNotifier<List<RequestData>> {
   final RequestRepository requestRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   RequestSentToMeNotifier(super.state, this.requestRepository, this.ref);
 

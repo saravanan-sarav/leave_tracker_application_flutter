@@ -8,7 +8,7 @@ import '../../../domain/repositories/request_repository.dart';
 
 class RequestTypeNotifier extends StateNotifier<List<RequestType>> {
   final RequestRepository requestRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   RequestTypeNotifier(this.requestRepository, this.ref) : super([]);
 

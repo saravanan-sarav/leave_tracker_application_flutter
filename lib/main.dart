@@ -6,7 +6,7 @@ import 'package:leave_tracker_application/src/data/database/db_helper.dart';
 import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
-import 'package:leave_tracker_application/src/presentation/view/register_user_page.dart';
+import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:leave_tracker_application/src/utils/extensions/notifications_handler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -52,7 +52,7 @@ class MyApp extends ConsumerWidget {
               Navigator(
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute(
-                    builder: (context) => const RegisterPage(),
+                    builder: (context) => const LoginPage(),
                   );
                 },
               ),

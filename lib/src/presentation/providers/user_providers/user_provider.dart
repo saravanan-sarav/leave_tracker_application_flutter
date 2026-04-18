@@ -33,7 +33,7 @@ final authUserDetailsProvider =
 
 class AuthUserDetailsNotifier extends StateNotifier<dynamic> {
   final UserRepository userRepository;
-  final StateNotifierProviderRef ref;
+  final Ref ref;
 
   AuthUserDetailsNotifier(this.userRepository, this.ref) : super(dynamic);
 
