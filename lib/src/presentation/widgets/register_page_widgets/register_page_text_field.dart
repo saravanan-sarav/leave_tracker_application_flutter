@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/create_request_widgets/date_time_picker_widget.dart';
@@ -53,6 +52,7 @@ class _NameTextFieldState extends ConsumerState<NameTextField> {
               if (value == null || value == "") {
                 return "Enter you Full Name";
               }
+              return null;
             },
           ),
         ],
@@ -450,7 +450,7 @@ class EmailField extends ConsumerStatefulWidget {
   final String labelText;
   final TextEditingController textEditingController;
 
-  EmailField(
+  const EmailField(
       {super.key,
       required this.labelText,
       required this.textEditingController});

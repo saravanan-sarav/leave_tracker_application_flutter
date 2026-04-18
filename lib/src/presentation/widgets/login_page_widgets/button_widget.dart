@@ -34,7 +34,8 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0),
-            color: _isPressed ? Colors.blue.withOpacity(0.5) : Colors.blue,
+            color:
+                _isPressed ? Colors.blue.withValues(alpha: 0.5) : Colors.blue,
           ),
           child: const Text(
             'Tap Me!',

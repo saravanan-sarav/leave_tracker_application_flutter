@@ -7,7 +7,7 @@ import 'package:leave_tracker_application/src/presentation/view/remaining_leave_
 
 import '../../providers/request_providers/request_provider.dart';
 import '../../view/create_request_page.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
 
 class CreateRequestWidget extends ConsumerStatefulWidget {
   const CreateRequestWidget({super.key});

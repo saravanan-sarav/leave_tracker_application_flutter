@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/domain/models/notification.dart';
 import 'package:leave_tracker_application/src/presentation/providers/notification_providers/notification_provider.dart';
@@ -81,7 +81,7 @@ class _NotificationPageWidgetState
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.grey.withValues(alpha: 0.3),
                               spreadRadius: 1,
                               blurRadius: 2,
                               offset: const Offset(
@@ -183,7 +183,7 @@ class _NotificationPageWidgetState
                                         notificationData[index].reason.length >
                                                 30
                                             ? const Text("...",
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 12))
                                             : const Text("")

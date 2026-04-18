@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leave_tracker_application/src/data/database/db_helper.dart';
 import 'package:leave_tracker_application/src/presentation/providers/localization_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/loading_provider.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/localization_state.dart';
-import 'package:leave_tracker_application/src/presentation/view/login_page.dart';
 import 'package:leave_tracker_application/src/presentation/view/register_user_page.dart';
 import 'package:leave_tracker_application/src/utils/extensions/notifications_handler.dart';
 import 'package:lottie/lottie.dart';
@@ -59,7 +58,7 @@ class MyApp extends ConsumerWidget {
               ),
               if (isLoading == true)
                 Container(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                   child: Center(
                     child: Lottie.asset(
                       "assets/lotties/loader.json",

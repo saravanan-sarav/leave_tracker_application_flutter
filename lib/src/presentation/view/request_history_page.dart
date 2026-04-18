@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:leave_tracker_application/src/presentation/providers/request_providers/request_provider.dart';
@@ -309,7 +307,7 @@ class _TimesheetPageWidgetState extends ConsumerState<TimesheetPageWidget> {
                                                       children: [
                                                         Text(
                                                           "${AppLocalizations.of(context)!.reporting_to} : ",
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,

@@ -5,7 +5,7 @@ import 'package:leave_tracker_application/src/presentation/state_management/crea
 import 'package:leave_tracker_application/src/presentation/state_management/created_or_sent_request_state.dart';
 import 'package:leave_tracker_application/src/presentation/state_management/sent_request_count.dart';
 import 'package:leave_tracker_application/src/presentation/view/request_history_page.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:leave_tracker_application/l10n/app_localizations.dart';
 
 import '../../providers/request_providers/request_sent_to_me_provider.dart';
 import '../../state_management/loading_provider.dart';

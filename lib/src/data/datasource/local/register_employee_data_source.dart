@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:leave_tracker_application/src/data/database/db_helper.dart';
 import 'package:leave_tracker_application/src/domain/models/user.dart';
 import 'package:sqflite/sqflite.dart';

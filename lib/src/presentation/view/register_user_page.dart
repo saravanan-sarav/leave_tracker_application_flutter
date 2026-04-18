@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:leave_tracker_application/src/domain/models/user.dart';
-import 'package:leave_tracker_application/src/presentation/widgets/register_page_widgets/appbar.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/register_page_widgets/register_page_text_field.dart';
 import 'package:leave_tracker_application/src/presentation/widgets/register_page_widgets/register_password_text_field.dart';
 

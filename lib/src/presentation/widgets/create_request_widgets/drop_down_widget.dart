@@ -53,7 +53,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> {
         DropdownButtonFormField<int>(
           // enableFeedback: false,
           hint: const Text('Request Type'),
-          value: permissionEnabled
+          initialValue: permissionEnabled
               ? 5
               : othersEnabled
                   ? 7
